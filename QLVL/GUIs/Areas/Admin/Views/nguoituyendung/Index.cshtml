@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Shared/_Layout.cshtml";
+}
+<div class="card">
+    <div class="card-header">
+        <h4>THÔNG TIN NGƯỜI TUYỂN DỤNG</h4>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            @*  <div class="col-md-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new">
+            Thêm mới
+            </button>
+            </div> *@
+            <div class="col-md-3">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+            </div>
+
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Họ tên
+                    </th>
+                    <th>
+                        CCCD
+                    </th>
+                    <th>
+                        Tuổi
+                    </th>
+                    <th>
+                        SDT
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+                    <th></th>
+
+                    <th>Công việc tửng thuê</th>
+                    <th>Chất lượng đánh giá </th>
+                </tr>
+            </thead>
+
+            <tbody id="tbData"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="100" id="pages">
+
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+                nguoituyendung.search(1);
+                $("#search").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#Pagesize").change(function () {
+                    nguoituyendung.search(1);
+                });
+            },
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("size", size);
+                form.append("index", index);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json', // 'Json' should be 'json'
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/nguoituyendung/ShowList/',
+                    success: function (res) {
+                        var html = "";
+                        // Use $.each correctly
+                        $.each(res.data, function (index, a) {
+                            html += "<tr>";
+                            html += "<td>" + a.id + "</td>";
+                            html += "<td>" + a.hoten + "</td>";
+                            html += "<td>" + a.cccd + "</td>";
+                            html += "<td>" + a.tuoi + "</td>";
+                            html += "<td>" + a.sdt + "</td>";
+                            html += "<td>" + a.diachi + "</td>";
+                            html += "<td><a class='btn btn - primary' href='/Admin/congviec/Index/" + a.id + "' role='button'>Xem chi tiết</a></td>";
+                            html += "</tr>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+
+
+            // create: function () {
+            //     var name = $("#name").val();
+            //     var age = $("#age").val();
+            //     var address = $("#address").val();
+            //     var sdt = $("#sdt").val();
+            //     var img = $("#img").val();
+
+            //     var form = new FormData()
+            //     form.append("name", name);
+            //     form.append("age", age);
+            //     form.append("address", address);
+            //     form.append("sdt", sdt);
+            //     form.append("img", img);
+            //     $.ajax({
+            //         type: 'POST',
+            //         dataType: 'Json',
+            //         contentType: false,
+            //         processData: false,
+            //         data: form,
+            //         url: '/Admin/nguoituyendung/Create/',
+            //         success: function (res) {
+
+            //             _layout.showtoast(res.mess);
+            //         },
+            //     });
+            // },
+            // save: function () {
+            //     var id = $("#edit_id").val();
+            //     var name = $("#edit_name").val();
+            //     var age = $("#edit_age").val();
+            //     var address = $("#edit_address").val();
+            //     var sdt = $("#edit_sdt").val();
+            //     var img = $("#edit_img").val();
+            //     var status = $("#edit_status").val();
+            //     var username = $("#edit_username").val();
+            //     var password = $("#edit_password").val();
+            //     var form = new FormData()
+            //     form.append("id", id);
+            //     form.append("name", name);
+            //     form.append("age", age);
+            //     form.append("address", address);
+            //     form.append("sdt", sdt);
+            //     form.append("img", img);
+            //     form.append("status", status);
+            //     form.append("username", username);
+            //     form.append("password", password);
+            //     $.ajax({
+            //         type: 'POST',
+            //         dataType: 'Json',
+            //         contentType: false,
+            //         processData: false,
+            //         data: form,
+            //         url: '/Admin/nguoituyendung/Update/',
+            //         success: function (res) {
+            //             _layout.showtoast(res.mess);
+            //         },
+            //     });
+            // },
+
+        }
+        nguoituyendung.init();
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}
+
+
