@@ -11,5 +11,8 @@
         public string? Username { get; set; }
         public string? Password { get; set; }
         public bool? Trangthai { get; set; }
+        public int? Congviechoanthanh {  get; set; }
+        public int? Congviecchuahoanthanh { get; set; }
+        public double? Danhgia { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GUIs.Models.EF;
+﻿using GUIs.Helper;
+using GUIs.Models.EF;
 using GUIs.Models.VIEW;
 
 namespace GUIs.Models.DAO
@@ -46,10 +47,16 @@ namespace GUIs.Models.DAO
             return query;
         }
 
-        public List<nguoituyendungVIEW> Search(String name, out int total, int index = 1, int size = 10)
+        public List<nguoituyendungVIEW> Search(String name, int thang, int nam, out int total, int index = 1, int size = 10)
         {
             if (name == null) name = "";
+            DateTime start = DateServices.GetFirstDayOfMonth(thang, nam);
+            DateTime end = DateServices.GetLastDayOfMonth(thang, nam);
+
             var query = (from a in context.NguoiTuyenDungs
+                         join b in context.CongViecs on a.Id equals b.Idtuyendung
+                         join c in context.DanhGia on a.Id equals c.Idtuyendung
+                         where b.Thoigianketthuc >= start && b.Thoigianketthuc <= end
                          select new nguoituyendungVIEW
                          {
                              Id = a.Id,
@@ -61,16 +68,23 @@ namespace GUIs.Models.DAO
                              Username = a.Username,
                              Password = a.Password,
                              Trangthai = a.Trangthai,
-                         }).ToList();
-            if (name != "")
+                             Congviechoanthanh = context.CongViecs.Count(c => c.Idtuyendung == a.Id && c.Trangthai == true && c.Thoigianketthuc >= start && c.Thoigianketthuc <= end),
+                             Congviecchuahoanthanh = context.CongViecs.Count(c => c.Idtuyendung == a.Id && c.Trangthai == false && c.Thoigianketthuc >= start && c.Thoigianketthuc <= end),                            
+                         }).Distinct().ToList();
+
+            if (!string.IsNullOrEmpty(name))
                 query = query.Where(x => x.Hoten.Contains(name)).ToList();
+
             total = query.Count();
+
             if (size != 0 && index != 0)
             {
                 query = query.Skip((index - 1) * size).Take(size).ToList();
             }
+
             return query;
         }
+
         public void Detele(int id)
         {
             NguoiTuyenDung x = getItem(id);
