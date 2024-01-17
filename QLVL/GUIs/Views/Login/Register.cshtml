@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Đăng Ký Tài Khoản</h1>
+</div>
+<form class="user">
+    <div class="form-group">
+      
+            <input type="text" class="form-control form-control-user" id="name"
+                   placeholder="Họ và tên">
+    </div>
+
+    <div class="form-group">    
+            <input type="text" class="form-control form-control-user" id="address"
+                   placeholder="Địa chỉ">    
+    </div>
+
+    <div class="form-group">      
+            <input type="text" class="form-control form-control-user" id="phone"
+                   placeholder="Số điện thoại">
+    </div>
+
+    <div class="form-group">
+        <input type="email" class="form-control form-control-user" id="email"
+               placeholder="Email Address">
+    </div>
+
+    <div class="form-group">
+        
+            <input type="text" class="form-control form-control-user" id="username"
+                   placeholder="Username">
+        
+       
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="password" class="form-control form-control-user"
+                   id="password" placeholder="Password">
+        </div>
+        <div class="col-sm-6">
+            <input type="password" class="form-control form-control-user"
+                   id="confirmpassword" placeholder="Repeat Password">
+        </div>
+
+    </div>
+    <div>
+        <label>
+            <input type="radio" name="gender" value="male" id="nguoilaodong">
+            <span id="male-label">Người Lao Động</span>
+        </label>
+
+        <label>
+            <input type="radio" name="gender" value="female" id="nguoituyendung">
+            <span id="female-label">Người Tuyển Dụng</span>
+        </label>
+    </div>
+    <input type="button" class="btn btn-primary btn-user btn-block" id="login"value=" Đăng Ký" />
+      
+  
+   
+    
+</form>
+<hr>
+<div class="text-center">
+    <a class="small" href="~/Login/Forget">Quên Mật Khẩu?</a>
+</div>
+<div class="text-center">
+    <a class="small" href="~/Login/Index">Bạn đã có tài khoản!</a>
+</div>
+
+
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+
+                $("#login").click(function () {
+
+                    login.dangky();
+                });
+            },
+            dangky: function () {
+                var name = $("#name").val();
+               
+                var phone = $("#phone").val();
+                var address = $("#address").val();
+                var email = $("#email").val();
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var ngld = $("#nguoilaodong").is(":checked");
+                var ngtd = $("#nguoituyendung").is(":checked");
+                var state = "ngld";
+                if (ngld == false && ngtd == false) {
+                    alert("Vui lòng chọn đối tượng đăng ký.");
+                    return;
+                }
+                if (ngtd) {
+                    state = "ngtd";
+                }
+                var confirmpassword = $("#confirmpassword").val();
+                var password = $("#password").val();
+                if (!name || !address || !phone || !email || !username || !password || !confirmpassword) {
+                    alert("Vui lòng điền đầy đủ thông tin.");
+                    return;
+                }
+
+                if (password != confirmpassword) {
+                    alert("Mật khẩu không trùng khớp.");
+                    return;
+                }
+                var form = new FormData()
+                form.append("name", name);              
+                form.append("birthday", birthday);
+                form.append("phone", phone);
+                form.append("address", address);
+                form.append("email", email);
+                form.append("username", username);
+                form.append("password", password);
+                form.append("state", state);
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Login/Dangky/',
+                    success: function (res) {
+                        if (res.sate) {
+                            //Thanh cong
+                        }
+                        else {
+                            //That bai
+                        }
+                        $("#loading").hide();
+                    },
+                    error: function () { 
+                    
+                    }
+
+                });
+            },
+        }
+        login.init();
+    </script>
+}

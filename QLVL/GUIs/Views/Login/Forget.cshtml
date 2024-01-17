@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Forget";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Quên Mật Khẩu</h1>
+</div>
+<form class="user">
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user"
+               id="email"
+               placeholder="Nhập email của bạn">
+    </div>
+    
+    <input type="button" id="login" class="btn btn-primary btn-user btn-block" value="Gửi mã xác nhận" />
+
+
+</form>
+<hr>
+
+<div class="text-center">
+    <a class="small" href="~/Login/Index">Quay về</a>
+</div>
+
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+
+                $("#login").click(function () {
+
+                    login.dangnhap();
+                });
+            },
+            dangnhap: function () {
+                var email = $("#email").val();
+
+                var form = new FormData()
+                form.append("email", email);
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Login/ForgetPassword/',
+                    success: function (res) {
+                        alert("Đã gửi mã xác nhận")
+                        $("#loading").hide();
+                    },
+                });
+            },
+        }
+        login.init();
+    </script>
+}
+

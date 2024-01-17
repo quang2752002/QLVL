@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "TuyenDung";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+<h1 style="text-align:center">Danh sách công việc đang ứng tuyển</h1>
+<div class="row p-2">
+    <div class="col-md-3">
+        <span>Số dòng/trang</span>
+    </div>
+    <div class="col-md-2">
+        @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+    </div>
+
+</div>
+<div class="row" id="tbData"></div>
+
+<table>
+    <tfoot>
+        <tr>
+            <th colspan="100" id="pages"></th>
+        </tr>
+    </tfoot>
+</table>
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+                nguoituyendung.search(1);
+                $("#Pagesize").change(function () {
+                    nguoituyendung.search(1);
+                });
+            },
+            search: function (index) {
+               
+                var size = $("#Pagesize").val();
+                var form = new FormData();
+              
+                form.append("size", size);
+                form.append("index", index);
+
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiTuyenDung/Home/getCongViec/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                            html += "<div class='col-sm-4'>";
+                            html += "<div class='card'>";
+                            html += "<div class='card-body'>";
+                            html += "<h5 class='card-title'>" + a.name + "</h5>";
+                            html += "<div class='row'><div class='col-md-6'>";
+                            html += "<p >Tuổi từ: " + a.mintuoi + " Đến :" + a.maxtuoi + "</p>";
+                            html += "<p >Thời gian : " + a.timework + "</p>";
+                            html += "<p > Địa chỉ :" + a.address + "</p>";
+                            html += "</div>";
+                            html += "<div class='col-md-6'>";
+                            html += "<p '>Lương :" + a.salary + "</p>";
+                            html += "<p >Mô tả :" + a.note + "</p>";
+                            html += "</div>"
+                            html += "</div>"
+                            html += "<a href='NguoiTuyenDung/Home'class='btn btn-primary'>Danh sách ứng tuyển</a>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+        };
+
+        nguoituyendung.init();
+
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}
+
+
+

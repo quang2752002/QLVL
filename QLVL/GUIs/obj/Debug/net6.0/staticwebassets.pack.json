@@ -8841,8 +8841,16 @@
       "PackagePath": "staticwebassets\\Assets\\Themes\\scss\\widgets\\widgets.scss"
     },
     {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\Assets\\admin\\Animation - 1704819851844.gif",
+      "PackagePath": "staticwebassets\\Assets\\admin\\Animation - 1704819851844.gif"
+    },
+    {
       "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\Assets\\admin\\_layout.js",
       "PackagePath": "staticwebassets\\Assets\\admin\\_layout.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\Assets\\admin\\css.css",
+      "PackagePath": "staticwebassets\\Assets\\admin\\css.css"
     },
     {
       "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\css\\site.css",

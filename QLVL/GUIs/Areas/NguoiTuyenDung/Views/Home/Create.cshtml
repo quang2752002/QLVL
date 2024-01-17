@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4>ĐĂNG TUYỂN CÔNG VIỆC</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                   Tên công việc
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="name" />
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Tuổi từ
+                                </span>
+                            </div>
+                            <input type="number" class="form-control bg-white" id="mintuoi" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Tuổi đến
+                                </span>
+                            </div>
+                            <input type="number" class="form-control bg-white" id="maxtuoi" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 p-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                Thời gian
+                            </span>
+                        </div>
+                        <input type="datetime-local" class="form-control bg-white" id="timework" placeholder="Thời gian bắt đầu làm việc" />
+                    </div>
+                </div>
+
+
+            </div>
+          
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Địa chỉ
+                                </span>
+                            </div>
+                            <input type="text" class="form-control bg-white" id="address" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                   Lương
+                                </span>
+                            </div>
+                            <input type="text" class="form-control bg-white" id="salary" />
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Mô tả
+                                </span>
+                            </div>
+                            <input type="text" class="form-control bg-white" id="note" />
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="create" class="btn btn-primary">Thêm mới</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var nguoituyendung = {
+            init: function () {
+
+                $("#create").click(function () {
+                    nguoituyendung.create();
+                });
+            },
+            create: function () {
+                var name = $("#name").val();
+                var mintuoi = $("#mintuoi").val();
+                var maxtuoi = $("#maxtuoi").val();
+                var timework = $("#timework").val();
+                var address = $("#address").val();
+                var salary = $("#salary").val();
+                var note = $("#note").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("mintuoi", mintuoi);
+                form.append("maxtuoi", maxtuoi);
+                form.append("timework", timework);
+                form.append("address", address);
+                form.append("salary", salary);
+                form.append("note", note);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiTuyenDung/Home/Themmoi/',
+                    success: function (res) {
+                        alert("Đăng tuyển thành công")
+                        _layout.showtoast(res.mess);
+                    },
+                });
+
+            },
+        }
+        nguoituyendung.init();
+
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}

@@ -25,6 +25,10 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\NguoiLaoDong\Data\" />
+    <Folder Include="Areas\NguoiLaoDong\Models\" />
+    <Folder Include="Areas\NguoiTuyenDung\Data\" />
+    <Folder Include="Areas\NguoiTuyenDung\Models\" />
     <Folder Include="Models\EF\" />
   </ItemGroup>
 
@@ -77,6 +81,30 @@
     <None Include="wwwroot\Assets\Themes\scss\.DS_Store" />
     <None Include="wwwroot\Assets\Themes\scss\bootstrap\.DS_Store" />
     <None Include="wwwroot\Assets\Themes\scss\core\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\_Layout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\ChiTietCongViec.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\ChiTietCongViec.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Danhsachcongviec.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\Danhsachcongviec.cshtml" />
   </ItemGroup>
 
 </Project>

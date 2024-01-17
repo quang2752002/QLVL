@@ -7,26 +7,25 @@ namespace GUIs.Models.EF
     {
         public CongViec()
         {
-            DanhGia = new HashSet<DanhGium>();
+            CongViecNhoms = new HashSet<CongViecNhom>();
+            UngTuyens = new HashSet<UngTuyen>();
         }
 
         public int Id { get; set; }
-        public int? Idtuyendung { get; set; }
-        public int? Idungtuyen { get; set; }
-        public string? Tencongviec { get; set; }
-        public DateTime? Thoigianbatdau { get; set; }
-        public DateTime? Thoigianketthuc { get; set; }
-        public string? Diachi { get; set; }
-        public int? Luongbatdau { get; set; }
-        public int? Luongketthuc { get; set; }
-        public int? Soluong { get; set; }
-        public DateTime? Tuyenbatdau { get; set; }
-        public DateTime? Tuyenketthuc { get; set; }
-        public string? Mota { get; set; }
-        public bool? Trangthai { get; set; }
+        public int? Idnguoituyendung { get; set; }
+        public string? Name { get; set; }
+        public string? Alias { get; set; }
+        public int? Mintuoi { get; set; }
+        public int? Maxtuoi { get; set; }
+        public DateTime? Timework { get; set; }
+        public string? Location { get; set; }
+        public string? Address { get; set; }
+        public int? Salary { get; set; }
+        public string? Note { get; set; }
+        public int? State { get; set; }
 
-        public virtual NguoiTuyenDung? IdtuyendungNavigation { get; set; }
-        public virtual UngTuyen? IdungtuyenNavigation { get; set; }
-        public virtual ICollection<DanhGium> DanhGia { get; set; }
+        public virtual NguoiTuyenDung? IdnguoituyendungNavigation { get; set; }
+        public virtual ICollection<CongViecNhom> CongViecNhoms { get; set; }
+        public virtual ICollection<UngTuyen> UngTuyens { get; set; }
     }
 }

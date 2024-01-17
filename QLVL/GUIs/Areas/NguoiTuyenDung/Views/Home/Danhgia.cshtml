@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "Danhgia";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+
+<div class="contaier-fluid">
+    <h1>ĐÁNH GIÁ LAO ĐỘNG</h1>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">ĐÁNH GIÁ SAO</label>
+        <input type="number" class="form-control" id="sao">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">NHẬN XÉT LAO ĐỘNG</label>
+        <textarea class="form-control" id="nhanxet" rows="6"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit" id="danhgia">Đánh giá</button>
+
+</div>
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+
+                $("#danhgia").click(function () {
+                    nguoituyendung.danhgia();
+                });
+
+            },
+
+            danhgia: function () {
+                var sao = $("#sao").val();
+                var nhanxet = $("#nhanxet").val();
+                var form = new FormData();
+                form.append("sao", sao);
+                form.append("nhanxet", nhanxet);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data:form,
+                    url: '/NguoiTuyenDung/Home/DanhGiaCongViec/',
+                    success: function (res) {
+
+                        alert(res.mess)
+                    },
+                });
+            },
+
+        };
+
+        nguoituyendung.init();
+
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}
+
+
+
+

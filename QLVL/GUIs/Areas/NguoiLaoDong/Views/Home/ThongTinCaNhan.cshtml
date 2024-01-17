@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewData["Title"] = "ThongTinCaNhan";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Cập nhật thông tin cá nhân</h1>
+</div>
+<form class="user">
+    <div class="form-group">
+
+        <input type="text" class="form-control form-control-user" id="name"
+               placeholder="Họ và tên">
+    </div>
+    
+    <div class="form-group row">
+
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="checkbox" class="" name="gioitinh"
+                   id="nam">
+            <span id="male-label">Nam</span>
+        </div>
+        <div class="col-sm-6">
+            <input type="checkbox" class="" name="gioitinh"
+                   id="nu" >
+            <span id="male-label">Nữ</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <span id="male-label">Ngày tháng năm sinh</span>
+        <input type="date" class="form-control form-control-user" id="birthday">
+    </div>
+
+    <div class="form-group">
+
+        <input type="text" class="form-control form-control-user" id="heath"
+               placeholder="Sức khỏe">
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="address"
+               placeholder="Địa chỉ">
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="phone"
+               placeholder="Số điện thoại">
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control form-control-user" id="email"
+               placeholder="Email Address" readonly>
+    </div>
+  
+
+    
+
+
+  
+    <input type="button" class="btn btn-primary btn-user btn-block" id="login" value=" Cập nhật" />
+
+
+
+
+</form>
+<hr>
+<div class="text-center">
+    <a class="small" href="~/Login/Forget">Quên Mật Khẩu?</a>
+</div>
+<div class="text-center">
+    <a class="small" href="~/Login/Index">Bạn đã có tài khoản!</a>
+</div>
+
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+                login.getThongtincanhan();
+                $("#login").click(function () {
+                    login.dangky();
+                });
+            },
+            getThongtincanhan: function () {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiLaoDong/Home/getThongTinCaNhan/',
+                    success: function (res) {
+                        $("#name").val(res.data.name);
+                        $("#birthday").val(res.data.birthday);
+                        $("#heath").val(res.data.heath);
+                        $("#address").val(res.data.address);
+                        $("#phone").val(res.data.phone);
+                        $("#email").val(res.data.email);
+                    },
+                    error: function () {
+                        // Handle error if needed
+                    }
+                });
+            },
+            dangky: function () {
+                var name = $("#name").val();
+                var birthday = $("#birthday").val();
+                var heath = $("#heath").val();
+                var address = $("#address").val();
+                var phone = $("#phone").val();
+
+                if (!name || !birthday || !heath || !address || !phone) {
+                    alert("Vui lòng điền đầy đủ thông tin.");
+                    return;
+                }
+
+                var form = new FormData();
+                form.append("name", name);
+                form.append("birthday", birthday);
+                form.append("phone", phone);
+                form.append("address", address);
+                form.append("heath", heath);
+
+                var state = ($("#nu").is(":checked")) ? "nu" : "nam";
+
+                form.append("state", state);
+
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiLaoDong/Home/saveThongTinCaNhan/',
+                    success: function (res) {
+                        alert(res.mess);
+                        $("#loading").hide();
+                    },
+                    error: function () {
+                        // Handle error if needed
+                    }
+                });
+            }
+        };
+
+        login.init();
+    </script>
+}
+

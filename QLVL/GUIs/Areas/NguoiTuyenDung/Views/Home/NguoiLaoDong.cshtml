@@ -1,0 +1,238 @@
+﻿
+@{
+    ViewData["Title"] = "NguoiLaoDong";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal fade" id="xemchitiet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>THÔNG TIN NGƯỜI LAO DỘNG</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Họ tên nhân viên
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="edit_name" />
+                                            <input type="text" hidden id="edit_id" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                   Giới tính
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="edit_sex" />
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Tuổi
+                                                </span>
+                                            </div>
+                                            <input type="number" class="form-control bg-white" id="edit_age" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Địa chỉ
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="edit_address" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Số điện thoại
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control bg-white" id="edit_sdt" />
+                                        </div>
+                                    </div>
+                                    
+                                   
+                                    <div class="row">
+                                    
+
+                                        <div class="col-md-12 p-1">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        Ảnh  đại diện
+                                                    </span>
+                                                </div>
+                                                <img src="" alt="Hình ảnh sản phẩm" class="img-fluid" id="edit_image" />
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <h1 style="text-align:center">Danh sách lao động ứng tuyển</h1>
+</div>
+
+<div class="row p-2">
+    <div class="col-md-2">
+        <span>Số dòng/trang</span>
+        @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+    </div>
+
+</div>
+
+<div class="row" id="tbData"></div>
+
+<table>
+    <tfoot>
+        <tr>
+            <th colspan="100" id="pages"></th>
+        </tr>
+    </tfoot>
+</table>
+
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+                nguoituyendung.search(1);
+                $("#search, #Pagesize").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $('#xemchitiet').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget)
+                    var idhd = button.data('whatever')
+                    nguoituyendung.getNguoiLaoDong(idhd);
+
+                });
+            },
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var form = new FormData();
+                form.append("name", name);
+                form.append("size", size);
+                form.append("index", index);
+
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiTuyenDung/Home/getListNguoiLaoDong/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                            html += "<div class='card' style='width: 18rem;'>";
+                            html += "<img class='card-img-top' src='" + a.image + "' alt='Card image cap'>";
+                            html += "<div class='card-body'>";
+                            html += "<h5 class='card-title'>Thông tin ứng tuyển</h5>";
+                            html += "<p>Họ tên " + a.tennguoilaodong + "</p>";
+                            html += "<p>Giới tính " + (a.sex == 0 ? "Nữ" : "Nam") + "</p>";
+                            html += "<p>Tuổi " + a.age + "</p>";
+                            html += "<p>Địa chỉ " + a.diachi + "</p>";
+                            html += "<a class='btn btn-primary' href='javascript:void(0)' data-toggle='modal' data-target='#xemchitiet' data-whatever='" + a.idnguoilaodong + "'>Xem thông tin chi tiết</a><br>";
+
+                            if (a.apply == 0) {
+                                html += "<button id='duyeths-" + a.id + "' onclick='nguoituyendung.duyethoso(" + a.id + ")' class='btn btn-primary'>Duyệt hồ sơ</button>";
+                            } else if (a.apply == 1) {
+                                html += "<a href='/NguoiTuyenDung/Home/Danhgia/" + a.id + "' class='btn btn-primary'>Đánh giá</a>";
+                            } else if (a.apply == -1) {
+                                // Do something if apply is -1
+                            }
+                            html += "</div>";
+                            html += "</div>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                    },
+                    error: function (err) {
+                        console.error("Error: ", err);
+                    }
+                });
+            },
+
+            duyethoso: function (id) {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,                 
+                    url: '/NguoiTuyenDung/Home/DuyetHoSo/'+id,
+                    success: function (res) {  
+                        $("#duyeths-" + id).hide();
+                        alert("Duyệt hồ sơ thành công")                                          
+                    },
+                });
+            },
+            getNguoiLaoDong: function (id) {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/NguoiTuyenDung/Home/getNguoiLaoDong/' + id,
+                    success: function (res) {
+                        $("#edit_id").val(res.data.ID);
+                        $("#edit_name").val(res.data.name);
+                        $("#edit_age").val(res.data.age);
+                        $("#edit_address").val(res.data.address);
+                        $("#edit_sdt").val(res.data.phone);
+                        $("#edit_sex").val(res.data.sex==0?"Nữ":"Nam");
+                        $("#edit_image").attr("src", res.data.image);
+                    }
+                });
+            },
+        };
+
+        nguoituyendung.init();
+
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}
+
+
