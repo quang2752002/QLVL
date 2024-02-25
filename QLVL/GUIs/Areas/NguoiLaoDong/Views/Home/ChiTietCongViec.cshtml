@@ -170,16 +170,34 @@
                 var form = new FormData();
                 form.append("id", id);
                 form.append("luong",luong);
-                
+                alert(id);
                 $.ajax({
                     type: 'POST',
                     dataType: 'JSON',
                     contentType: false,
                     processData: false,
                     data: form,
-                    url: '/NguoiLaoDong/Home/Apply/',
-                    success: function (res) {   
-                        alert(res.mess);
+                    url: '/Home/Apply/',
+                    success: function (res) {  
+                        alert(res.status)
+                        if (res.status == 1) 
+                        {
+                            alert(res.mess+"++++")
+                        }
+                        else 
+                        {
+                            if (res.status == 0) 
+                            {
+                                alert(res.mess+"-----")
+                                }
+                            else
+                            {
+                                
+                                window.location.href = "/Login/Index";
+                            }
+                        }
+                        
+
                     }
                 });
             },

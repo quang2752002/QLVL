@@ -48,10 +48,7 @@ namespace GUIs.Models.DAO
                              Image = a.Image,
                              Introduce = a.Introduce
                          }).FirstOrDefault();
-            if (query == null)
-            {
-                throw new InvalidOperationException($"No record found with Id: {id}");
-            }
+            
             return query;
         }
         public List<NguoiTuyenDungVIEW> getList(String name, out int total, int index = 1, int size = 10)

@@ -4,6 +4,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+
 <div class="card">
     <div class="card-header">
         <h4>THÔNG TIN NGƯỜI TUYỂN DỤNG</h4>
@@ -17,13 +18,13 @@
                 @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
             </div>
             <div class="col-md-2">
-                <span>Tháng</span>
+                <span>Số dòng/trang</span>
             </div>
             <div class="col-md-2">
                 @Html.DropDownList("thang", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
             </div>
             <div class="col-md-2">
-                <span>Năm</span>
+                <span>Số dòng/trang</span>
             </div>
             <div class="col-md-2">
                 @Html.DropDownList("nam", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
@@ -39,19 +40,19 @@
                         Ảnh đại diện
                     </th>
                     <th>
-                        Họ tên
+                       Họ và tên
+                    </th>
+                    <th>
+                        Email
                     </th>
                     <th>
                         SDT
                     </th>
                     <th>
-                        Email
-                    </th>                 
-                    <th>
                         Địa chỉ
                     </th>
-                    <th>Công việc đã đăng tuyển</th>
-                    <th>Chất lượng đánh giá </th>
+                    <th>Số công việc đăng tuyển </th>
+                    
                 </tr>
             </thead>
 
@@ -109,13 +110,13 @@
                         $.each(res.data, function (index, a) {
                             html += "<tr>";
                             html += "<td>" + a.id + "</td>";
+                            html += "<td> <img src='" + a.image + "' style='width:40px;height:40px;' class='img-profile rounded-circle'/></td>";
                             html += "<td>" + a.name + "</td>";
-                            html += "<td>" + a.name + "</td>";
-                            html += "<td>" + a.sdt + "</td>";
                             html += "<td>" + a.email + "</td>";
+                            html += "<td>" + a.sdt + "</td>";
                             html += "<td>" + a.diachi + "</td>";
                             html += "<td>" + a.congviechoanthanh + "</td>";
-                            html += "<td><a class='btn btn-primary' href='/Admin/congviec/Index/"+a.id+"'role='button'>Xem chi tiết</a></td>";
+                            
                             html += "</tr>";
                         });
                         $("#tbData").html(html);

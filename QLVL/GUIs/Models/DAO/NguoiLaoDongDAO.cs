@@ -45,10 +45,7 @@ namespace GUIs.Models.DAO
                              Address=a.Address,
                              Age = DateTime.Now.Year - a.Birthday.Value.Year,
                          }).FirstOrDefault();
-            if (query == null)
-            {
-                throw new InvalidOperationException($"No record found with Id: {id}");
-            }
+            
             return query;
         }
         public List<NguoiLaoDongVIEW> Search(out int total, String name = "", int tutuoi = 0, int dentuoi = 0, string vitri = "", int index = 1, int size = 10)
@@ -90,29 +87,38 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
-        public List<NguoiLaoDongVIEW> getList(out int total,int thang,int nam, int index = 1, int size = 10)
+
+        public List<NguoiLaoDongVIEW> getList(out int total, string name = "", int thang = 0, int nam = 0, int index = 1, int size = 10)
         {
+            if (name == null) name = "";
+            if (thang == 0) thang = DateTime.Now.Month;
+            if (nam == 0) nam = DateTime.Now.Year;
+            DateTime start = DateServices.GetFirstDayOfMonth(thang, nam);
+            DateTime end = DateServices.GetLastDayOfMonth(thang, nam);
+
             var query = (from a in context.NguoiLaoDongs
                          join b in context.UngTuyens on a.Id equals b.Idnguoilaodong
                          join c in context.CongViecs on b.Idcongviec equals c.Id
+                         where b.Apply == 1 && b.Date >= start && b.Date <= end // Filter for completed jobs within the specified month and year
+                         group b by new { a.Id, a.Name, a.Sex, a.Birthday, a.Heath, a.Phone, a.Email, a.Code, a.Fanpage, a.Image, a.Introduce, a.Address } into grouped
                          select new NguoiLaoDongVIEW
                          {
-                             Id = a.Id,
-                             Name = a.Name,
-                             Sex = a.Sex,
-                             Age = DateTime.Now.Year - a.Birthday.Value.Year,
-                             Birthday = a.Birthday,
-                             Heath = a.Heath,
-                             Phone = a.Phone,
-                             Email = a.Email,
-                             Code = a.Code,
-                             Fanpage = a.Fanpage,
-                             Image = a.Image,
-                             Introduce = a.Introduce,
-                             Address = a.Address,
-                           
+                             Id = grouped.Key.Id,
+                             Name = grouped.Key.Name,
+                             Sex = grouped.Key.Sex,
+                             Age = DateTime.Now.Year - grouped.Key.Birthday.Value.Year,
+                             Birthday = grouped.Key.Birthday,
+                             Heath = grouped.Key.Heath,
+                             Phone = grouped.Key.Phone,
+                             Email = grouped.Key.Email,
+                             Code = grouped.Key.Code,
+                             Fanpage = grouped.Key.Fanpage,
+                             Image = grouped.Key.Image,
+                             Introduce = grouped.Key.Introduce,
+                             Address = grouped.Key.Address,
+                             congviechoanthanh = grouped.Sum(x => x.Apply).Value
                          }).ToList();
-            
+
             total = query.Count();
 
             if (size > 0 && index > 0)

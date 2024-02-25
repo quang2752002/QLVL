@@ -11,16 +11,106 @@ using System.Security.Policy;
 using System.Xml.Linq;
 using static GUIs.Areas.Admin.Controllers.NguoiLaoDongController;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.IO;
+using testLib;
 
 namespace GUIs.Areas.NguoiTuyenDung.Controllers
 {
     [Area("NguoiTuyenDung")]
-    public class HomeController : Controller
+    public class HomeController :Controller
     {
         private const string ID_CONGVIEC = "ID_CONGVIEC";
         private const string DANH_GIA = "DANH_GIA";
         public IActionResult Index()
         {
+            var state = DataServices.getUserId(HttpContext);
+            string link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+            link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+            link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+            link += "<div class='nav-item '> <a href='#' class='nav-link'>Thông tin công việc</a>";
+            link += "</div>";
+            link += "<div class='nav-item '><a href='#' class='nav-link' >Thông tin cá nhân</a>";
+            link += "</div>";
+            link += "<div class='nav-item '>";
+            link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+            link += "</div>";
+            link += "<div class='nav-item '>";
+            link += "<a href='/Login/Index' class='nav-item nav-link'>Đăng nhập </a>";
+            link += "</div>";
+            link += "</div>";
+            link += "</div>";
+
+            string tt = DataServices.getRouoter(HttpContext);
+            if (state != 0)
+            {
+                if (tt == "NguoiTuyenDung")
+                {
+                    var query = new NguoiTuyenDungDAO().getItemView(state);
+                   
+                    link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                    link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                    link += "<a href='/NguoituyenDung/Home/' class='nav-item nav-link'>Trang chủ</a>";
+                    link += "<div class='nav-item '> <a href='/NguoituyenDung/Home/' class='nav-link'>Thông tin công việc</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '><a href='/NguoituyenDung/Home/Edit' class='nav-link' >Thông tin cá nhân</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất người tuyển dụng </a>";
+                    link += "</div>";
+                    link += "</div>";
+                    link += "</div>";
+
+
+                }
+                else
+                {
+                    if (tt == "NguoiLaoDong")
+                    {
+                        var query = new NguoiLaoDongDAO().getItemView(state);
+                      
+                        link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                        link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                        link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+                        link += "<div class='nav-item '> <a href='/NguoiLaoDong/Home/Danhsachcongviec' class='nav-link'>Thông tin công việc</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '><a href='/NguoiLaoDong/Home/ThongTinCaNhan' class='nav-link' >Thông tin cá nhân</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '>";
+                        link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '>";
+                        link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất người lao dộng </a>";
+                        link += "</div>";
+                        link += "</div>";
+                        link += "</div>";
+                    }
+                    else
+                    {
+                        var query = new UserDAO().getItemView(state);
+                        link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                        link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                        link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+                        link += "<a href='/Admin/Home/Index' class='nav-item nav-link'>Trang Admin</a>";
+                        link += "<div class='nav-item '> <a href='#' class='nav-link'>Thông tin công việc</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '><a href='#' class='nav-link' >Thông tin cá nhân</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '>";
+                        link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item'>";
+                        link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất Admin </a>";
+                        link += "</div>";
+                        link += "</div>";
+                        link += "</div>";
+                    }
+                }
+
+            }
+            ViewBag.Login = link;
             ViewBag.Pagesize = DataServices.Pagesize();
             return View();
         }
@@ -43,11 +133,14 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
         }
         public IActionResult Create()
         {
+            NhomCongViecDAO nhomCongViec = new NhomCongViecDAO();
+            ViewBag.nhom=nhomCongViec.getList();
             return View();
         }
-        public JsonResult Themmoi(string name,int mintuoi,int maxtuoi,DateTime timework,string address,int salary,string note)
+        public JsonResult Themmoi(string name,int mintuoi,int maxtuoi,DateTime timework,string address,int salary,string note,string nhomcongviec,DateTime finish)
         {
-
+            int userid = DataServices.getUserId(HttpContext);
+            CongViecNhomDAO congviecnhom = new CongViecNhomDAO();
             CongViecDAO cv = new CongViecDAO();
             CongViec item = new CongViec();
             item.Name = name;
@@ -55,12 +148,29 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             item.Mintuoi = mintuoi;
             item.Maxtuoi = maxtuoi;
             item.Timework = timework;
-            
+            item.Finish = finish;
+            item.Idnguoituyendung = userid;
             item.Address = address;
             item.Salary = salary;
             item.Note = note;
             item.State = 1;
             cv.InsertOrUpdate(item);
+           
+            string[] stringArray = nhomcongviec.Split(',');
+
+            int[] intArray = stringArray.Select(s =>
+            {
+                int result;
+                return int.TryParse(s, out result) ? result : 0; // Hoặc giá trị mặc định khác nếu không thể chuyển đổi
+            }).ToArray();
+
+            foreach (var part in intArray)
+            {
+                CongViecNhom nhom=new CongViecNhom();
+                nhom.Idcongviec = item.Id;
+                nhom.Idnhomcongviec = part;
+                congviecnhom.InsertOrUpdate(nhom);
+            }
             return Json(new { mess = "Đăng tuyển thành công" });
         }
         public IActionResult TuyenDung()
@@ -82,6 +192,94 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
    
        public IActionResult NguoiLaoDong(int id)
         {
+            var state = DataServices.getUserId(HttpContext);
+            string link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+            link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+            link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+            link += "<div class='nav-item '> <a href='#' class='nav-link'>Thông tin công việc</a>";
+            link += "</div>";
+            link += "<div class='nav-item '><a href='#' class='nav-link' >Thông tin cá nhân</a>";
+            link += "</div>";
+            link += "<div class='nav-item '>";
+            link += "<a href='contact.html' class='nav-item nav-link'>Góp ý</a>";
+            link += "</div>";
+            link += "<div class='nav-item '>";
+            link += "<a href='/Login/Index' class='nav-item nav-link'>Đăng nhập </a>";
+            link += "</div>";
+            link += "</div>";
+            link += "</div>";
+
+            string tt = DataServices.getRouoter(HttpContext);
+            if (state != 0)
+            {
+                if (tt == "NguoiTuyenDung")
+                {
+                    var query = new NguoiTuyenDungDAO().getItemView(state);
+
+                    link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                    link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                    link += "<a href='/NguoituyenDung/Home/' class='nav-item nav-link'>Trang chủ</a>";
+                    link += "<div class='nav-item '> <a href='/NguoituyenDung/Home/' class='nav-link'>Thông tin công việc</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '><a href='/NguoituyenDung/Home/Edit' class='nav-link' >Thông tin cá nhân</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='contact.html' class='nav-item nav-link'>Góp ý</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất người tuyển dụng </a>";
+                    link += "</div>";
+                    link += "</div>";
+                    link += "</div>";
+
+
+                }
+                else
+                {
+                    if (tt == "NguoiLaoDong")
+                    {
+                        var query = new NguoiLaoDongDAO().getItemView(state);
+
+                        link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                        link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                        link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+                        link += "<div class='nav-item '> <a href='/NguoiLaoDong/Home/Danhsachcongviec' class='nav-link'>Thông tin công việc</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '><a href='/NguoiLaoDong/Home/ThongTinCaNhan' class='nav-link' >Thông tin cá nhân</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '>";
+                        link += "<a href='contact.html' class='nav-item nav-link'>Góp ý</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '>";
+                        link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất người lao dộng </a>";
+                        link += "</div>";
+                        link += "</div>";
+                        link += "</div>";
+                    }
+                    else
+                    {
+                        var query = new UserDAO().getItemView(state);
+                        link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                        link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                        link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+                        link += "<a href='/Admin/Home/Index' class='nav-item nav-link'>Trang Admin</a>";
+                        link += "<div class='nav-item '> <a href='#' class='nav-link'>Thông tin công việc</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '><a href='#' class='nav-link' >Thông tin cá nhân</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '>";
+                        link += "<a href='contact.html' class='nav-item nav-link'>Góp ý</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item'>";
+                        link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất Admin </a>";
+                        link += "</div>";
+                        link += "</div>";
+                        link += "</div>";
+                    }
+                }
+
+            }
+            ViewBag.Login = link;
             HttpContext.Session.SetInt32(ID_CONGVIEC,id);
             ViewBag.Pagesize = DataServices.Pagesize()  ;          
             return View();
@@ -99,10 +297,27 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
         [HttpPost]
         public JsonResult DuyetHoSo(int id)
         {
+            CongViecDAO congviec = new CongViecDAO();
+            var cv = congviec.getCongViecUngTuyen(id);
             UngTuyenDAO nhanvien = new UngTuyenDAO();
             var item = nhanvien.getItem(id);           
             item.Apply = 1;
             nhanvien.InsertOrUpdate(item);
+            string domain = HttpContext.Request.Host.Value.Trim();
+            string Http = HttpContext.Request.Scheme.Trim();
+            var guid = Guid.NewGuid();
+
+
+            string email = nhanvien.getEmail(id);
+            EmailServeices emailServeices = new EmailServeices();
+            emailServeices.MailFrom = "quang2752002@gmail.com";
+            emailServeices.MailTo = email;
+            emailServeices.Chude = "Email thông báo ứng tuyển thành công  ";
+            //emailServeices.Noidung = "Ấn vào link này để lấy lại mật khẩu " + Http + "://" + domain + "/login/reset/" + guid.ToString() + " Nếu không phải vui lòng bỏ qua";
+            emailServeices.Noidung = "Bạn đã ứng tuyển thành công công việc "+cv.Name +" thời gian bắt đầu từ "+cv.TimeworkS+" và kết thúc vào "+cv.finishS+" Địa chỉ tại "+cv.Address+". Vui lòng kiểm tra lại công việc trên hệ thống. Xin cảm ơn";
+            emailServeices.Password = "ovvl kmtq zaok jjuw";
+            emailServeices.SendMail();
+        
             return Json(new { mess = "Duyệt hồ sơ thành công" });
         }
         public JsonResult getNguoiLaoDong(int id)
@@ -143,6 +358,37 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             item.Nhanxetlaodong = nhanxet;        
             ungTuyen.InsertOrUpdate(item);
             return Json(new { mess = "Đánh giá người lao động thành công" });
+        }
+        public IActionResult Edit()
+        {
+           
+            return View();
+        }
+        public JsonResult Update(string name,string address,string fanpage,string sdt,string image,string introduce)
+        {
+            int userid = DataServices.getUserId(HttpContext);
+            NguoiTuyenDungDAO tuyenDungDAO = new NguoiTuyenDungDAO();
+            var item= tuyenDungDAO.getItem(userid);
+            item.Diachi = address;
+            item.Fanpage = fanpage;
+            item.Name= name;
+            item.Sdt = sdt;
+            item.Image = image;
+            item.Introduce = introduce;
+           
+            tuyenDungDAO.InsertOrUpdate(item);
+            return Json(new { mess = "Chỉnh sửa thông tin cá nhân thành công" });
+        }
+        public JsonResult getNguoiTuyenDung() 
+        {
+            int userid = DataServices.getUserId(HttpContext);
+            var query = new NguoiTuyenDungDAO().getItemView(userid);
+            return Json(new { data=query });
+        }
+        public JsonResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Json(new { mess = "Đăng xuất thành công" });
         }
     }
 

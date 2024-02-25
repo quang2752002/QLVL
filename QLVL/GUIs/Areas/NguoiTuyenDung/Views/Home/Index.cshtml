@@ -8,41 +8,49 @@
   
 
 
-<div class="container-fluid">
-
-
-    <div class="row">
-        <div class="col-md-4" style="text-align:center">
-            <input type="text" class="form-control p-4 m-4" id="search" placeholder="Tìm kiếm công việc" />
-        </div>
-        <h1 style="text-align:center">Danh sách công việc</h1>
-    </div>
-
-
-
-    <div class="row p-2">
-        <div class="col-md-2">
-            <a href='/NguoiTuyenDung/Home/Create/' class="btn btn-primary">Thêm công việc mới</a>
-        </div>
-        <div class="col-md-2">
-            <span>Số dòng/trang</span>
-        </div>
-        <div class="col-md-2">
-
-            @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
-        </div>
+<div class="row">
+    <div class="col-md-1">
 
     </div>
+    <div class="col-md-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="text-align:center">
+                    <input type="text" class="form-control p-4 m-4" id="search" placeholder="Tìm kiếm công việc" />
+                </div>
+                <h1 style="text-align:center">Danh sách công việc đã đăng tuyển</h1>
+            </div>
 
-    <div class="row" id="tbData"></div>
 
-    <table>
-        <tfoot>
-            <tr>
-                <th colspan="100" id="pages"></th>
-            </tr>
-        </tfoot>
-    </table>
+
+            <div class="row p-2">
+                <div class="col-md-2">
+                    <a href='/NguoiTuyenDung/Home/Create/' class="btn btn-primary">Thêm công việc mới</a>
+                </div>
+                <div class="col-md-2">
+                    <span>Số dòng/trang</span>
+                </div>
+                <div class="col-md-2">
+
+                    @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+                </div>
+
+            </div>
+
+            <div class="row" id="tbData"></div>
+
+            <table>
+                <tfoot>
+                    <tr>
+                        <th colspan="100" id="pages"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-1">
+
+    </div>
 </div>
 
 @section scripts {
@@ -73,21 +81,28 @@
                     success: function (res) {
                         var html = "";
                         $.each(res.data, function (index, a) {
-                            html += "<div class='col-sm-4'>";
-                            html += "<div class='card'>";
-                            html += "<div class='card-body'>";
-                            html += "<h5 class='card-title'>" + a.name + "</h5>";
-                            html += "<div class='row'><div class='col-md-6'>";
-                            html += "<p >Tuổi từ: " + a.mintuoi + " Đến :" +a.maxtuoi + "</p>";                         
-                            html += "<p >Thời gian : " + a.timework + "</p>";
-                            html += "<p > Địa chỉ :" + a.address + "</p>";
+                            
+                            html += "<div class='col-md-4 text-center p-3'>";
+                            html += "<div class='box p-3'>";                          
+                            html += "<div class='box_content'>";
+                            html += "<h2 style=' text-align: center;'>" + a.name + "</h2>";
+                            html += "<div class='row'>";
+                            html += "<div class='col-md-6'>";
+                            html += "<p style='font-size: 18px;'>Thời gian bắt đầu: " + a.timeworkS + "</p>";
+                            html += "<p style='font-size: 18px;'>Thời gian kết thúc: " + a.finishS + "</p>";
                             html += "</div>";
                             html += "<div class='col-md-6'>";
-                            html += "<p '>Lương :" + a.salary + "</p>";
-                            html += "<p >Mô tả :" + a.note + "</p>";
+                            html += "<p style='font-size: 18px;'>Độ Tuổi: " + a.mintuoi + " - " + a.maxtuoi + "</p>";
+                            html += "<p style='font-size: 18px;'>Địa chỉ: " + a.address + "</p>";
+                            html += "<p style='font-size: 18px;'>Lương đề xuất: " + a.salary + " VND</p>";
+                            
+                            html += "</div>";
+                            html += "</div>";
+                            html += "<div class='mx-auto pb-4'>"
+                            html += "<ul class='icons' >";
+                            html += "<li><a href='/NguoiTuyenDung/Home/NguoiLaoDong/" + a.id + "' class='btn btn-primary'> Danh Sách Ứng tuyển</a></li>";
+                            html += "</ul>";
                             html += "</div>"
-                            html+="</div>"
-                            html += "<a href='/NguoiTuyenDung/Home/NguoiLaoDong/"+a.id+"' class='btn btn-primary'> Danh Sách Ứng tuyển</a>";
                             html += "</div>";
                             html += "</div>";
                             html += "</div>";

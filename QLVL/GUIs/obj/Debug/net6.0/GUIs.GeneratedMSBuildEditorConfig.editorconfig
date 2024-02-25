@@ -50,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lMYW9Eb25nXFZpZXdzXEhvbWVcRGFuaHNhY2hjb25ndmllYy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Project/QLVL/QLVL/GUIs/Areas/NguoiLaoDong/Views/Home/GopY.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lMYW9Eb25nXFZpZXdzXEhvbWVcR29wWS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project/QLVL/QLVL/GUIs/Areas/NguoiLaoDong/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lMYW9Eb25nXFZpZXdzXEhvbWVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -74,6 +78,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lUdXllbkR1bmdcVmlld3NcSG9tZVxEYW5oZ2lhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Project/QLVL/QLVL/GUIs/Areas/NguoiTuyenDung/Views/Home/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lUdXllbkR1bmdcVmlld3NcSG9tZVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project/QLVL/QLVL/GUIs/Areas/NguoiTuyenDung/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lUdXllbkR1bmdcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -94,8 +102,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDaGlUaWV0Q29uZ1ZpZWMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Project/QLVL/QLVL/GUIs/Views/Home/CongViec.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb25nVmllYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project/QLVL/QLVL/GUIs/Views/Home/Danhsachcongviec.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYW5oc2FjaGNvbmd2aWVjLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/QLVL/QLVL/GUIs/Views/Home/GopY.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHb3BZLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/QLVL/QLVL/GUIs/Views/Home/Index.cshtml]

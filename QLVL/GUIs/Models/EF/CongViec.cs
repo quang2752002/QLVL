@@ -18,6 +18,7 @@ namespace GUIs.Models.EF
         public int? Mintuoi { get; set; }
         public int? Maxtuoi { get; set; }
         public DateTime? Timework { get; set; }
+        public DateTime? Finish { get; set; }
         public string? Location { get; set; }
         public string? Address { get; set; }
         public int? Salary { get; set; }

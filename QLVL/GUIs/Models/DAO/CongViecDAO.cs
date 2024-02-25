@@ -1,6 +1,7 @@
 ﻿using GUIs.Helper;
 using GUIs.Models.EF;
 using GUIs.Models.VIEW;
+using System.Xml.Linq;
 
 namespace GUIs.Models.DAO
 {
@@ -45,7 +46,9 @@ namespace GUIs.Models.DAO
                              Note=a.Note,
                              State=a.State,
                              tennguoituyendung=b.Name,
-
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish=a.Finish.Value,
+                             finishS=a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
                          }).FirstOrDefault();
             if (query == null)
             {
@@ -69,10 +72,13 @@ namespace GUIs.Models.DAO
                              Maxtuoi = a.Maxtuoi,
                              Timework = a.Timework,
                              Location = a.Location,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
                              Address = a.Address,
                              Salary = a.Salary,
                              Note = a.Note,
                              State = a.State,
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
                          }).ToList();
             if (!string.IsNullOrEmpty(name) && name != "")
             {
@@ -96,15 +102,47 @@ namespace GUIs.Models.DAO
         /// <param name="index"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public List<CongViecVIEW> Search(out int total, string name="",int thang=0,int nam=0,int index=1,int size=10)
+        public List<CongViecVIEW> Search(List<int> list,out int total, string name="",int thang=0,int nam=0,int index=1,int size=10)
         {
             if (name == null) name = "";
             if (thang == 0) thang = DateTime.Now.Month;
             if (nam == 0) nam = DateTime.Now.Year;
             DateTime start = DateServices.GetFirstDayOfMonth(thang, nam);
             DateTime end = DateServices.GetLastDayOfMonth(thang, nam);
-            var query = (from a in context.CongViecs
-                         where (a.Name.Contains(name)&&a.Timework>=start&&a.Timework<=end)
+            List<CongViecVIEW> query = new List<CongViecVIEW>();
+            if (list.Count > 0)
+            {
+                 query = (from a in context.CongViecs
+                             join b in context.CongViecNhoms on a.Id equals b.Idcongviec
+                             join c in context.NhomCongViecs on b.Idnhomcongviec equals c.Id
+                             where (a.Name.Contains(name) && a.Timework >= start && a.Timework <= end) && list.Contains(c.Id)
+                             select new CongViecVIEW
+                             {
+                                 Id = a.Id,
+                                 Idnguoituyendung = a.Idnguoituyendung,
+                                 Name = a.Name,
+                                 Alias = a.Alias,
+                                 Mintuoi = a.Mintuoi,
+                                 Maxtuoi = a.Maxtuoi,
+                                 Timework = a.Timework.Value,
+                                 TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                                 finish = a.Finish.HasValue ? a.Finish.Value : default(DateTime),
+                                 finishS = a.Finish.HasValue ? a.Finish.Value.ToString("dd/MM/yyyy hh:mm") : null,
+
+
+                                 Location = a.Location,
+                                 Address = a.Address,
+                                 Salary = a.Salary,
+                                 Note = a.Note,
+                                 State = a.State,
+                             }).ToList();
+            }
+            else
+            {
+                query = (from a in context.CongViecs
+                         join b in context.CongViecNhoms on a.Id equals b.Idcongviec
+                         join c in context.NhomCongViecs on b.Idnhomcongviec equals c.Id
+                         where (a.Name.Contains(name) && a.Timework >= start && a.Timework <= end) 
                          select new CongViecVIEW
                          {
                              Id = a.Id,
@@ -113,14 +151,20 @@ namespace GUIs.Models.DAO
                              Alias = a.Alias,
                              Mintuoi = a.Mintuoi,
                              Maxtuoi = a.Maxtuoi,
-                             Timework = a.Timework,
-                             TimeworkS=a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             Timework = a.Timework.Value,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.HasValue ? a.Finish.Value : default(DateTime),
+                             finishS = a.Finish.HasValue ? a.Finish.Value.ToString("dd/MM/yyyy hh:mm") : null,
+
+                             // ... other properties ...
                              Location = a.Location,
                              Address = a.Address,
                              Salary = a.Salary,
                              Note = a.Note,
                              State = a.State,
                          }).ToList();
+
+            }
             if (!string.IsNullOrEmpty(name) && name != "")
             {
                 query = query.Where(x => x.Name.Contains(name)).ToList();
@@ -156,6 +200,9 @@ namespace GUIs.Models.DAO
                              Mintuoi = a.Mintuoi,
                              Maxtuoi = a.Maxtuoi,
                              Timework = a.Timework,
+                             TimeworkS=a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
                              Location = a.Location,
                              Address = a.Address,
                              Salary = a.Salary,
@@ -207,6 +254,9 @@ namespace GUIs.Models.DAO
                              Mintuoi = a.Mintuoi,
                              Maxtuoi = a.Maxtuoi,
                              Timework = a.Timework,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
                              Location = a.Location,
                              Address = a.Address,
                              Salary = a.Salary,
@@ -215,6 +265,7 @@ namespace GUIs.Models.DAO
                              luong=c.Salary.Value,
                              tennguoituyendung=b.Name,
                              apply=c.Apply.Value,
+                             sdt=b.Sdt,
                          }).ToList();
             if (!string.IsNullOrEmpty(name) && name != "")
             {
@@ -228,6 +279,7 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
+
         public List<CongViecVIEW> getListCongViec(out int total, string name ,int id, int thang, int nam, int state, int index, int size)
         {
             if (name == null) name = "";
@@ -250,7 +302,11 @@ namespace GUIs.Models.DAO
                              Address = a.Address,
                              Salary = a.Salary,
                              Note = a.Note,
-                             State = a.State,                         
+                             State = a.State,
+                            
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
                          }).ToList();
             if (!string.IsNullOrEmpty(name) && name != "")
             {
@@ -264,6 +320,105 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
+        public List<CongViecVIEW> ListCongViecYeuThich(out int total, int idnguoilaodong, int index = 1, int size = 10)
+        {
+            int thang = DateTime.Now.Month;
+            int nam = DateTime.Now.Year;
+            DateTime start = DateServices.GetFirstDayOfMonth(thang, nam);
+            DateTime end = DateServices.GetLastDayOfMonth(thang, nam);
+            var query = (from a in context.CongViecs
+                         join b in context.CongViecNhoms on a.Id equals b.Idcongviec
+                         join c in context.NhomCongViecs on b.Idnhomcongviec equals c.Id
+                         join d in context.DangKyNhomCongViecs on c.Id equals d.Idnhomcongviec
+                         where (a.Timework >= start && a.Timework <= end&&d.Idnguoilaodong==idnguoilaodong)
+                         select new CongViecVIEW
+                         {
+                             Id = a.Id,
+                             Idnguoituyendung = a.Idnguoituyendung,
+                             Name = a.Name,
+                             Alias = a.Alias,
+                             Mintuoi = a.Mintuoi,
+                             Maxtuoi = a.Maxtuoi,
+                           
+                             Location = a.Location,
+                             Address = a.Address,
+                             Salary = a.Salary,
+                             Note = a.Note,
+                             State = a.State,
+                             Timework = a.Timework,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
+                         }).ToList();
+           
+            total = query.Count();
 
+            if (size > 0 && index > 0)
+            {
+                query = query.Skip((index - 1) * size).Take(size).ToList();
+            }
+            return query;
+        }
+        public List<CongViecVIEW> getCongViec(out int total, int idnhomcongviec, int thang=0,int nam=0,int index = 1, int size = 10)
+        {
+            if (thang==0) thang = DateTime.Now.Month;
+            if (nam == 0) nam = DateTime.Now.Year;
+            DateTime start = DateServices.GetFirstDayOfMonth(thang, nam);
+            DateTime end = DateServices.GetLastDayOfMonth(thang, nam);
+            var query = (from a in context.CongViecs
+                         join b in context.CongViecNhoms on a.Id equals b.Idcongviec
+                         join c in context.NhomCongViecs on b.Idnhomcongviec equals c.Id                        
+                         where c.Id == idnhomcongviec && a.Timework >= start && a.Timework <= end
+                         select new CongViecVIEW
+                         {
+                             Id = a.Id,
+                             Idnguoituyendung = a.Idnguoituyendung,
+                             Name = a.Name,
+                             Alias = a.Alias,
+                             Mintuoi = a.Mintuoi,
+                             Maxtuoi = a.Maxtuoi,
+                             Timework = a.Timework,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
+                             Location = a.Location,
+                             Address = a.Address,
+                             Salary = a.Salary,
+                             Note = a.Note,
+                             State = a.State,
+                         }).ToList();
+            total = query.Count();
+
+            if (size > 0 && index > 0)
+            {
+                query = query.Skip((index - 1) * size).Take(size).ToList();
+            }
+            return query;
+        }
+        public CongViecVIEW getCongViecUngTuyen(int id)
+        {
+            var query = (from a in context.CongViecs
+                         join b in context.UngTuyens on a.Id equals b.Idcongviec
+                         where b.Id == id
+                         select new CongViecVIEW
+                         {
+                             Id = a.Id,
+                             Idnguoituyendung = a.Idnguoituyendung,
+                             Name = a.Name,
+                             Alias = a.Alias,
+                             Mintuoi = a.Mintuoi,
+                             Maxtuoi = a.Maxtuoi,
+                             Timework = a.Timework,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
+                             Location = a.Location,
+                             Address = a.Address,
+                             Salary = a.Salary,
+                             Note = a.Note,
+                             State = a.State,
+                         }).FirstOrDefault();
+            return query;
+        }
     }
 }

@@ -19,5 +19,7 @@
         public string image {  get; set; }
         public int age { get; set; }
         public string diachi {  get; set; }
+        public string timeworkS {  get; set; }
+        public string email { get; set; }
     }
 }

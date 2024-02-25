@@ -8853,12 +8853,440 @@
       "PackagePath": "staticwebassets\\Assets\\admin\\css.css"
     },
     {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\User\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\css\\style.css",
+      "PackagePath": "staticwebassets\\User\\css\\style.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\js\\main.js",
+      "PackagePath": "staticwebassets\\User\\js\\main.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\animate\\animate.css",
+      "PackagePath": "staticwebassets\\User\\lib\\animate\\animate.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\animate\\animate.min.css",
+      "PackagePath": "staticwebassets\\User\\lib\\animate\\animate.min.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\easing\\easing.js",
+      "PackagePath": "staticwebassets\\User\\lib\\easing\\easing.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\easing\\easing.min.js",
+      "PackagePath": "staticwebassets\\User\\lib\\easing\\easing.min.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\LICENSE",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\ajax-loader.gif",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\ajax-loader.gif"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\owl.carousel.css",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\owl.carousel.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\owl.carousel.min.css",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\owl.carousel.min.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\owl.theme.default.css",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\owl.theme.default.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\owl.theme.default.min.css",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\owl.theme.default.min.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\owl.theme.green.css",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\owl.theme.green.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\owl.theme.green.min.css",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\owl.theme.green.min.css"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\assets\\owl.video.play.png",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\assets\\owl.video.play.png"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\owl.carousel.js",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\owl.carousel.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\owlcarousel\\owl.carousel.min.js",
+      "PackagePath": "staticwebassets\\User\\lib\\owlcarousel\\owl.carousel.min.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\waypoints\\links.php",
+      "PackagePath": "staticwebassets\\User\\lib\\waypoints\\links.php"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\waypoints\\waypoints.min.js",
+      "PackagePath": "staticwebassets\\User\\lib\\waypoints\\waypoints.min.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\wow\\wow.js",
+      "PackagePath": "staticwebassets\\User\\lib\\wow\\wow.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\lib\\wow\\wow.min.js",
+      "PackagePath": "staticwebassets\\User\\lib\\wow\\wow.min.js"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_accordion.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_accordion.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_alert.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_alert.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_badge.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_badge.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_breadcrumb.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_breadcrumb.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_button-group.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_button-group.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_buttons.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_buttons.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_card.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_card.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_carousel.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_carousel.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_close.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_close.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_containers.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_containers.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_dropdown.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_dropdown.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_forms.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_forms.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_functions.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_functions.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_grid.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_grid.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_helpers.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_helpers.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_images.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_images.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_list-group.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_list-group.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_mixins.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_mixins.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_modal.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_modal.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_nav.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_nav.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_navbar.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_navbar.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_offcanvas.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_offcanvas.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_pagination.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_pagination.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_popover.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_popover.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_progress.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_progress.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_reboot.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_reboot.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_root.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_root.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_spinners.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_spinners.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_tables.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_tables.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_toasts.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_toasts.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_tooltip.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_tooltip.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_transitions.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_transitions.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_type.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_type.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_utilities.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_utilities.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\_variables.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\_variables.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\bootstrap-grid.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\bootstrap-grid.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\bootstrap-reboot.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\bootstrap-reboot.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\bootstrap-utilities.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\bootstrap-utilities.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\bootstrap.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\bootstrap.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_floating-labels.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_floating-labels.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_form-check.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_form-check.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_form-control.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_form-control.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_form-range.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_form-range.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_form-select.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_form-select.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_form-text.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_form-text.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_input-group.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_input-group.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_labels.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_labels.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\forms\\_validation.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\forms\\_validation.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\helpers\\_clearfix.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\helpers\\_clearfix.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\helpers\\_colored-links.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\helpers\\_colored-links.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\helpers\\_position.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\helpers\\_position.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\helpers\\_ratio.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\helpers\\_ratio.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\helpers\\_stretched-link.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\helpers\\_stretched-link.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\helpers\\_text-truncation.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\helpers\\_text-truncation.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\helpers\\_visually-hidden.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\helpers\\_visually-hidden.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_alert.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_alert.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_border-radius.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_border-radius.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_box-shadow.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_box-shadow.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_breakpoints.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_breakpoints.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_buttons.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_buttons.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_caret.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_caret.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_clearfix.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_clearfix.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_color-scheme.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_color-scheme.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_container.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_container.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_deprecate.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_deprecate.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_forms.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_forms.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_gradients.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_gradients.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_grid.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_grid.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_image.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_image.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_list-group.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_list-group.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_lists.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_lists.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_pagination.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_pagination.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_reset-text.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_reset-text.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_resize.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_resize.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_table-variants.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_table-variants.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_text-truncate.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_text-truncate.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_transition.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_transition.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_utilities.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_utilities.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\mixins\\_visually-hidden.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\mixins\\_visually-hidden.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\utilities\\_api.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\utilities\\_api.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\User\\scss\\bootstrap\\scss\\vendor\\_rfs.scss",
+      "PackagePath": "staticwebassets\\User\\scss\\bootstrap\\scss\\vendor\\_rfs.scss"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\card\\css.css",
+      "PackagePath": "staticwebassets\\card\\css.css"
+    },
+    {
       "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\img\\star.png",
+      "PackagePath": "staticwebassets\\img\\star.png"
+    },
+    {
+      "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\img\\star1.png",
+      "PackagePath": "staticwebassets\\img\\star1.png"
     },
     {
       "Id": "D:\\Project\\QLVL\\QLVL\\GUIs\\wwwroot\\js\\site.js",

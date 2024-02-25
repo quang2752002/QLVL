@@ -15,8 +15,11 @@
         public string? Note { get; set; }
         public int? State { get; set; }
         public string tennguoituyendung { get; set; }
-        public int luong {  get; set; }
-        public int apply {  get; set; }
-        public string TimeworkS { get;  set; }
+        public int luong { get; set; }
+        public int apply { get; set; }
+        public string TimeworkS { get; set; }
+        public string sdt { get; set; }
+        public DateTime finish{ get; set; }
+        public string finishS { get; set; }
     }
 }

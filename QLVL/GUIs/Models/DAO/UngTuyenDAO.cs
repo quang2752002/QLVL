@@ -95,7 +95,8 @@ namespace GUIs.Models.DAO
                              Salary = a.Salary,
                              Apply = a.Apply,
                              Tennguoilaodong=c.Name ?? "",
-                             sex=c.Sex.Value,
+                             timeworkS = b.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             sex =c.Sex.Value,
                              heath=c.Heath??"",
                              image=c.Image??"",
                              phone=c.Phone??"",
@@ -141,5 +142,35 @@ namespace GUIs.Models.DAO
                 return query.Id;
             return -1;
         }
+        public string getEmail(int id)
+        {
+
+            var query = (from a in context.UngTuyens
+                         join b in context.NguoiLaoDongs on a.Idnguoilaodong equals b.Id
+                         where a.Id==id
+                         select new UngTuyenVIEW
+                         {
+                             Id = a.Id,
+                             Idcongviec = a.Idcongviec,
+                             Idnguoilaodong = a.Idnguoilaodong,
+                             
+                             email=b.Email
+                         }).FirstOrDefault();
+            return query.email;
+        }
+       public int getIdUngTuyen(int idcongviec,int idnguoilaodong)
+        {
+            var query = (from a in context.UngTuyens
+                       
+                         where a.Idcongviec == idcongviec&&a.Idnguoilaodong==idnguoilaodong
+                         select new UngTuyenVIEW
+                         {
+                             Id = a.Id,
+                             Idcongviec = a.Idcongviec,
+                             Idnguoilaodong = a.Idnguoilaodong,
+                         }).FirstOrDefault();
+            return query.Id;  
+        }
+        
     }
 }

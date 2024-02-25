@@ -40,6 +40,19 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
+        public List<NhomCongViecVIEW> getList()
+        {
+            var query = (from a in context.NhomCongViecs          
+                         select new NhomCongViecVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+                             Note = a.Note,
+
+                         }).ToList();
+            
+            return query;
+        }
         public List<NhomCongViecVIEW> Search(out int total, String name = "", int index = 1, int size = 10)
         {
             if (name == null) name = "";

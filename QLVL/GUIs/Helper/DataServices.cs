@@ -50,4 +50,16 @@ namespace GUIs.Helper
             return months;
         }
     }
+    public class Lopchung
+    {
+        public int ID { set; get; }
+    }
+    public class Year
+    {
+        public int year { set; get; }
+    }
+    public class Month
+    {
+        public int month { set; get; }
+    }
 }

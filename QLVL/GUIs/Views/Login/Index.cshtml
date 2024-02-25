@@ -62,8 +62,12 @@
                         success: function (res) {
                            
                             if (res.status == true) {
-
-                                window.location.href = "/" + res.router
+                                if (res.router == "NguoiLaoDong") {
+                                window.location.href = "/"
+                                }
+                                else {
+                                    window.location.href = "/" + res.router
+                                }
                             }
                             else {
                                 alert(res.mess);

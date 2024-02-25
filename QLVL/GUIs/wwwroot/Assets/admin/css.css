@@ -1,7 +1,7 @@
-.box{
+﻿.box{
     background-color: #fff;
     box-shadow: 0 0 0 1px #E2E9ED;
-    padding: 10px 20px;
+    padding: 0px 0px;
     position: relative;
     z-index: 0;
     transition: 0.2s all;

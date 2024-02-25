@@ -4,13 +4,16 @@ using GUIs.Models.DAO;
 using GUIs.Models.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace GUIs.Controllers
 {
     public class HomeController : Controller
     {
         private const string ID_CV = "ID_CV";
+        private const string ID_CONGVIECNHOM = "ID_CONGVIECNHOM";
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewBag.AreaName = "";
@@ -23,33 +26,137 @@ namespace GUIs.Controllers
             ViewBag.Year = DataServices.Year();
             ViewBag.Month = DataServices.Months();
             var state = DataServices.getUserId(HttpContext);
-            string link = "<a href='/login/'>Login</a>";
-            if (state != 0)
-            {
-                link = " <div class='dropdown position-static'>";
-                link += "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' ";
-                link += "data-bs-toggle='dropdown' aria-expanded='false'>   ";
-                link+="<img src='https://d1hjkbq40fs2x4.cloudfront.net/2017-08-21/files/landscape-photography_1645.jpg'" ;
-                link += "style='border-radius: 50%; width: 50px; height: 50px;";
-                link += "class='btn btn-outline-success p-0'>";
-                link+="</a>         ";
-                link += "<ul class='dropdown-menu dropdown-menu-end position-absolute' aria-labelledby='navbarDropdown'>   ";
-                link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/ThongTinCaNhan'>Thông tin cá nhân</a></li>          ";
-                link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/Danhsachcongviec'>Thông tin công việc</a></li>  ";
-                link += "                     <li><hr class='dropdown-divider'></li>        ";
-                link += "<li><button class='dropdown-item' href='#' id='logout'>Đăng xuất</button></li>      ";
-                link += "</ul>    ";
-                link += "</div>";
-                
+            //string link = "<a href='/login/' class='btn btn-primary custom-link'>Login</a>";
+            string  link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+            link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+            link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+            link += "<div class='nav-item '> <a href='#' class='nav-link'>Thông tin công việc</a>";
+            link += "</div>";
+            link += "<div class='nav-item '><a href='#' class='nav-link' >Thông tin cá nhân</a>";
+            link += "</div>";
+            link += "<div class='nav-item '>";
+            link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+            link += "</div>";
+            link += "<div class='nav-item '>";
+            link += "<a href='/Login/Index' class='nav-item nav-link'>Đăng nhập </a>";
+            link += "</div>";
+            link += "</div>";
+            link += "</div>";
+
+            string tt = DataServices.getRouoter(HttpContext);
+            if (state != 0) { 
+                if (tt =="NguoiTuyenDung")
+                {
+                    var query = new NguoiTuyenDungDAO().getItemView(state);
+                    //link = " <div class='dropdown position-static'>";
+                    //link += "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' ";
+                    //link += "data-bs-toggle='dropdown' aria-expanded='false'>   ";
+                    //link += "<img src='" + query.Image + "'";
+                    //link += "style='border-radius: 50%; width: 50px; height: 50px;";
+                    //link += "class='btn btn-outline-success p-0'>";
+                    //link += "</a>         ";
+                    //link += "<ul class='dropdown-menu dropdown-menu-end position-absolute' aria-labelledby='navbarDropdown'>   ";
+                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/ThongTinCaNhan'>Thông tin cá nhân</a></li>          ";
+                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/Danhsachcongviec'>Thông tin công việc</a></li>  ";
+                    //link += "                     <li><hr class='dropdown-divider'></li>        ";
+                    //link += "<li><button class='dropdown-item' href='#' id='logout'>Đăng xuất người tuyển dụng</button></li>      ";
+                    //link += "</ul>    ";
+                    //link += "</div>";
+                    link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                    link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                    link += "<a href='/NguoituyenDung/Home/' class='nav-item nav-link'>Trang chủ</a>";
+                    link += "<div class='nav-item '> <a href='/NguoituyenDung/Home/' class='nav-link'>Thông tin công việc</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '><a href='/NguoituyenDung/Home/Edit' class='nav-link' >Thông tin cá nhân</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất người tuyển dụng </a>";
+                    link += "</div>";
+                    link += "</div>";
+                    link += "</div>";
+
+
+                }
+                else
+                {
+                    if (tt == "NguoiLaoDong") { 
+                    var query = new NguoiLaoDongDAO().getItemView(state);
+                    //link = " <div class='dropdown position-static'>";
+                    //link += "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' ";
+                    //link += "data-bs-toggle='dropdown' aria-expanded='false'>   ";
+                    //link += "<img src='" + query.Image + "'";
+                    //link += "style='border-radius: 50%; width: 50px; height: 50px;";
+                    //link += "class='btn btn-outline-success p-0'>";
+                    //link += "</a>         ";
+                    //link += "<ul class='dropdown-menu dropdown-menu-end position-absolute' aria-labelledby='navbarDropdown'>   ";
+                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/ThongTinCaNhan'>Thông tin cá nhân</a></li>          ";
+                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/Danhsachcongviec'>Thông tin công việc</a></li>  ";
+                    //link += "                     <li><hr class='dropdown-divider'></li>        ";
+                    //link += "<li><button class='dropdown-item' href='#' id='logout'>Đăng xuất</button></li>      ";
+                    //link += "</ul>    ";
+                    //link += "</div>";
+                    link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                    link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                    link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+                    link += "<div class='nav-item '> <a href='/NguoiLaoDong/Home/Danhsachcongviec' class='nav-link'>Thông tin công việc</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '><a href='/NguoiLaoDong/Home/ThongTinCaNhan' class='nav-link' >Thông tin cá nhân</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+                    link += "</div>";
+                    link += "<div class='nav-item '>";
+                    link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất người lao dộng </a>";
+                    link += "</div>";
+                    link += "</div>";
+                    link += "</div>";
+                    }
+                    else
+                    {
+                        var query = new UserDAO().getItemView(state);                    
+                        link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
+                        link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
+                        link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
+                        link += "<a href='/Admin/Home/Index' class='nav-item nav-link'>Trang Admin</a>";
+                        link += "<div class='nav-item '> <a href='#' class='nav-link'>Thông tin công việc</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '><a href='#' class='nav-link' >Thông tin cá nhân</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item '>";
+                        link += "<a href='/Home/GopY' class='nav-item nav-link'>Góp ý</a>";
+                        link += "</div>";
+                        link += "<div class='nav-item'>";
+                        link += "<a href='#' type='btutton' id ='logout' class='nav-item nav-link'>Đăng xuất Admin </a>";
+                        link += "</div>";
+                        link += "</div>";
+                        link += "</div>";
+                    }
+                }
+
             }
             ViewBag.Login = link;
             return View();
         }
-        public JsonResult ShowList(string name = "", int thang = 0, int nam = 0, int index = 1, int size = 10)
+        public JsonResult ShowList(string name = "", int thang = 0, int nam = 0, int index = 1, int size = 10,string arr="")
         {
             CongViecDAO x = new CongViecDAO();
             int total = 0;
-            var query = x.Search(out total, name, thang, nam, index, size);
+            if (arr == null) arr = "";
+             List<int> intList = new List<int>();
+            if (arr != "")
+            {
+                List<string> list = arr.Split('-').ToList();
+                intList = list.Select(s =>
+                {
+                    int result;
+                    return int.TryParse(s, out result) ? result : 0; // Hoặc giá trị mặc định khác nếu không thể chuyển đổi
+                }).ToList();
+            }
+            var query = x.Search(intList, out total, name, thang, nam, index, size );
+
             string page = Support.Support.InTrang(total, index, size);
             return Json(new { data = query, page = page });
         }
@@ -68,20 +175,34 @@ namespace GUIs.Controllers
         [HttpPost]
         public JsonResult Apply(int id, int luong)
         {
-            UngTuyenDAO khachhang = new UngTuyenDAO();
+            int trangthai=-1;
+            string mess = "Bạn chưa đăng nhập";
             int idnguoilaodong = DataServices.getUserId(HttpContext);
-            UngTuyen item = new UngTuyen();
-            item.Idcongviec = id;
-            item.Idnguoilaodong = idnguoilaodong;
-            item.Date = DateTime.Now;
-            item.Salary = luong;
-            item.Apply = 0;
-            if (khachhang.Check(id, idnguoilaodong) == -1)
+            if (idnguoilaodong != 0)
             {
-                khachhang.InsertOrUpdate(item);
-                return Json(new { mess = "Ứng tuyển thành công" });
+                UngTuyen item = new UngTuyen();
+                UngTuyenDAO khachhang = new UngTuyenDAO();
+
+                item.Idcongviec = id;
+                item.Idnguoilaodong = idnguoilaodong;
+                item.Date = DateTime.Now;
+                item.Salary = luong;
+                item.Apply = 0;
+
+                if (khachhang.Check(id, idnguoilaodong) == -1)
+                {
+                    khachhang.InsertOrUpdate(item);
+                     mess = "Ứng tuyển thành công";
+                    trangthai = 1;
+                }
+                else
+                {
+                    mess = "Bạn đã ứng tuyển công việc này rồi";
+                    trangthai = 0;
+                }
             }
-            return Json(new { mess = "Ứng tuyển công việc không thành công" });
+            return Json(new { mess =  mess,status = trangthai});
+                
         }
         public IActionResult Danhsachcongviec()
         {
@@ -104,7 +225,49 @@ namespace GUIs.Controllers
         {         
             HttpContext.Session.Clear();
             return Json(new { mess = "Đăng xuất thành công" });
+        }      
+        //public JsonResult ListCongViecYeuThich( int index = 1, int size = 10)
+        //{
+        //    int idnguoilaodong = DataServices.getUserId(HttpContext);
+        //    CongViecDAO x = new CongViecDAO();
+        //    int total = 0;
+        //    var query = x.ListCongViecYeuThich(out total,idnguoilaodong, index, size);
+        //    string page = Support.Support.InTrang(total, index, size);
+        //    return Json(new { data = query, page = page });
+        //}
+       
+        public JsonResult ListNhomCongViec()
+        {      
+            NhomCongViecDAO x = new NhomCongViecDAO();
+            var query = x.getList();
+            return Json(new { data = query });
         }
-
+        //public IActionResult CongViec(int id)
+        //{
+        //    HttpContext.Session.SetInt32(ID_CONGVIECNHOM, id);
+        //    return View();
+        //}
+        //public JsonResult getCongViecTheoNhom(int thang = 0, int nam = 0, int index = 1, int size = 10)
+        //{
+        //    CongViecDAO congViecDAO=new CongViecDAO();
+        //    int total = 0;
+        //    int id = HttpContext.Session.GetInt32(ID_CONGVIECNHOM) ?? 0;
+        //    var query = congViecDAO.getCongViec(out total, id, thang, nam, index, size);
+        //    string page = Support.Support.InTrang(total, index, size);
+        //    return Json(new { data = query, page = page });
+        //}
+        public ActionResult GopY()
+        {
+            return View();
+        }
+        public JsonResult Nhanxet(string email, string noidung)
+        {
+            GopY item = new GopY();
+            GopYDAO gopYDAO = new GopYDAO();
+            item.Email = email;
+            item.Noidung = noidung;
+            gopYDAO.InsertOrUpdate(item);
+            return Json(new { mess = "Cảm ơn ý kiến của bạn" });
+        }
     }
 }

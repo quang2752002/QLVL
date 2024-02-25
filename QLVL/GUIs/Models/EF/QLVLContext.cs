@@ -19,16 +19,18 @@ namespace GUIs.Models.EF
         public virtual DbSet<CongViec> CongViecs { get; set; } = null!;
         public virtual DbSet<CongViecNhom> CongViecNhoms { get; set; } = null!;
         public virtual DbSet<DangKyNhomCongViec> DangKyNhomCongViecs { get; set; } = null!;
+        public virtual DbSet<GopY> Gopies { get; set; } = null!;
         public virtual DbSet<NguoiLaoDong> NguoiLaoDongs { get; set; } = null!;
         public virtual DbSet<NguoiTuyenDung> NguoiTuyenDungs { get; set; } = null!;
         public virtual DbSet<NhomCongViec> NhomCongViecs { get; set; } = null!;
         public virtual DbSet<UngTuyen> UngTuyens { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning //To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-CPTPR8L;Initial Catalog=QLVL;Persist Security Info=True;User ID=sa;Password=1; TrustServerCertificate=True");
             }
         }
@@ -44,6 +46,10 @@ namespace GUIs.Models.EF
                 entity.Property(e => e.Alias)
                     .HasMaxLength(50)
                     .HasColumnName("alias");
+
+                entity.Property(e => e.Finish)
+                    .HasColumnType("datetime")
+                    .HasColumnName("finish");
 
                 entity.Property(e => e.Idnguoituyendung).HasColumnName("idnguoituyendung");
 
@@ -111,6 +117,19 @@ namespace GUIs.Models.EF
                     .HasConstraintName("FK_DANG_KY_NHOM_CONG_VIEC_NHOM_CONG_VIEC");
             });
 
+            modelBuilder.Entity<GopY>(entity =>
+            {
+                entity.ToTable("GOP_Y");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Noidung)
+                    .HasMaxLength(50)
+                    .HasColumnName("noidung");
+            });
+
             modelBuilder.Entity<NguoiLaoDong>(entity =>
             {
                 entity.ToTable("NGUOI_LAO_DONG");
@@ -130,6 +149,8 @@ namespace GUIs.Models.EF
                 entity.Property(e => e.Fanpage)
                     .HasMaxLength(300)
                     .HasColumnName("fanpage");
+
+                entity.Property(e => e.Guid).HasColumnName("guid");
 
                 entity.Property(e => e.Heath).HasColumnName("heath");
 
@@ -245,6 +266,31 @@ namespace GUIs.Models.EF
                     .WithMany(p => p.UngTuyens)
                     .HasForeignKey(d => d.Idnguoilaodong)
                     .HasConstraintName("FK_UNG_TUYEN_NGUOI_LAO_DONG");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("USER");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(300)
+                    .HasColumnName("password");
+
+                entity.Property(e => e.State)
+                    .HasMaxLength(50)
+                    .HasColumnName("state");
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(50)
+                    .HasColumnName("username");
             });
 
             OnModelCreatingPartial(modelBuilder);

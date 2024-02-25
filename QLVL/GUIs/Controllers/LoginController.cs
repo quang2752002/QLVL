@@ -43,10 +43,17 @@ namespace GUIs.Controllers
                     HttpContext.Session.SetString(CustomeCommon.ROUTER, router);
                     status = true;
                 }
-                //else
-                //{
-                //    x=
-                //}
+                else
+                {
+                    x = new UserDAO().Login(username,password);
+                    if(x!=-1)
+                    {
+                        HttpContext.Session.SetInt32(CustomeCommon.USER_ID, x);
+                        router = "Admin";
+                        HttpContext.Session.SetString(CustomeCommon.ROUTER, router);
+                        status = true;
+                    }
+                }
 
             }
             return Json(new { mess = mess, status = status, router = router });
