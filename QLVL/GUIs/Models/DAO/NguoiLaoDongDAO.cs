@@ -192,5 +192,65 @@ namespace GUIs.Models.DAO
             return true;      
         }
         
+        public int getIdbyUngTuyen(int id)
+        {
+            var query = (from a in context.NguoiLaoDongs
+                         join b in context.UngTuyens on a.Id equals b.Idnguoilaodong
+                         where b.Id == id
+                         select new NguoiLaoDongVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+                             Sex = a.Sex,
+                             Birthday = a.Birthday,
+                             Heath = a.Heath,
+                             Phone = a.Phone,
+                             Email = a.Email,
+                             Code = a.Code,
+                             Fanpage = a.Fanpage,
+                             Image = a.Image,
+                             Introduce = a.Introduce,
+                             Address = a.Address,
+                             Age = DateTime.Now.Year - a.Birthday.Value.Year,
+                         }).FirstOrDefault();
+
+            return query.Id;
+        }
+        public List<NguoiLaoDongVIEW> ShowList(out int total, String name = "", int index = 1, int size = 10)
+        {
+            if (name == null) name = "";
+
+            var query = (from a in context.NguoiLaoDongs
+                         where (a.Name.Contains(name))
+                         select new NguoiLaoDongVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+                             Sex = a.Sex,
+                             Age = DateTime.Now.Year - a.Birthday.Value.Year,
+                             Birthday = a.Birthday,
+                             Heath = a.Heath,
+                             Phone = a.Phone,
+                             Email = a.Email,
+                             Code = a.Code,
+                             Fanpage = a.Fanpage,
+                             Image = a.Image,
+                             Introduce = a.Introduce,
+                             Address = a.Address
+                         }).ToList();
+          
+            if (!string.IsNullOrEmpty(name) && name != "")
+            {
+                query = query.Where(x => x.Name.Contains(name)).ToList();
+            }
+            total = query.Count();
+
+            if (size > 0 && index > 0)
+            {
+                query = query.Skip((index - 1) * size).Take(size).ToList();
+            }
+            return query;
+        }
     }
+
 }

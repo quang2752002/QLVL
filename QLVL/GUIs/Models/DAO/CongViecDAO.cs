@@ -92,17 +92,8 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
-        /// <summary>
-        /// Hhàm này dùng để: 
-        /// </summary>
-        /// <param name="total">Tổng số bản ghi trả về</param>
-        /// <param name="name"></param>
-        /// <param name="thang"></param>
-        /// <param name="nam"></param>
-        /// <param name="index"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        public List<CongViecVIEW> Search(List<int> list,out int total, string name="",int thang=0,int nam=0,int index=1,int size=10)
+
+        public List<CongViecVIEW> Search(List<int> list, out int total, string name = "", int thang = 0, int nam = 0, int index = 1, int size = 10)
         {
             if (name == null) name = "";
             if (thang == 0) thang = DateTime.Now.Month;
@@ -112,37 +103,10 @@ namespace GUIs.Models.DAO
             List<CongViecVIEW> query = new List<CongViecVIEW>();
             if (list.Count > 0)
             {
-                 query = (from a in context.CongViecs
-                             join b in context.CongViecNhoms on a.Id equals b.Idcongviec
-                             join c in context.NhomCongViecs on b.Idnhomcongviec equals c.Id
-                             where (a.Name.Contains(name) && a.Timework >= start && a.Timework <= end) && list.Contains(c.Id)
-                             select new CongViecVIEW
-                             {
-                                 Id = a.Id,
-                                 Idnguoituyendung = a.Idnguoituyendung,
-                                 Name = a.Name,
-                                 Alias = a.Alias,
-                                 Mintuoi = a.Mintuoi,
-                                 Maxtuoi = a.Maxtuoi,
-                                 Timework = a.Timework.Value,
-                                 TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
-                                 finish = a.Finish.HasValue ? a.Finish.Value : default(DateTime),
-                                 finishS = a.Finish.HasValue ? a.Finish.Value.ToString("dd/MM/yyyy hh:mm") : null,
-
-
-                                 Location = a.Location,
-                                 Address = a.Address,
-                                 Salary = a.Salary,
-                                 Note = a.Note,
-                                 State = a.State,
-                             }).ToList();
-            }
-            else
-            {
                 query = (from a in context.CongViecs
                          join b in context.CongViecNhoms on a.Id equals b.Idcongviec
                          join c in context.NhomCongViecs on b.Idnhomcongviec equals c.Id
-                         where (a.Name.Contains(name) && a.Timework >= start && a.Timework <= end) 
+                         where (a.Name.Contains(name) && a.Timework >= start && a.Timework <= end) && list.Contains(c.Id)
                          select new CongViecVIEW
                          {
                              Id = a.Id,
@@ -155,14 +119,41 @@ namespace GUIs.Models.DAO
                              TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
                              finish = a.Finish.HasValue ? a.Finish.Value : default(DateTime),
                              finishS = a.Finish.HasValue ? a.Finish.Value.ToString("dd/MM/yyyy hh:mm") : null,
-
-                             // ... other properties ...
                              Location = a.Location,
                              Address = a.Address,
                              Salary = a.Salary,
                              Note = a.Note,
                              State = a.State,
-                         }).ToList();
+                         }).GroupBy(x => x.Id) // Group by Id
+                           .Select(g => g.First()) // Take the first item from each group
+                           .ToList();
+            }
+            else
+            {
+                query = (from a in context.CongViecs
+                         join b in context.CongViecNhoms on a.Id equals b.Idcongviec
+                         join c in context.NhomCongViecs on b.Idnhomcongviec equals c.Id
+                         where (a.Name.Contains(name) && a.Timework >= start && a.Timework <= end)
+                         select new CongViecVIEW
+                         {
+                             Id = a.Id,
+                             Idnguoituyendung = a.Idnguoituyendung,
+                             Name = a.Name,
+                             Alias = a.Alias,
+                             Mintuoi = a.Mintuoi,
+                             Maxtuoi = a.Maxtuoi,
+                             Timework = a.Timework.Value,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.HasValue ? a.Finish.Value : default(DateTime),
+                             finishS = a.Finish.HasValue ? a.Finish.Value.ToString("dd/MM/yyyy hh:mm") : null,
+                             Location = a.Location,
+                             Address = a.Address,
+                             Salary = a.Salary,
+                             Note = a.Note,
+                             State = a.State,
+                         }).GroupBy(x => x.Id) // Group by Id
+                           .Select(g => g.First()) // Take the first item from each group
+                           .ToList();
 
             }
             if (!string.IsNullOrEmpty(name) && name != "")
@@ -177,6 +168,7 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
+
         /// <summary>
         /// Hàm này dùng: 
         /// </summary>
@@ -420,5 +412,6 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query;
         }
+        public 
     }
 }

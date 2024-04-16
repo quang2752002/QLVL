@@ -134,11 +134,21 @@
             apply: function() {
                 var id = $("#id").val();
                 var luong = $("#luong").val();
+                var timework = $("#timework").val();
                 if(luong==null||luong=="")
                 {
                     alert("Nhập mức lương mong muốn");
                     return;
-                }
+                };
+                // Chuyển đổi giá trị từ datetime-local thành đối tượng Date
+                var timeworkDate = new Date(timework);
+
+                // Kiểm tra nếu thời gian hiện tại lớn hơn thời gian làm việc
+                if (new Date() > timeworkDate) {
+                    alert("Công việc đã hết hạn ");
+                    return;
+                };
+                
                 var form = new FormData();
                 form.append("id", id);
                 form.append("luong",luong);

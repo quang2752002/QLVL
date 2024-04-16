@@ -185,15 +185,20 @@ namespace GUIs.Areas.NguoiLaoDong.Controllers
         }
         public JsonResult DanhGiaCongViec(int sao,string nhanxet)
         {
+            string mess = "Bạn đã đánh giá công việc này ";
             UngTuyenDAO ungTuyen = new UngTuyenDAO();
             int idcongviec = HttpContext.Session.GetInt32(DANH_GIA_CV) ?? 0;
             int idnguoilaodong = DataServices.getUserId(HttpContext);
             int id = ungTuyen.getIdUngTuyen(idcongviec,idnguoilaodong);
             var item = ungTuyen.getItem(id);
-            item.Danhgiacongviec = sao;
-            item.Nhanxetcongviec = nhanxet;
-            ungTuyen.InsertOrUpdate(item);
-            return Json(new { mess ="Đánh giá công việc thành công" });
+            if (ungTuyen.CheckDanhGiaCongviec(id))
+            {
+                item.Danhgiacongviec = sao;
+                item.Nhanxetcongviec = nhanxet;
+                ungTuyen.InsertOrUpdate(item);
+                mess = "Đánh giá công việc thành công";
+            }
+            return Json(new { mess =mess });
         }
         public IActionResult ThongTinCaNhan()
         {

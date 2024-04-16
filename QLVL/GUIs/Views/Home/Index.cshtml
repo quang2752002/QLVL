@@ -3,32 +3,49 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!-- Header End -->
-<div class="container-xxl py-5 bg-dark page-header mb-5">
-    <div class="container my-5 pt-5 pb-4">
-        <h1 class="display-3 text-white mb-3 animated slideInDown">
-            Công việc
-        </h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb text-uppercase">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item text-white active" aria-current="page">
-                    Job List
-                </li>
-            </ol>
-        </nav>
-    </div>
-</div>
-<!-- Header End -->
 
-
-<div class="row">
-    <div class="col-md-1">
+<div class="row" style="background-color:#F8EDEB;">
+    <div class="col-md-1" >
 
     </div>
     <div class="col-md-10">
-       
+
+
+        <!-- Carousel Start -->
+        <div class="container-fluid p-0" >
+            <div class="owl-carousel header-carousel position-relative">
+                <div class="owl-carousel-item position-relative">
+                    <img class="img-fluid" src="https://vieclam.thegioididong.com/img/mobile/searchv2/detail_banner/bhx.jpg" alt="">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-10 col-lg-8">
+                                    <h1 class="display-3 text-white animated slideInDown mb-4">Tuyển Dụng Lao Động Phổ Thông</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Cơ hội tìm việc làm cho người lao động</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-carousel-item position-relative">
+                    <img class="img-fluid" src="https://vieclam.thegioididong.com/img/mobile/searchv2/detail_banner/bhx.jpg" alt="">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-10 col-lg-8">
+                                    <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
+                                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
+                                    <a href="" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel End -->
 
 
         <div class="row">
@@ -37,14 +54,7 @@
             </div>
         </div>
 
- @*        <div class="container-fluid">
 
-
-            <div class="row">
-                <h1>Gợi ý công việc </h1>
-            </div>
-            <div class="row" id="data"></div>
-        </div> *@
         <div class="container-xxl py-5">
             <div class="container">
                 <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -143,9 +153,11 @@
 
                 $("#Month").change(function () {
                     nguoilaodong.search(1);
+                    nguoilaodong.ListNhomCongViec();
                 });
                 $("#Year").change(function () {
                     nguoilaodong.search(1);
+                    nguoilaodong.ListNhomCongViec();
                 });
             },
 
@@ -181,7 +193,7 @@
                             html += "<div class='job-item p-4 mb-4'>";
                             html += "<div class='row g-4'>";
                             html += "<div class='col-sm-12 col-md-8 d-flex align-items-center'>";
-                            // html += "<img class='flex-shrink-0 img-fluid border rounded' src='img/com-logo-5.jpg' alt='' style='width: 80px; height: 80px' />"
+                           
                             html += "<div class='text-start ps-4'>";
                             html += "<h5 class='mb-3'>" + a.name + "</h5>";
                             html += "<span class='text-truncate me-3'>";
@@ -219,28 +231,28 @@
                 });
             },
             ListNhomCongViec: function () {
+                var thang = $("#Month").val();
+                var nam = $("#Year").val();
+                var form = new FormData();
+                form.append("thang", thang);
+                form.append("nam", nam);
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
                     contentType: false,
                     processData: false,
-
+                    data: form,
                     url: '/Home/ListNhomCongViec/',
                     success: function (res) {
                         var html = "";
                         $.each(res.data, function (index, a) {
-                            // html += "<div class='col-md-2'>";
-                            // html += "<div class='form-check' style='display: flex; align-items: center;'>";
-                            // html += "<input type='checkbox' value='" + a.id + "' class='namecate m-2' onchange='nguoilaodong.search(1)' style='margin-right: 5px;'/>";
-                            // html += "<label class='' style='font-weight: 100;font-size:15px'>" + a.name + "</label>";
-                            // html += "</div>";
-                            // html += "</div>";
+                            
                             html += "<div class='col-lg-3 col-sm-6 wow fadeInUp' data-wow-delay='0.1s'>";
                             html += "<div class='cat-item rounded p-4' href=''>";
                             html += "<div class='row'> <div class='col-10'>";
 
                             html += "<h6 class='mb-3'>"+a.name+"</h6>";
-                            html += "<p class='mb-0'>123 Công việc</p>";
+                            html += "<p class='mb-0'>"+a.soluong+" Công việc</p>";
                             html += "</div>";
                             html += "<div class='col-2'>";
                             html += "<input type='checkbox' value='" + a.id + "' class='namecate m-2' onchange='nguoilaodong.search(1)' style='width: 20px; height: 20px'/>";

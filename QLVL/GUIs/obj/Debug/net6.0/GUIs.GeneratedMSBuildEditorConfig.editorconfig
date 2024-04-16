@@ -38,6 +38,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Project/QLVL/QLVL/GUIs/Areas/Admin/Views/ThongKe/Chart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhvbmdLZVxDaGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/QLVL/QLVL/GUIs/Areas/Admin/Views/ThongKe/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhvbmdLZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/QLVL/QLVL/GUIs/Areas/Admin/Views/ThongKe/NguoiLaoDong.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhvbmdLZVxOZ3VvaUxhb0RvbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/QLVL/QLVL/GUIs/Areas/Admin/Views/ThongKe/NguoiTuyenDung.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVGhvbmdLZVxOZ3VvaVR1eWVuRHVuZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Project/QLVL/QLVL/GUIs/Areas/NguoiLaoDong/Views/Home/ChiTietCongViec.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lMYW9Eb25nXFZpZXdzXEhvbWVcQ2hpVGlldENvbmdWaWVjLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -84,6 +100,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Project/QLVL/QLVL/GUIs/Areas/NguoiTuyenDung/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lUdXllbkR1bmdcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Project/QLVL/QLVL/GUIs/Areas/NguoiTuyenDung/Views/Home/ListDanhGia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTmd1b2lUdXllbkR1bmdcVmlld3NcSG9tZVxMaXN0RGFuaEdpYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Project/QLVL/QLVL/GUIs/Areas/NguoiTuyenDung/Views/Home/NguoiLaoDong.cshtml]

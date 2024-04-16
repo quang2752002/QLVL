@@ -17,11 +17,11 @@
                     <div class="modal-body">
                         <div class="card">
                             <div class="card-header">
-                                <h4>THÔNG TIN NGƯỜI LAO DỘNG</h4>
+                                <h4>THÔNG TIN NGƯỜI LAO ĐỘNG</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4"><a href="#" class="btn btn-primary">Xem tất cả đánh giá</a></div>
+                                    <div class="col-md-4"><a href="" class="btn btn-primary">Xem tất cả đánh giá</a></div>
                                     
                                 </div>
                                 <div class="row">
@@ -178,30 +178,7 @@
                     success: function (res) {
                         var html = "";
                         $.each(res.data, function (index, a) {
-                            // html += "<div class='col-md-3 p-3'>";
-                            // html += "<div class='card ' style='width: 30rem;'>";
-                            // html += "<img class='card-img-top' src='" + a.image + "' alt='Card image cap'>";
-                            // html += "<div class='card-body'>";
-                            // html += "<h5 class='card-title'>Thông tin ứng tuyển</h5>";
-                            // html += "<p>Họ tên: " + a.tennguoilaodong + "</p>";
-                            // html += "<p>Giới tính: " + (a.sex == 0 ? "Nữ" : "Nam") + "</p>";
-                            // html += "<p>Tuổi: " + a.age + "</p>";
-                            // html += "<p>Địa chỉ " + a.diachi+ "</p>";
-                            // html += "<p>Mức lương đưa ra "+a.salary+"</p>";
-                            
-                            // html += "<a class='btn btn-primary ' href='javascript:void(0)' data-toggle='modal' data-target='#xemchitiet' data-whatever='" + a.idnguoilaodong + "'>Thông tin chi tiết</a><br>";
-                            // html+="<br />"
-                            // if (a.apply == 0) {
-                            //     html += "<button id='duyeths-" + a.id + "' onclick='nguoituyendung.duyethoso(" + a.id + ")' class='btn btn-primary'>Duyệt hồ sơ</button>";
-                            // } else if (a.apply == 1) {
-                            //     html += "<a href='/NguoiTuyenDung/Home/Danhgia/" + a.id + "' class='btn btn-primary'>Đánh giá</a>";
-                            // } else if (a.apply == -1) {
-                            //     // Do something if apply is -1
-                            // }
-                            // html += "</div>";
-                            // html += "</div>";
-                            // html += "</div>";
-
+                           
 
                             html += "<div class='card-container'>";
                             html += "        <div class='top-box'>";
@@ -268,7 +245,7 @@
                     url: '/NguoiTuyenDung/Home/DuyetHoSo/'+id,
                     success: function (res) {  
                         $("#duyeths-" + id).hide();
-                        alert("Duyệt hồ sơ thành công")                                          
+                        alert(res.mess);                                 
                     },
                 });
             },

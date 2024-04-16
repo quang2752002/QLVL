@@ -26,7 +26,6 @@ namespace GUIs.Controllers
             ViewBag.Year = DataServices.Year();
             ViewBag.Month = DataServices.Months();
             var state = DataServices.getUserId(HttpContext);
-            //string link = "<a href='/login/' class='btn btn-primary custom-link'>Login</a>";
             string  link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
             link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
             link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
@@ -48,20 +47,7 @@ namespace GUIs.Controllers
                 if (tt =="NguoiTuyenDung")
                 {
                     var query = new NguoiTuyenDungDAO().getItemView(state);
-                    //link = " <div class='dropdown position-static'>";
-                    //link += "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' ";
-                    //link += "data-bs-toggle='dropdown' aria-expanded='false'>   ";
-                    //link += "<img src='" + query.Image + "'";
-                    //link += "style='border-radius: 50%; width: 50px; height: 50px;";
-                    //link += "class='btn btn-outline-success p-0'>";
-                    //link += "</a>         ";
-                    //link += "<ul class='dropdown-menu dropdown-menu-end position-absolute' aria-labelledby='navbarDropdown'>   ";
-                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/ThongTinCaNhan'>Thông tin cá nhân</a></li>          ";
-                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/Danhsachcongviec'>Thông tin công việc</a></li>  ";
-                    //link += "                     <li><hr class='dropdown-divider'></li>        ";
-                    //link += "<li><button class='dropdown-item' href='#' id='logout'>Đăng xuất người tuyển dụng</button></li>      ";
-                    //link += "</ul>    ";
-                    //link += "</div>";
+                   
                     link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
                     link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
                     link += "<a href='/NguoituyenDung/Home/' class='nav-item nav-link'>Trang chủ</a>";
@@ -84,20 +70,7 @@ namespace GUIs.Controllers
                 {
                     if (tt == "NguoiLaoDong") { 
                     var query = new NguoiLaoDongDAO().getItemView(state);
-                    //link = " <div class='dropdown position-static'>";
-                    //link += "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' ";
-                    //link += "data-bs-toggle='dropdown' aria-expanded='false'>   ";
-                    //link += "<img src='" + query.Image + "'";
-                    //link += "style='border-radius: 50%; width: 50px; height: 50px;";
-                    //link += "class='btn btn-outline-success p-0'>";
-                    //link += "</a>         ";
-                    //link += "<ul class='dropdown-menu dropdown-menu-end position-absolute' aria-labelledby='navbarDropdown'>   ";
-                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/ThongTinCaNhan'>Thông tin cá nhân</a></li>          ";
-                    //link += "<li><a class='dropdown-item' href='/NguoiLaoDong/Home/Danhsachcongviec'>Thông tin công việc</a></li>  ";
-                    //link += "                     <li><hr class='dropdown-divider'></li>        ";
-                    //link += "<li><button class='dropdown-item' href='#' id='logout'>Đăng xuất</button></li>      ";
-                    //link += "</ul>    ";
-                    //link += "</div>";
+                   
                     link = "<div class='collapse navbar-collapse' id='navbarCollapse'>";
                     link += " <div class='navbar-nav ms-auto p-4 p-lg-0'>";
                     link += "<a href='/Home/Index' class='nav-item nav-link'>Trang chủ</a>";
@@ -152,7 +125,7 @@ namespace GUIs.Controllers
                 intList = list.Select(s =>
                 {
                     int result;
-                    return int.TryParse(s, out result) ? result : 0; // Hoặc giá trị mặc định khác nếu không thể chuyển đổi
+                    return int.TryParse(s, out result) ? result : 0; 
                 }).ToList();
             }
             var query = x.Search(intList, out total, name, thang, nam, index, size );
@@ -180,7 +153,11 @@ namespace GUIs.Controllers
             int idnguoilaodong = DataServices.getUserId(HttpContext);
             if (idnguoilaodong != 0)
             {
-                UngTuyen item = new UngTuyen();
+                
+		        CongViecDAO congviec =new CongViecDAO();
+		        var query = congviec.getCongViecUngTuyen(id);
+		
+		        UngTuyen item = new UngTuyen();
                 UngTuyenDAO khachhang = new UngTuyenDAO();
 
                 item.Idcongviec = id;
@@ -188,13 +165,13 @@ namespace GUIs.Controllers
                 item.Date = DateTime.Now;
                 item.Salary = luong;
                 item.Apply = 0;
-
-                if (khachhang.Check(id, idnguoilaodong) == -1)
+		    if (khachhang.Check(id, idnguoilaodong) == -1)
                 {
                     khachhang.InsertOrUpdate(item);
                      mess = "Ứng tuyển thành công";
                     trangthai = 1;
                 }
+		
                 else
                 {
                     mess = "Bạn đã ứng tuyển công việc này rồi";
@@ -226,36 +203,15 @@ namespace GUIs.Controllers
             HttpContext.Session.Clear();
             return Json(new { mess = "Đăng xuất thành công" });
         }      
-        //public JsonResult ListCongViecYeuThich( int index = 1, int size = 10)
-        //{
-        //    int idnguoilaodong = DataServices.getUserId(HttpContext);
-        //    CongViecDAO x = new CongViecDAO();
-        //    int total = 0;
-        //    var query = x.ListCongViecYeuThich(out total,idnguoilaodong, index, size);
-        //    string page = Support.Support.InTrang(total, index, size);
-        //    return Json(new { data = query, page = page });
-        //}
+      
        
-        public JsonResult ListNhomCongViec()
+        public JsonResult ListNhomCongViec(int thang,int nam)
         {      
             NhomCongViecDAO x = new NhomCongViecDAO();
-            var query = x.getList();
+            var query = x.getListNhomCongViec(thang,nam);
             return Json(new { data = query });
         }
-        //public IActionResult CongViec(int id)
-        //{
-        //    HttpContext.Session.SetInt32(ID_CONGVIECNHOM, id);
-        //    return View();
-        //}
-        //public JsonResult getCongViecTheoNhom(int thang = 0, int nam = 0, int index = 1, int size = 10)
-        //{
-        //    CongViecDAO congViecDAO=new CongViecDAO();
-        //    int total = 0;
-        //    int id = HttpContext.Session.GetInt32(ID_CONGVIECNHOM) ?? 0;
-        //    var query = congViecDAO.getCongViec(out total, id, thang, nam, index, size);
-        //    string page = Support.Support.InTrang(total, index, size);
-        //    return Json(new { data = query, page = page });
-        //}
+     
         public ActionResult GopY()
         {
             return View();

@@ -13,6 +13,7 @@ using static GUIs.Areas.Admin.Controllers.NguoiLaoDongController;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.IO;
 using testLib;
+using System.Globalization;
 
 namespace GUIs.Areas.NguoiTuyenDung.Controllers
 {
@@ -21,6 +22,7 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
     {
         private const string ID_CONGVIEC = "ID_CONGVIEC";
         private const string DANH_GIA = "DANH_GIA";
+        private const string LIST_DANH_GIA = "LIST_DANH_GIA";
         public IActionResult Index()
         {
             var state = DataServices.getUserId(HttpContext);
@@ -147,8 +149,8 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             item.Alias = "";
             item.Mintuoi = mintuoi;
             item.Maxtuoi = maxtuoi;
-            item.Timework = timework;
-            item.Finish = finish;
+            item.Timework=timework;
+            item.Finish= finish;
             item.Idnguoituyendung = userid;
             item.Address = address;
             item.Salary = salary;
@@ -297,28 +299,33 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
         [HttpPost]
         public JsonResult DuyetHoSo(int id)
         {
+	        String mess="Người lao động đã nhận công việc khác";
+
+            NguoiLaoDongDAO nguoiLaoDongDAO = new NguoiLaoDongDAO();
+            int IdNguoiLaoDong = nguoiLaoDongDAO.getIdbyUngTuyen(id);
+
             CongViecDAO congviec = new CongViecDAO();
             var cv = congviec.getCongViecUngTuyen(id);
-            UngTuyenDAO nhanvien = new UngTuyenDAO();
-            var item = nhanvien.getItem(id);           
+            UngTuyenDAO ungTuyenDAO= new UngTuyenDAO();
+            
+	       f(ungTuyenDAO.CheckDuyetHoSo(IdNguoiLaoDong,cv.Timework,cv.finish)==true){
+            var item = ungTuyenDAO.getItem(id);
             item.Apply = 1;
-            nhanvien.InsertOrUpdate(item);
+            ungTuyenDAO.InsertOrUpdate(item);
             string domain = HttpContext.Request.Host.Value.Trim();
             string Http = HttpContext.Request.Scheme.Trim();
             var guid = Guid.NewGuid();
-
-
-            string email = nhanvien.getEmail(id);
+            string email = ungTuyenDAO.getEmail(id);
             EmailServeices emailServeices = new EmailServeices();
             emailServeices.MailFrom = "quang2752002@gmail.com";
             emailServeices.MailTo = email;
             emailServeices.Chude = "Email thông báo ứng tuyển thành công  ";
-            //emailServeices.Noidung = "Ấn vào link này để lấy lại mật khẩu " + Http + "://" + domain + "/login/reset/" + guid.ToString() + " Nếu không phải vui lòng bỏ qua";
             emailServeices.Noidung = "Bạn đã ứng tuyển thành công công việc "+cv.Name +" thời gian bắt đầu từ "+cv.TimeworkS+" và kết thúc vào "+cv.finishS+" Địa chỉ tại "+cv.Address+". Vui lòng kiểm tra lại công việc trên hệ thống. Xin cảm ơn";
             emailServeices.Password = "ovvl kmtq zaok jjuw";
             emailServeices.SendMail();
-        
-            return Json(new { mess = "Duyệt hồ sơ thành công" });
+                mess = "Duyệt hồ sơ ứng viên thành công";
+            }
+            return Json(new { mess = mess});
         }
         public JsonResult getNguoiLaoDong(int id)
         {
@@ -351,13 +358,19 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
         [HttpPost]
         public JsonResult DanhGiaCongViec(int sao, string nhanxet)
         {
+            string mess = "Bạn đã đánh giá người lao động này ";
             UngTuyenDAO ungTuyen = new UngTuyenDAO();
             int id = HttpContext.Session.GetInt32(DANH_GIA) ?? 0;
-            var item = ungTuyen.getItem(id);         
-            item.Danhgialaodong = sao;
-            item.Nhanxetlaodong = nhanxet;        
-            ungTuyen.InsertOrUpdate(item);
-            return Json(new { mess = "Đánh giá người lao động thành công" });
+            var item = ungTuyen.getItem(id);
+            if (ungTuyen.CheckDanhGiaLaoDong(id))
+            {
+                item.Danhgialaodong = sao;
+                item.Nhanxetlaodong = nhanxet;
+                ungTuyen.InsertOrUpdate(item);
+                mess = "Đánh giá lao động thành công";
+            }
+           
+            return Json(new { mess = mess });
         }
         public IActionResult Edit()
         {
@@ -390,7 +403,21 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             HttpContext.Session.Clear();
             return Json(new { mess = "Đăng xuất thành công" });
         }
+       
+        public IActionResult ListDanhGia(int id) {
+            HttpContext.Session.SetInt32(LIST_DANH_GIA, id);
+            return View();
+        }
+        [HttpPost]
+        public JsonResult DanhSachDanhGia(int index, int size)
+        {
+            UngTuyenDAO ungTuyen = new UngTuyenDAO();
+            int total = 0;
+            int id = HttpContext.Session.GetInt32(LIST_DANH_GIA) ?? 0;
+            var query = ungTuyen.ListDanhgia(out total,id,index,size);
+            string page = Support.Support.InTrang(total, index, size);
+            return Json(new { data = query, page = page });
+        }
     }
 
 }
-///

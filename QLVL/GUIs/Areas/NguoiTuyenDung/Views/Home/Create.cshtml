@@ -3,119 +3,6 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Login.cshtml";
 }
-@* 
-<div class="card">
-    <div class="card-header">
-        <h4>ĐĂNG TUYỂN CÔNG VIỆC</h4>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12 p-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                   Tên công việc
-                                </span>
-                            </div>
-                            <input type="text" class="form-control" id="name" />
-                        </div>
-                    </div>
-                   
-                    <div class="col-md-12 p-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    Tuổi từ
-                                </span>
-                            </div>
-                            <input type="number" class="form-control bg-white" id="mintuoi" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 p-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    Tuổi đến
-                                </span>
-                            </div>
-                            <input type="number" class="form-control bg-white" id="maxtuoi" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 p-1">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                Thời gian
-                            </span>
-                        </div>
-                        <input type="datetime-local" class="form-control bg-white" id="timework" placeholder="Thời gian bắt đầu làm việc" />
-                    </div>
-                </div>
-
-
-            </div>
-          
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-12 p-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    Địa chỉ
-                                </span>
-                            </div>
-                            <input type="text" class="form-control bg-white" id="address" />
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 p-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                   Lương
-                                </span>
-                            </div>
-                            <input type="text" class="form-control bg-white" id="salary" />
-                        </div>
-                    </div>
-                   
-                    <div class="col-md-12 p-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    Mô tả
-                                </span>
-                            </div>
-                            <input type="text" class="form-control bg-white" id="note" />
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-12 p-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    Chọn nhóm công việc
-                                </span>
-                            </div>
-                            @Html.DropDownList("nhomcongviec", new SelectList(ViewBag.nhom, "Id", "Name"), new { @class = "form-control",@multiple= "multiple" })
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="button" id="create" class="btn btn-primary">Thêm mới</button>
-               
-            </div>
-        </div>
-    </div>
-</div> *@
-
 <div class="text-center">
     <h1 class="h4 text-gray-900 mb-4">Đăng tuyển công việc</h1>
 </div>
@@ -196,8 +83,10 @@
                 var name = $("#name").val();
                 var mintuoi = $("#mintuoi").val();
                 var maxtuoi = $("#maxtuoi").val();
-                var timework = $("#timework").val();
-                var finish = $('#finish').val();
+                var timeworkString = $("#timework").val(); // Get the datetime-local string
+                var finishString = $('#finish').val(); // Get the datetime-local string
+                var timework = new Date(timeworkString); // Parse the string into a Date object
+                var finish = new Date(finishString); // Parse the string into a Date object
                 var address = $("#address").val();
                 var salary = $("#salary").val();
                 var note = $("#note").val();
@@ -207,12 +96,14 @@
                 form.append("name", name);
                 form.append("mintuoi", mintuoi);
                 form.append("maxtuoi", maxtuoi);
-                form.append("timework", timework);
+                form.append("timework", timework.toISOString()); // Convert Date object to ISO string
+                form.append("finish", finish.toISOString()); // Convert Date object to ISO string
+                form.append("address", address);
                 form.append("address", address);
                 form.append("salary", salary);
                 form.append("note", note);
                 form.append("nhomcongviec", nhomcongviec);
-                alert(nhomcongviec)
+                
                 $.ajax({
                     type: 'POST',
                     dataType: 'Json',

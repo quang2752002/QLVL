@@ -36,11 +36,7 @@ namespace GUIs.Models.DAO
                              Nhanxetcongviec=a.Nhanxetcongviec,
                              Nhanxetlaodong=a.Nhanxetlaodong,
 
-                         }).FirstOrDefault();
-            if (query == null)
-            {
-                throw new InvalidOperationException($"No record found with Id: {id}");
-            }
+                         }).FirstOrDefault();          
             return query;
         }
         public List<UngTuyenVIEW> Search(out int total, int tutuoi = 0, int dentuoi = 0, string vitri = "", int index = 1, int size = 10)
@@ -71,15 +67,7 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="total"></param>
-        /// <param name="idCv"></param>
-        /// <param name="index"></param>
-        /// <param name="size"></param>
-        /// <param name="state"></param>
-        /// <returns></returns>
+       
         public List<UngTuyenVIEW> getListUngTuyen(out int total,int idCv, int index = 1, int size = 10,int apply=0)
         {
             var query = (from a in context.UngTuyens
@@ -171,6 +159,93 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query.Id;  
         }
-        
+        public bool CheckDuyetHoSo(int IdNguoiLaoDong, DateTime? start, DateTime end)
+        {
+            var query = (from a in context.UngTuyens
+                         join b in context.CongViecs on a.Idcongviec equals b.Id
+                         join c in context.NguoiLaoDongs on a.Idnguoilaodong equals c.Id
+                         where (c.Id == IdNguoiLaoDong &&
+                                ((b.Timework <= start && b.Finish >= start) || (end >= b.Timework && end <= b.Finish)) &&
+                                (a.Apply == 1||a.Apply==2||a.Apply==3))
+                         select new UngTuyenVIEW
+                         {
+                             Id = a.Id,
+                             Idcongviec = a.Idcongviec,
+                             Idnguoilaodong = a.Idnguoilaodong
+                         }).ToList();
+
+            return query.Count() == 0;
+        }
+
+        public List<UngTuyenVIEW> ListDanhgia(out int total,int id, int index = 1, int size = 10)
+        {
+            var query = (from a in context.UngTuyens
+                         join b in context.NguoiLaoDongs on a.Idnguoilaodong equals b.Id
+                         join c in context.CongViecs on a.Idcongviec equals c.Id
+                         join d in context.NguoiTuyenDungs on c.Idnguoituyendung equals d.Id
+                         where b.Id==id
+                         select new UngTuyenVIEW
+                         {
+                             Id = a.Id,
+                             Idcongviec = a.Idcongviec,
+                             Idnguoilaodong = a.Idnguoilaodong,
+                             Date = a.Date,
+                             Salary = a.Salary,
+                             Apply = a.Apply,                          
+                             Danhgialaodong = a.Danhgialaodong,                          
+                             Nhanxetlaodong = a.Nhanxetlaodong,
+                             Tennguoilaodong=b.Name,
+                             image=b.Image,
+                             Nguoituyendung=d.Name
+                         }).ToList();
+
+            total = query.Count();
+
+            if (size > 0 && index > 0)
+            {
+                query = query.Skip((index - 1) * size).Take(size).ToList();
+            }
+            return query;
+        }
+        public Boolean CheckDanhGiaLaoDong(int id)
+        {
+            var query = (from a in context.UngTuyens
+
+                         where a.Id == id
+                         select new UngTuyenVIEW
+                         {
+                             Id = a.Id,
+                             Idcongviec = a.Idcongviec,
+                             Idnguoilaodong = a.Idnguoilaodong,
+                            
+                             Danhgiacongviec = a.Danhgiacongviec,
+                             Danhgialaodong = a.Danhgialaodong,
+                             Nhanxetcongviec = a.Nhanxetcongviec,
+                             Nhanxetlaodong = a.Nhanxetlaodong,
+
+                         }).FirstOrDefault();
+            if (query.Danhgialaodong == null && query.Nhanxetlaodong == null)
+               return true;
+            return false;          
+        }
+        public Boolean CheckDanhGiaCongviec(int id)
+        {
+            var query = (from a in context.UngTuyens
+                         where a.Id == id
+                         select new UngTuyenVIEW
+                         {
+                             Id = a.Id,
+                             Idcongviec = a.Idcongviec,
+                             Idnguoilaodong = a.Idnguoilaodong,
+                             Danhgiacongviec = a.Danhgiacongviec,
+                             Danhgialaodong = a.Danhgialaodong,
+                             Nhanxetcongviec = a.Nhanxetcongviec,
+                             Nhanxetlaodong = a.Nhanxetlaodong,
+
+                         }).FirstOrDefault();
+            if (query.Danhgialaodong == null && query.Nhanxetlaodong == null)
+                return true;
+            return false;
+        }
     }
 }

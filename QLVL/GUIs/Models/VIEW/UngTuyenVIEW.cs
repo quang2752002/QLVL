@@ -13,6 +13,7 @@
         public int? Danhgiacongviec { get; set; }
         public string? Nhanxetcongviec { get; set; }
         public string Tennguoilaodong { get; set; }
+        public string Nguoituyendung { get; set; }
         public int sex { get; set; }
         public string heath {  get; set; }
         public string phone {  get; set; }
