@@ -258,9 +258,38 @@ namespace GUIs.Areas.NguoiLaoDong.Controllers
             int idnguoilaodong = DataServices.getUserId(HttpContext);
             int idUngTuyen = ungTuyen.getIdUngTuyen(id, idnguoilaodong);
             var item = ungTuyen.getItem(idUngTuyen);
-            item.Apply = 2;
-            ungTuyen.InsertOrUpdate(item);
-            return Json(new {mess="Đã xác nhận hoàn thành công việc"});
+            string mess = "";
+            if (item.Apply == 3)
+            {
+                mess = "Người tuyển dụng đã xác nhận hoàn thành";
+            }
+            else
+            {
+                item.Apply = 2;
+                ungTuyen.InsertOrUpdate(item);
+                mess = "Đã xác nhận hoàn thành công việc";
+            }
+            
+            return Json(new {mess=mess});
+        }
+        public JsonResult getCongViecById()
+        {
+            int idcongviec = HttpContext.Session.GetInt32(DANH_GIA_CV) ?? 0;
+            CongViecDAO congViecDAO = new CongViecDAO();    
+            var query=congViecDAO.getItemView(idcongviec);
+            return Json(new { data = query });
+        }
+        public IActionResult ChangePassWord()
+        {
+           return View();
+
+        }
+        public JsonResult ThayDoiMatKhau(string password,string newpassword)
+        {
+            NguoiLaoDongDAO nguoiLaoDongDAO = new NguoiLaoDongDAO();
+            int idnguoilaodong = DataServices.getUserId(HttpContext);
+            var item=nguoiLaoDongDAO.getItem(idnguoilaodong);
+            return Json(new { });
         }
     }
 }

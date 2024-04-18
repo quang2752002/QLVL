@@ -20,19 +20,24 @@
                                 <h4>THÔNG TIN NGƯỜI LAO ĐỘNG</h4>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4"><a href="" class="btn btn-primary">Xem tất cả đánh giá</a></div>
-                                    
-                                </div>
+                                <div class="row" id="getdanhgia"></div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
                                             <div class="col-md-12 p-1">
                                                 <div class="input-group">
+                                                    <div class="input-group-prepend"></div>
+                                                    <img src="" alt="Hình ảnh sản phẩm" class="img-fluid" id="edit_image" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12 p-1">
+                                                <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Họ và tên 
-                                                        </span>
+                                                        <span class="input-group-text">Họ và tên</span>
                                                     </div>
                                                     <input type="text" class="form-control" id="edit_name" />
                                                     <input type="text" hidden id="edit_id" />
@@ -41,20 +46,15 @@
                                             <div class="col-md-12 p-1">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Giới tính
-                                                        </span>
+                                                        <span class="input-group-text">Giới tính</span>
                                                     </div>
                                                     <input type="text" class="form-control" id="edit_sex" />
-
                                                 </div>
                                             </div>
                                             <div class="col-md-12 p-1">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Tuổi
-                                                        </span>
+                                                        <span class="input-group-text">Tuổi</span>
                                                     </div>
                                                     <input type="number" class="form-control bg-white" id="edit_age" />
                                                 </div>
@@ -62,75 +62,43 @@
                                             <div class="col-md-12 p-1">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Địa chỉ
-                                                        </span>
+                                                        <span class="input-group-text">Địa chỉ</span>
                                                     </div>
                                                     <input type="text" class="form-control bg-white" id="edit_address" />
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
                                             <div class="col-md-12 p-1">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">
-                                                            Số điện thoại
-                                                        </span>
+                                                        <span class="input-group-text">Số điện thoại</span>
                                                     </div>
                                                     <input type="text" class="form-control bg-white" id="edit_sdt" />
                                                 </div>
                                             </div>
-
-
-                                            <div class="row">
-
-
-                                                <div class="col-md-12 p-1">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                Ảnh đại diện
-                                                            </span>
-                                                        </div>
-                                                        <img src="" alt="Hình ảnh sản phẩm" class="img-fluid" id="edit_image" />
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="modal-footer">
-                        </div>
+                        <div class="modal-footer"></div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <h1 style="text-align:center">Danh sách lao động ứng tuyển</h1>
         </div>
-
         <div class="row p-2">
             <div class="col-md-2">
                 <span>Số dòng/trang</span>
+             
+            </div>
+            <div class="col-md-2">
+                
                 @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
             </div>
-
         </div>
-
         <div class="container" id="tbData"></div>
-
         <table>
             <tfoot>
                 <tr>
@@ -138,10 +106,10 @@
                 </tr>
             </tfoot>
         </table>
-
     </div>
     <div class="col-md-1"></div>
 </div>
+
 
 @section scripts {
     <script>
@@ -156,6 +124,8 @@
                     var idhd = button.data('whatever')
 
                     nguoituyendung.getNguoiLaoDong(idhd);
+                    var html = "<div class='col-md-4'><a href='/NguoiTuyenDung/Home/ListDanhGia/"+idhd+"' class='btn btn-primary'>Xem tất cả đánh giá</a></div>";
+                    $("#getdanhgia").html(html);
 
                 });
                
@@ -266,6 +236,7 @@
                     }
                 });
             },
+           
         };
 
         nguoituyendung.init();

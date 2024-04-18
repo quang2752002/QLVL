@@ -56,7 +56,7 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
-        public List<CongViecVIEW> Search(out int total, String name = "",  int index = 1, int size = 10)
+        public List<CongViecVIEW> Search(out int total, string name = "", int index = 1, int size = 10)
         {
             if (name == null) name = "";
 
@@ -79,19 +79,26 @@ namespace GUIs.Models.DAO
                              State = a.State,
                              finish = a.Finish.Value,
                              finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
-                         }).ToList();
+                         });
+
             if (!string.IsNullOrEmpty(name) && name != "")
             {
-                query = query.Where(x => x.Name.Contains(name)).ToList();
+                query = query.Where(x => x.Name.Contains(name));
             }
+
+            // Sắp xếp giảm dần theo Id
+            query = query.OrderByDescending(x => x.Id);
+
             total = query.Count();
 
             if (size > 0 && index > 0)
             {
-                query = query.Skip((index - 1) * size).Take(size).ToList();
+                query = query.Skip((index - 1) * size).Take(size);
             }
-            return query;
+
+            return query.ToList();
         }
+
 
         public List<CongViecVIEW> Search(List<int> list, out int total, string name = "", int thang = 0, int nam = 0, int index = 1, int size = 10)
         {
@@ -412,6 +419,47 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query;
         }
-        public 
+        public List<CongViecVIEW> ShowList(out int total, string name, int thang, int nam, int state, int index, int size)
+        {
+            if (name == null) name = "";
+            if (thang == 0) thang = DateTime.Now.Month;
+            if (nam == 0) nam = DateTime.Now.Year;
+            DateTime start = DateServices.GetFirstDayOfMonth(thang, nam);
+            DateTime end = DateServices.GetLastDayOfMonth(thang, nam);
+            var query = (from a in context.CongViecs
+                         join b in context.NguoiTuyenDungs on a.Idnguoituyendung equals b.Id
+                         where (a.Name.Contains(name) && a.Timework >= start && a.Timework <= end && a.State == state)
+                         select new CongViecVIEW
+                         {
+                             Id = a.Id,
+                             Idnguoituyendung = a.Idnguoituyendung,
+                             Name = a.Name,
+                             Alias = a.Alias,
+                             Mintuoi = a.Mintuoi,
+                             Maxtuoi = a.Maxtuoi,
+                             Timework = a.Timework,
+                             Location = a.Location,
+                             Address = a.Address,
+                             Salary = a.Salary,
+                             Note = a.Note,
+                             State = a.State,
+                             tennguoituyendung=b.Name,
+                             TimeworkS = a.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
+                             finish = a.Finish.Value,
+                             finishS = a.Finish.Value.ToString("dd/MM/yyyy hh:mm"),
+                         }).ToList();
+            if (!string.IsNullOrEmpty(name) && name != "")
+            {
+                query = query.Where(x => x.Name.Contains(name)).ToList();
+            }
+            total = query.Count();
+
+            if (size > 0 && index > 0)
+            {
+                query = query.Skip((index - 1) * size).Take(size).ToList();
+            }
+            return query;
+        }
+        
     }
 }

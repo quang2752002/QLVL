@@ -21,5 +21,6 @@
         public string sdt { get; set; }
         public DateTime finish{ get; set; }
         public string finishS { get; set; }
+      
     }
 }

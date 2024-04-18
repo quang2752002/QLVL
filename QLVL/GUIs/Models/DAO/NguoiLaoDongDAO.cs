@@ -2,6 +2,7 @@
 using GUIs.Models.EF;
 using GUIs.Models.VIEW;
 using System.Drawing;
+using System.Xml.Linq;
 
 namespace GUIs.Models.DAO
 {
@@ -251,6 +252,32 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
+        public NguoiLaoDongVIEW getLaoDongByIdUngTuyen(int id)
+        {
+            var query = (from a in context.NguoiLaoDongs
+                         join b in context.UngTuyens on a.Id equals b.Idnguoilaodong
+                         join c in context.CongViecs on b.Idcongviec equals c.Id
+                         where b.Id==id
+                         select new NguoiLaoDongVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+                             Sex = a.Sex,
+                             Age = DateTime.Now.Year - a.Birthday.Value.Year,
+                             Birthday = a.Birthday,
+                             Heath = a.Heath,
+                             Phone = a.Phone,
+                             Email = a.Email,
+                             Code = a.Code,
+                             Fanpage = a.Fanpage,
+                             Image = a.Image,
+                             Introduce = a.Introduce,
+                             Address = a.Address,
+                             tencongviec=c.Name
+                         }).FirstOrDefault();
+            return query;
+        }
+       
     }
 
 }

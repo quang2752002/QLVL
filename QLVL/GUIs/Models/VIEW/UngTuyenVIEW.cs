@@ -22,5 +22,6 @@
         public string diachi {  get; set; }
         public string timeworkS {  get; set; }
         public string email { get; set; }
+        public string tencongviec { get; set; }
     }
 }

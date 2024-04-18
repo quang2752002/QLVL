@@ -100,7 +100,10 @@
                             html += "</div>";
                             html += "<div class='mx-auto pb-4'>"
                             html += "<ul class='icons' >";
-                            html += "<li><a href='/NguoiTuyenDung/Home/NguoiLaoDong/" + a.id + "' class='btn btn-primary'> Danh Sách Ứng tuyển</a></li>";
+                            html += "<li><a href='/NguoiTuyenDung/Home/NguoiLaoDong/" + a.id + "' class='btn btn-primary'> DS Lao Động</a></li>";
+                            if (a.state == 1) {
+                                html += "<li><button id='hoanthanh-" + a.id + "' onclick='nguoituyendung.hoanthanh(" + a.id + "); ' class='btn btn-success'>Xác nhận hoàn thành</button></li>";
+                            }
                             html += "</ul>";
                             html += "</div>"
                             html += "</div>";
@@ -110,6 +113,20 @@
                         $("#tbData").html(html);
                         $("#pages").html(res.page);
                         $("#loading").hide();
+                    },
+                });
+            },
+            hoanthanh: function (id) {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiTuyenDung/Home/HoanThanhCongviec/' + id,
+                    success: function (res) {
+
+                        alert(res.mess);
+                        nguoituyendung.search();
                     },
                 });
             },

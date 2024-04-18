@@ -308,7 +308,7 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             var cv = congviec.getCongViecUngTuyen(id);
             UngTuyenDAO ungTuyenDAO= new UngTuyenDAO();
             
-	       f(ungTuyenDAO.CheckDuyetHoSo(IdNguoiLaoDong,cv.Timework,cv.finish)==true){
+	       if(ungTuyenDAO.CheckDuyetHoSo(IdNguoiLaoDong,cv.Timework,cv.finish)==true){
             var item = ungTuyenDAO.getItem(id);
             item.Apply = 1;
             ungTuyenDAO.InsertOrUpdate(item);
@@ -372,6 +372,14 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
            
             return Json(new { mess = mess });
         }
+        [HttpGet]
+        public JsonResult getLaoDongByIdUngTuyen()
+        {
+            int id = HttpContext.Session.GetInt32(DANH_GIA) ?? 0;
+            NguoiLaoDongDAO nguoiLaoDongDAO = new NguoiLaoDongDAO();
+            var query = nguoiLaoDongDAO.getLaoDongByIdUngTuyen(id);
+            return Json(new { data = query});
+        }
         public IActionResult Edit()
         {
            
@@ -408,16 +416,52 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             HttpContext.Session.SetInt32(LIST_DANH_GIA, id);
             return View();
         }
-        [HttpPost]
-        public JsonResult DanhSachDanhGia(int index, int size)
+        [HttpGet]
+        public JsonResult DanhSachDanhGia(int id)
         {
             UngTuyenDAO ungTuyen = new UngTuyenDAO();
             int total = 0;
-            int id = HttpContext.Session.GetInt32(LIST_DANH_GIA) ?? 0;
-            var query = ungTuyen.ListDanhgia(out total,id,index,size);
-            string page = Support.Support.InTrang(total, index, size);
+            int idld = HttpContext.Session.GetInt32(LIST_DANH_GIA) ?? 0;
+            var query = ungTuyen.ListDanhgia(out total, idld, id,4);
+            string page = Support.Support.InTrang(total, id, 4);
             return Json(new { data = query, page = page });
         }
+        [HttpPost]
+        public JsonResult HoanThanhCongviec(int id)
+        {
+            string mess = "";
+            CongViecDAO congViecDAO = new CongViecDAO();
+            var item = congViecDAO.getItem(id);
+            if (item.Timework>DateTime.Now)
+            {
+                mess = "Thời gian làm việc chưa bắt đầu";
+            }
+            else
+            {
+                item.State = 2;
+                congViecDAO.InsertOrUpdate(item);
+                List<int> rs = new List<int>();
+                UngTuyenDAO ungTuyenDAO= new UngTuyenDAO();
+                rs=ungTuyenDAO.getIdUngTuyenByIdCongViec(id);
+                if(rs.Count>0)
+                {
+                    foreach(int i in rs)
+                    {
+                        var x = ungTuyenDAO.getItem(i);
+                        x.Apply = 3;
+                        ungTuyenDAO.InsertOrUpdate(x);
+                    }
+                    mess = "Đã xác nhận hoàn thành công việc";
+                }
+                else
+                {
+                    mess = "Không có lao động đăng kí công việc";
+                }
+            }
+            return Json(new { mess = mess });
+        }
+
+
     }
 
 }

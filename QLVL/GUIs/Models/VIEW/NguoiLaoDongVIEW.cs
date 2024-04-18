@@ -17,5 +17,6 @@
         public string? Address { get; set; }
         public int congviechoanthanh { get; set; }
         public string guid { get; set; }
+        public string tencongviec { set; get; }
     }
 }

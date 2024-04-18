@@ -9,6 +9,60 @@
 </div>
 <form class="user">
     <div class="form-group">
+        <div class="row">
+            <div style="text-align:center" >
+               
+                <img src="" id="image" />
+            </div>
+        </div>
+        <br />
+       <div class="row">
+           
+           <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="exampleFormControlInput1" class="">Tên công việc </label>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="exampleFormControlInput1" class="" id="tencongviec"></label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="exampleFormControlInput1" class="">Người lao động</label>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="exampleFormControlInput1" class="" id="name"></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="exampleFormControlInput1" class="">Tuổi</label>
+                    </div>
+                    <div class="col-md-5">
+
+                        <label for="exampleFormControlInput1" class="" id="age"></label>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="exampleFormControlInput1" class="">Địa chỉ </label>
+
+                    </div>
+                    <div class="col-md-5">
+                        <label for="exampleFormControlInput1" class="" id="address"></label>
+                    </div>
+                </div>
+
+
+           </div>
+       </div>
+
+    </div>
+    <hr />
+    <div class="form-group">
         <label for="exampleFormControlInput1" class="form-label">ĐÁNH GIÁ SAO  </label>
         <style>
             .anh {
@@ -40,7 +94,7 @@
         var sosao = 5;
         var nguoituyendung = {
             init: function () {
-
+                nguoituyendung.getLaoDongByIdCongViec();
                 $("#danhgia").click(function () {
                     nguoituyendung.danhgia();
                 });
@@ -107,6 +161,26 @@
                 });
             },
 
+            getLaoDongByIdCongViec: function () {
+
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiTuyenDung/Home/getLaoDongByIdUngTuyen/',
+                    success: function (res) {
+
+                        $("#image").attr("src", res.data.image);
+                        $("#tencongviec").text(res.data.tencongviec);
+                        $("#name").text(res.data.name);
+                        $("#age").text(res.data.age);
+                        $("#address").text(res.data.address);
+                       
+
+                    },
+                });
+            },
         };
 
         nguoituyendung.init();

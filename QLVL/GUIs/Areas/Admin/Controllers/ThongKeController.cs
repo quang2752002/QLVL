@@ -1,6 +1,9 @@
 ﻿using GUIs.Helper;
 using GUIs.Models.DAO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Drawing.Printing;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GUIs.Areas.Admin.Controllers
 {
@@ -47,13 +50,7 @@ namespace GUIs.Areas.Admin.Controllers
             string page = Support.Support.InTrang(total, index, size);
             return Json(new { data = query, page = page });
         }
-        public ActionResult Chart()
-        {
-            ViewBag.Month = DataServices.Months();
-            ViewBag.Year = DataServices.Year();
-       
-            return View();
-        }
+        
         [HttpPost]
         public JsonResult BieuDo(int month,int year)
         {
@@ -65,6 +62,28 @@ namespace GUIs.Areas.Admin.Controllers
 
             string[] list = listname.ToArray();
             return Json(new { data = text.ToArray(), max = imax,list=list });
+        }
+        public IActionResult CongViec()
+        {
+            ViewBag.Pagesize = DataServices.Pagesize();
+            ViewBag.Year = DataServices.Year();
+            ViewBag.Month = DataServices.Months();
+            return View();
+        }
+        [HttpPost]
+        public JsonResult ShowlistCongViec(string name = "", int thang = 0, int nam = 0,int status=1, int index = 1, int size = 10)
+        {
+            CongViecDAO x = new CongViecDAO();
+            int total = 0;
+            var query = x.ShowList(out total,name, thang, nam,status, index, size);
+            string page = Support.Support.InTrang(total, index, size);
+            return Json(new { data = query, page = page });
+        }
+        public JsonResult getNguoiLaoDong(int id)
+        {
+            UngTuyenDAO ungTuyenDAO = new UngTuyenDAO();
+            var query = ungTuyenDAO.getListLaoDongByIdCongViec(id);
+            return Json(new { data = query });
         }
     }
 }

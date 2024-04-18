@@ -10,6 +10,48 @@
 </div>
 <form class="user">
     <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+            <label for="exampleFormControlInput1" class="form-label">Tên công việc </label>
+            </div>
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label" id="name"></label>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Người tuyển dụng </label>
+            </div>
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label" id="tennguoituyendung"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Thời gian</label>
+            </div>
+            <div class="col-md-6">
+              
+                <label for="exampleFormControlInput1" class="form-label" id="timeworkS"></label>
+                <label for="exampleFormControlInput1" class="form-label" > - </label>
+                <label for="exampleFormControlInput1" class="form-label" id="finishS"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Địa chỉ </label>
+            </div>
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label" id="address"></label>
+            </div>
+        </div>
+
+       
+      
+    </div>
+    <hr />
+    <div class="form-group">
         <label for="exampleFormControlInput1" class="form-label">ĐÁNH GIÁ SAO  </label>
        <style>
            .anh{
@@ -40,7 +82,7 @@
         var sosao = 5;
         var nguoilaodong = {
             init: function () {
-              
+                nguoilaodong.getCongViecById();
                 $("#danhgia").click(function () {
                     nguoilaodong.danhgia();
                 });
@@ -106,6 +148,26 @@
                     },
                 });
             },
+            getCongViecById: function () {
+                            
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+
+                    url: '/NguoiLaoDong/Home/getLaoDongByIdUngTuyen/',
+                    success: function (res) {
+                       
+                        $("#name").text(res.data.name);
+                        $("#tennguoituyendung").text(res.data.tennguoituyendung);
+                        $("#timeworkS").text(res.data.timeworkS);
+                        $("#finishS").text(res.data.finishS);
+                        $("#address").text(res.data.address);
+                    },
+                });
+            },
+
 
            
         };

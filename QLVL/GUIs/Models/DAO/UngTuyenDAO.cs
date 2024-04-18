@@ -165,8 +165,8 @@ namespace GUIs.Models.DAO
                          join b in context.CongViecs on a.Idcongviec equals b.Id
                          join c in context.NguoiLaoDongs on a.Idnguoilaodong equals c.Id
                          where (c.Id == IdNguoiLaoDong &&
-                                ((b.Timework <= start && b.Finish >= start) || (end >= b.Timework && end <= b.Finish)) &&
-                                (a.Apply == 1||a.Apply==2||a.Apply==3))
+                                (((b.Timework <= start && b.Finish >= start) || (end >= b.Timework && end <= b.Finish)) &&
+                                (a.Apply == 1||a.Apply==2)))
                          select new UngTuyenVIEW
                          {
                              Id = a.Id,
@@ -196,7 +196,8 @@ namespace GUIs.Models.DAO
                              Nhanxetlaodong = a.Nhanxetlaodong,
                              Tennguoilaodong=b.Name,
                              image=b.Image,
-                             Nguoituyendung=d.Name
+                             Nguoituyendung=d.Name,
+                             tencongviec=c.Name
                          }).ToList();
 
             total = query.Count();
@@ -246,6 +247,42 @@ namespace GUIs.Models.DAO
             if (query.Danhgialaodong == null && query.Nhanxetlaodong == null)
                 return true;
             return false;
+        }
+        public List<UngTuyenVIEW> getListLaoDongByIdCongViec(int id)
+        {
+            var query = (from a in context.UngTuyens
+                         join b in context.CongViecs on a.Idcongviec equals b.Id
+                         join c in context.NguoiLaoDongs on a.Idnguoilaodong equals c.Id
+                         where b.Id == id && (a.Apply == 1 || a.Apply == 2 || a.Apply == 3)
+                         select new UngTuyenVIEW
+                         {
+                             Id = a.Id,
+                             Idcongviec = a.Idcongviec,
+                             Idnguoilaodong = a.Idnguoilaodong,
+                             phone=c.Phone,
+                             Salary = a.Salary,
+                             Apply = a.Apply,
+                             diachi=c.Address,
+                             Tennguoilaodong = b.Name,
+                             image = c.Image,
+
+                         }).ToList();
+            return query;
+        }
+        public List<int> getIdUngTuyenByIdCongViec(int idcongviec)
+        {
+            var query = (from a in context.UngTuyens
+                         where a.Idcongviec == idcongviec &&(a.Apply==1 || a.Apply==2)
+                         select new UngTuyenVIEW
+                         {
+                             Id=a.Id
+                         }).ToList();
+            List<int> result = new List<int>();
+            foreach (var a in query)
+            {
+                result.Add(a.Id);
+            }
+            return result;
         }
     }
 }
