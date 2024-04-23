@@ -18,7 +18,7 @@ namespace GUIs.Areas.Admin.Controllers
         {
             NguoiTuyenDungDAO x = new NguoiTuyenDungDAO();
             int total = 0;
-            var query = x.Search(name,thang,nam, out total, index, size);
+            var query = x.getList(name,out total, index, size);
             string page = Support.Support.InTrang(total, index, size);
             return Json(new { data = query, page = page });
         }

@@ -100,7 +100,7 @@ namespace GUIs.Models.DAO
             var query = (from a in context.NguoiLaoDongs
                          join b in context.UngTuyens on a.Id equals b.Idnguoilaodong
                          join c in context.CongViecs on b.Idcongviec equals c.Id
-                         where b.Apply == 1 && b.Date >= start && b.Date <= end // Filter for completed jobs within the specified month and year
+                         where (b.Apply == 1 || b.Apply == 2 || b.Apply == 3) && b.Date >= start && b.Date <= end // Filter for completed jobs within the specified month and year
                          group b by new { a.Id, a.Name, a.Sex, a.Birthday, a.Heath, a.Phone, a.Email, a.Code, a.Fanpage, a.Image, a.Introduce, a.Address } into grouped
                          select new NguoiLaoDongVIEW
                          {
@@ -117,7 +117,7 @@ namespace GUIs.Models.DAO
                              Image = grouped.Key.Image,
                              Introduce = grouped.Key.Introduce,
                              Address = grouped.Key.Address,
-                             congviechoanthanh = grouped.Sum(x => x.Apply).Value
+                             congviechoanthanh = grouped.Count() // Count completed jobs
                          }).ToList();
 
             total = query.Count();
@@ -128,6 +128,8 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
+
+
         public void Detele(int id)
         {
             NguoiLaoDong x = getItem(id);
@@ -277,6 +279,7 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query;
         }
+       
        
     }
 

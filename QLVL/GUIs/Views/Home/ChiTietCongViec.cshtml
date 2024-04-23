@@ -95,7 +95,7 @@
 
             <div class="col-lg-4">
                 <div class="bg-light rounded p-5 mb-4 wow slideInUp"
-                     data-wow-delay="0.1s">
+                     data-wow-delay="0.1s" hidden>
                     <h4 class="mb-4">Job Summery</h4>
                     <p>
                         <i class="fa fa-angle-right text-primary me-2"></i>Published
@@ -124,8 +124,8 @@
                 </div>
                 <div class="bg-light rounded p-5 wow slideInUp"
                      data-wow-delay="0.1s">
-                    <h4 class="mb-4">Company Detail</h4>
-                    <p class="m-0">
+                    <h4 class="mb-4">Mô tả chi tiết công việc</h4>
+                    <p class="m-0" id="motaS">
                         Ipsum dolor ipsum accusam stet et et diam dolores, sed rebum
                         sadipscing elitr vero dolores. Lorem dolore elitr justo et no
                         gubergren sadipscing, ipsum et takimata aliquyam et rebum est
@@ -168,7 +168,7 @@
                         $("#finish").text(res.data.finishS);
                         $("#address").text(res.data.address);
                         $("#addressS").text(res.data.address);
-
+                        $("#motaS").text(res.data.note);
                         $("#salary").text(res.data.salary + " VND");
 
                         $("#salaryS").text(res.data.salary+" VND");

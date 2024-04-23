@@ -17,16 +17,16 @@
             <div class="col-md-2">
                 @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
             </div>
-            <div class="col-md-2">
+            <div hidden class="col-md-2">
                 <span>Số dòng/trang</span>
             </div>
-            <div class="col-md-2">
+            <div hidden class="col-md-2">
                 @Html.DropDownList("thang", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
             </div>
-            <div class="col-md-2">
+            <div hidden class="col-md-2">
                 <span>Số dòng/trang</span>
             </div>
-            <div class="col-md-2">
+            <div hidden class="col-md-2">
                 @Html.DropDownList("nam", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
             </div>
         </div>
@@ -51,7 +51,7 @@
                     <th>
                         Địa chỉ
                     </th>
-                    <th>Số công việc đăng tuyển </th>
+                   
                     
                 </tr>
             </thead>
@@ -115,7 +115,7 @@
                             html += "<td>" + a.email + "</td>";
                             html += "<td>" + a.sdt + "</td>";
                             html += "<td>" + a.diachi + "</td>";
-                            html += "<td>" + a.congviechoanthanh + "</td>";
+                          
                             
                             html += "</tr>";
                         });

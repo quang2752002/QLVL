@@ -20,7 +20,7 @@ namespace GUIs.Areas.Admin.Controllers
             NguoiLaoDongDAO x = new NguoiLaoDongDAO();
 
             int total = 0;
-            var query = x.getList(out total,name, thang, nam,index,size);
+            var query = x.ShowList(out total,name,index,size);
             string page = Support.Support.InTrang(total, index, size);
             return Json(new { data = query, page = page });
         }

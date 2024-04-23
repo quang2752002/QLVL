@@ -263,7 +263,7 @@ namespace GUIs.Models.DAO
                              Salary = a.Salary,
                              Apply = a.Apply,
                              diachi=c.Address,
-                             Tennguoilaodong = b.Name,
+                             Tennguoilaodong = c.Name,
                              image = c.Image,
 
                          }).ToList();
