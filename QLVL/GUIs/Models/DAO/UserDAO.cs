@@ -107,5 +107,21 @@ namespace GUIs.Models.DAO
                 return query.Id;
             return -1;
         }
+        public Boolean CheckDangKy(string username)
+        {
+            var query = (from a in context.Users
+                         where (a.Email == username ||  a.Username == username)
+                         select new UserVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+
+                           
+
+                         }).FirstOrDefault();
+            if (query != null)
+                return false;
+            return true;
+        }
     }
 }

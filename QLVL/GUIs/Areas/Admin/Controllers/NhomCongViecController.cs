@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GUIs.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class NhomCongViecController : Controller
+    public class NhomCongViecController : BaseAdminController
     {
         public IActionResult Index()
         {

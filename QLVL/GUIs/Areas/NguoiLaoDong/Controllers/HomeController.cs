@@ -11,7 +11,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace GUIs.Areas.NguoiLaoDong.Controllers
 {
     [Area("NguoiLaoDong")]
-    public class HomeController : Controller
+    public class HomeController : BaseNLDController
     {
         private const string ID_CV = "ID_CV";
         private const string DANH_GIA_CV = "DANH_GIA_CV";
@@ -46,10 +46,6 @@ namespace GUIs.Areas.NguoiLaoDong.Controllers
             ViewBag.Login = link;
             return View();
         }
-       
-       
-       
-       
         public IActionResult Danhsachcongviec()
         {
             ViewBag.Pagesize = DataServices.Pagesize();
@@ -284,12 +280,24 @@ namespace GUIs.Areas.NguoiLaoDong.Controllers
            return View();
 
         }
-        public JsonResult ThayDoiMatKhau(string password,string newpassword)
+        [HttpPost]
+        public JsonResult ThayDoiMatKhau(string username,string password,string newpassword)
         {
+            string mess = "Thông tin không chính xác";
             NguoiLaoDongDAO nguoiLaoDongDAO = new NguoiLaoDongDAO();
-            int idnguoilaodong = DataServices.getUserId(HttpContext);
-            var item=nguoiLaoDongDAO.getItem(idnguoilaodong);
-            return Json(new { });
+            
+            string matkhau = Support.Support.HashPassword(password);
+            if (nguoiLaoDongDAO.ChangePassword(username, matkhau) != -1)
+            {
+                int idnguoilaodong = DataServices.getUserId(HttpContext);
+                var item = nguoiLaoDongDAO.getItem(idnguoilaodong);
+                string matkhaumoi= Support.Support.HashPassword(newpassword);
+                item.Password = matkhaumoi;
+                nguoiLaoDongDAO.InsertOrUpdate(item);
+                mess = "Đổi mật khẩu thành công";
+            }
+           
+            return Json(new { mess=mess});
         }
     }
 }

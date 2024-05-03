@@ -15,7 +15,7 @@
         <div class="container-fluid p-0" >
             <div class="owl-carousel header-carousel position-relative">
                 <div class="owl-carousel-item position-relative">
-                    <img class="img-fluid" style=" object-fit: contain;" src="https://scontent-hkg1-1.xx.fbcdn.net/v/t39.30808-6/435693725_395679236569804_5083697214391141244_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=apJl3FPvnL8Ab6J4sCs&_nc_ht=scontent-hkg1-1.xx&oh=00_AfC7jT0v6PrCerD90-XlN_QI4AVe5hOeX3A7GwrW9CKnrw&oe=66267AB7" alt="">
+                    <img class="img-fluid" style=" object-fit: contain;" src="https://agencyvn.com/wp-content/uploads/2022/07/hinh-anh-tuyen-dung-dep-chuyen-nghiep-an-tuong.jpg" alt="">
                     <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
                         <div class="container">
                             <div class="row justify-content-start">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="owl-carousel-item position-relative">
-                    <img class="img-fluid" src="https://scontent-hkg1-1.xx.fbcdn.net/v/t39.30808-6/435693725_395679236569804_5083697214391141244_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=apJl3FPvnL8Ab6J4sCs&_nc_ht=scontent-hkg1-1.xx&oh=00_AfC7jT0v6PrCerD90-XlN_QI4AVe5hOeX3A7GwrW9CKnrw&oe=66267AB7" alt="">
+                    <img class="img-fluid" src="https://agencyvn.com/wp-content/uploads/2022/07/hinh-anh-tuyen-dung-dep-chuyen-nghiep-an-tuong.jpg" alt="">
                     <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
                         <div class="container">
                             <div class="row justify-content-start">
@@ -88,19 +88,38 @@
 
                     @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
                 </div>
-                <div class="col-md-2">
-                    <span>Tháng</span>
+               
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-4 ">
+                          
+                        </div>
+                        <div class="col-md-4 ">
+                            <span>Tháng</span>
+                        </div>
+                        <div class="col-md-4">
+                           @Html.DropDownList("Month", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                   
+                   
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("Month", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-4 ">
+                        </div>
+                        <div class="col-md-4 ">
+                            <span>Năm</span>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("Year", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
                 </div>
 
-                <div class="col-md-2">
-                    <span>Năm</span>
-                </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("Year", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
-                </div>
+             
 
             </div>
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using System.Net.Mail;
 using System.Net;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 using testLib;
 using Microsoft.AspNetCore.Http;
 namespace GUIs.Controllers
@@ -22,7 +22,8 @@ namespace GUIs.Controllers
         public JsonResult DangNhap(string username, string password)
         {
             NguoiTuyenDungDAO nguoiTuyenDung = new NguoiTuyenDungDAO();
-            int x = nguoiTuyenDung.Login(username, password);
+            string matkhau=Support.Support.HashPassword(password);  
+            int x = nguoiTuyenDung.Login(username, matkhau);
             string router = "";
             string mess = "Đăng nhập không thành công";
             bool status = false;
@@ -35,7 +36,8 @@ namespace GUIs.Controllers
             }
             else
             {
-                x = new NguoiLaoDongDAO().Login(username, password);
+                string ma = Support.Support.HashPassword(password);
+                x = new NguoiLaoDongDAO().Login(username, ma);
                 if (x != -1)
                 {
                     HttpContext.Session.SetInt32(CustomeCommon.USER_ID, x);
@@ -45,9 +47,11 @@ namespace GUIs.Controllers
                 }
                 else
                 {
-                    x = new UserDAO().Login(username,password);
+                    string pass = Support.Support.HashPassword(password);
+                    x = new UserDAO().Login(username,pass);
                     if(x!=-1)
                     {
+                      
                         HttpContext.Session.SetInt32(CustomeCommon.USER_ID, x);
                         router = "Admin";
                         HttpContext.Session.SetString(CustomeCommon.ROUTER, router);
@@ -64,72 +68,80 @@ namespace GUIs.Controllers
         }
         public JsonResult Dangky(string name,string phone, string address,string email,string username ,string password,string state)
         {
+            NguoiTuyenDungDAO nguoiTuyenDung = new NguoiTuyenDungDAO();
+            NguoiLaoDongDAO nguoiLaoDong = new NguoiLaoDongDAO();
+            UserDAO userDAO = new UserDAO();
             bool _state = true;
             string mess = "";
-            if(state=="nld")
+            if(state=="ngld")
             {
-                
-                NguoiLaoDongDAO nguoiLaoDong = new NguoiLaoDongDAO();
-                if (nguoiLaoDong.CheckDangKy(phone))
-                {
-                    mess = "Số điện thoại đã được sử dụng";
-                    _state = false;
-                }
-                if (nguoiLaoDong.CheckDangKy(email))
-                {
-                    mess += "Email đã được sử dụng";
-                    _state = false;
-                }
-                if (nguoiLaoDong.CheckDangKy(username))
-                {
-                    mess += "Username đã được sử dụng";
-                    _state = false;
-                }
+
+
+                //if (nguoiLaoDong.CheckDangKy(phone)==true|| nguoiTuyenDung.CheckDangky(phone)==true)
+                //{
+                //    mess = "Số điện thoại đã được sử dụng ";
+                //    _state = false;
+                //}
+                //if (nguoiLaoDong.CheckDangKy(email)==true|| nguoiTuyenDung.CheckDangky(email)==true || userDAO.CheckDangKy(email)==true)
+                //{
+                //    mess += "Email đã được sử dụng ";
+                //    _state = false;
+                //}
+                //if (nguoiLaoDong.CheckDangKy(username)==true || nguoiTuyenDung.CheckDangky(username)==true || userDAO.CheckDangKy(username)==true)
+                //{
+                //    mess += "Username đã được sử dụng ";
+                //    _state = false;
+                //}
 
                 if (_state)
                 {
+                    string matkhau=Support.Support.HashPassword(password);
                     NguoiLaoDong item = new NguoiLaoDong();
                     item.Name = name;       
                     item.Phone = phone;
                     item.Address = address;
                     item.Email = email;
                     item.Username = username;
-                    item.Password = password;
-
+                    item.Password = matkhau;
+                    
                     nguoiLaoDong.InsertOrUpdate(item);
+                    mess = "Đăng ký thành công";
                 }           
             }
-            else
+            if(state == "ngtd")
             {
-                NguoiTuyenDungDAO nguoiTuyenDung = new NguoiTuyenDungDAO();
-                
-                if (nguoiTuyenDung.CheckDangky(username) ) { 
-                    _state = false;
-                    mess = "";
-                }
-                if (nguoiTuyenDung.CheckDangky(email))
-                {
-                    _state = false;
-                    mess = "";
-                }
-                if (nguoiTuyenDung.CheckDangky(phone))
-                {
-                    _state = false;
-                    mess = "";
-                }
+
+
+                //if (nguoiLaoDong.CheckDangKy(phone)==true|| nguoiTuyenDung.CheckDangky(phone)==true)
+                //{
+                //    mess = "Số điện thoại đã được sử dụng";
+                //    _state = false;
+                //}
+                //if (nguoiLaoDong.CheckDangKy(email)==true|| nguoiTuyenDung.CheckDangky(email)==true|| userDAO.CheckDangKy(email)==true)
+                //{
+                //    mess += "Email đã được sử dụng";
+                //    _state = false;
+                //}
+                //if (nguoiLaoDong.CheckDangKy(username)==true || nguoiTuyenDung.CheckDangky(username)==true || userDAO.CheckDangKy(username)==true)
+                //{
+                //    mess += "Username đã được sử dụng";
+                //    _state = false;
+                //}
                 if (_state)
                 {
+                    string matkhau = Support.Support.HashPassword(password);
                     NguoiTuyenDung item=new NguoiTuyenDung();
                     item.Name = name;
                     item.Sdt = phone;
                     item.Diachi = address;
                     item.Email = email;
                     item.Username = username;
-                    item.Password = password;
+                    item.Password = matkhau;
                     nguoiTuyenDung.InsertOrUpdate(item);
+                    mess = "Đăng ký thành công";
                 }
             }
-           return Json(new { mess = mess,state =_state });
+           return Json(new { mess = mess,trangthai =_state });
         }
         public IActionResult Forget()
         {

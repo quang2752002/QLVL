@@ -18,7 +18,7 @@ using System.Globalization;
 namespace GUIs.Areas.NguoiTuyenDung.Controllers
 {
     [Area("NguoiTuyenDung")]
-    public class HomeController :Controller
+    public class HomeController : BaseNguoiTuyenDungController
     {
         private const string ID_CONGVIEC = "ID_CONGVIEC";
         private const string DANH_GIA = "DANH_GIA";
@@ -460,7 +460,30 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             }
             return Json(new { mess = mess });
         }
+        public IActionResult ChangePassWord()
+        {
+            return View();
 
+        }
+        [HttpPost]
+        public JsonResult ThayDoiMatKhau(string username, string password, string newpassword)
+        {
+            string mess = "Thông tin không chính xác";
+            NguoiTuyenDungDAO ntd = new NguoiTuyenDungDAO();
+
+            string matkhau = Support.Support.HashPassword(password);
+            if (ntd.ChangePassword(username, matkhau) != -1)
+            {
+                int id = DataServices.getUserId(HttpContext);
+                var item = ntd.getItem(id);
+                string matkhaumoi = Support.Support.HashPassword(newpassword);
+                item.Password = matkhaumoi;
+                ntd.InsertOrUpdate(item);
+                mess = "Đổi mật khẩu thành công";
+            }
+
+            return Json(new { mess = mess });
+        }
 
     }
 

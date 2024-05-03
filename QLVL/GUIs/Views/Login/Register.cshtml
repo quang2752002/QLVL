@@ -120,14 +120,14 @@
                 }
                 var form = new FormData()
                 form.append("name", name);              
-                form.append("birthday", birthday);
+               
                 form.append("phone", phone);
                 form.append("address", address);
                 form.append("email", email);
                 form.append("username", username);
                 form.append("password", password);
                 form.append("state", state);
-                $("#loading").show();
+              
                 $.ajax({
                     type: 'POST',
                     dataType: 'Json',
@@ -136,13 +136,14 @@
                     data: form,
                     url: '/Login/Dangky/',
                     success: function (res) {
-                        if (res.sate) {
-                          window.location.href="/Login/Index"
+                        if (res.trangthai) {
+                            alert(res.mess);
+                            window.location.href = "/Login/Index/";
                         }
                         else {
-                           alert("Đăng ký không thành công")
+                            alert(res.mess);
                         }
-                        $("#loading").hide();
+                       
                     },
                     error: function () { 
                     

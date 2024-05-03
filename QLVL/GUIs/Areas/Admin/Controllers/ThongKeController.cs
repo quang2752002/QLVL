@@ -8,7 +8,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace GUIs.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ThongKeController : Controller
+    public class ThongKeController : BaseAdminController
     {
         public IActionResult Index()
         {

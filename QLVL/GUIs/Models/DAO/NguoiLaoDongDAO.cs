@@ -189,7 +189,7 @@ namespace GUIs.Models.DAO
                              Image = a.Image,
                              Introduce = a.Introduce,
                              Address = a.Address,
-                         }).ToList();
+                         }).FirstOrDefault();
             if (query != null)
                 return false;
             return true;      
@@ -279,8 +279,32 @@ namespace GUIs.Models.DAO
                          }).FirstOrDefault();
             return query;
         }
-       
-       
+        public int ChangePassword(string username,string password)
+        {
+            var query = (from a in context.NguoiLaoDongs
+                         where a.Username==username&&a.Password==password
+                         select new NguoiLaoDongVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+                             Sex = a.Sex,
+                             Birthday = a.Birthday,
+                             Heath = a.Heath,
+                             Phone = a.Phone,
+                             Email = a.Email,
+                             Code = a.Code,
+                             Fanpage = a.Fanpage,
+                             Image = a.Image,
+                             Introduce = a.Introduce,
+                             Address = a.Address,
+                             Age = DateTime.Now.Year - a.Birthday.Value.Year,
+                         }).FirstOrDefault();
+            if (query == null)
+                return -1;
+            return query.Id;
+        }
+
+
     }
 
 }

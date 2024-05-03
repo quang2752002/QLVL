@@ -16,19 +16,19 @@ namespace GUIs.Controllers
             else
             {
                 string route = DataServices.getRouoter(HttpContext);
-                if (route == "NguoiTuyenDung")
+                if (route =="NguoiTuyenDung")
                 {
                     // filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "NguoiTuyenDung", area = route }));
                 }
                 else
                 {
-                    if (route == "NguoiLaoDong")
+                    if (route =="NguoiLaoDong")
                     {
                         filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "Home", area = "" }));
                     }
                     else
                     {
-                        if (route == "Admin")
+                        if (route =="Admin")
                         {
                             filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "Admin", area = route }));
                         }

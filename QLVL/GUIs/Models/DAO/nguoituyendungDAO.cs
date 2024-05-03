@@ -89,7 +89,7 @@ namespace GUIs.Models.DAO
             return query;
         }
 
-        public List<NguoiTuyenDungVIEW> Search(String name, int thang, int nam, out int total, int index = 1, int size = 10)
+        public List<NguoiTuyenDungVIEW> Search(string name, int thang, int nam, out int total, int index = 1, int size = 10)
         {
             if (name == null) name = "";
             if (thang == 0) thang = DateTime.Now.Month;
@@ -98,8 +98,8 @@ namespace GUIs.Models.DAO
             DateTime end = DateServices.GetLastDayOfMonth(thang, nam);
 
             var query = (from a in context.NguoiTuyenDungs
-                         where context.CongViecs.Any(c => c.Idnguoituyendung == a.Id && c.State == 1 && c.Timework >= start && c.Timework <= end)
-                            || context.CongViecs.Any(c => c.Idnguoituyendung == a.Id && c.State == 0 && c.Timework >= start && c.Timework <= end)
+                         let congviecdang = context.CongViecs.Count(c => c.Idnguoituyendung == a.Id && c.Timework >= start && c.Timework <= end)
+                         where congviecdang > 0
                          select new NguoiTuyenDungVIEW
                          {
                              Id = a.Id,
@@ -119,24 +119,25 @@ namespace GUIs.Models.DAO
                              Introduce = a.Introduce,
                              Congviechoanthanh = context.CongViecs.Count(c => c.Idnguoituyendung == a.Id && c.State == 1 && c.Timework >= start && c.Timework <= end),
                              Congviecchuahoanthanh = context.CongViecs.Count(c => c.Idnguoituyendung == a.Id && c.State == 0 && c.Timework >= start && c.Timework <= end),
-                         }).ToList();
-
-            // Log the intermediate results for debugging
+                             congviecdang = congviecdang
+                         });
 
             if (!string.IsNullOrEmpty(name))
             {
-                query = query.Where(x => x.Name.Contains(name)).ToList();
+                query = query.Where(x => x.Name.Contains(name));
             }
 
             total = query.Count();
 
             if (size != 0 && index != 0)
             {
-                query = query.Skip((index - 1) * size).Take(size).ToList();
+                query = query.Skip((index - 1) * size).Take(size);
             }
 
-            return query;
+            return query.ToList();
         }
+
+
 
 
         public void Detele(int id)
@@ -196,6 +197,42 @@ namespace GUIs.Models.DAO
                 return false;
             return true;
         }
-	
+        public int ChangePassword(string username, string password)
+        {
+            var query = (from a in context.NguoiTuyenDungs
+                         where a.Username == username && a.Password == password
+                         select new NguoiLaoDongVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+                            
+                             Fanpage = a.Fanpage,
+                             Image = a.Image,
+                             Introduce = a.Introduce,
+                           
+                            
+                         }).FirstOrDefault();
+            if (query == null)
+                return -1;
+            return query.Id;
+        }
+        public Boolean CheckDangKy(string username)
+        {
+            var query = (from a in context.NguoiTuyenDungs
+                         where (a.Email == username || a.Sdt == username || a.Username == username)
+                         select new NguoiTuyenDungVIEW
+                         {
+                             Id = a.Id,
+                             Name = a.Name,
+                            
+                             Fanpage = a.Fanpage,
+                             Image = a.Image,
+                             Introduce = a.Introduce,
+                            
+                         }).FirstOrDefault();
+            if (query != null)
+                return false;
+            return true;
+        }
     }
 }

@@ -18,6 +18,7 @@
         public string? Image { get; set; }
         public string? Introduce { get; set; }
         public int? Congviechoanthanh { set; get; }   
-        public int? Congviecchuahoanthanh {  get; set; } 
+        public int? Congviecchuahoanthanh {  get; set; }
+        public int congviecdang { set; get; }
     }
 }

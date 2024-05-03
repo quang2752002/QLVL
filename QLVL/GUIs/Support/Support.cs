@@ -104,5 +104,6 @@ namespace GUIs.Support
                 return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             }
         }
+
     }
 }

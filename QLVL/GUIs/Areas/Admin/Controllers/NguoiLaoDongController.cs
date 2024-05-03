@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GUIs.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class NguoiLaoDongController : Controller
+    public class NguoiLaoDongController : BaseAdminController
     {
         public IActionResult Index()
         {

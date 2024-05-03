@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace GUIs.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class HomeController : Controller
+    public class HomeController : BaseAdminController
     {
         public IActionResult Index()
         {

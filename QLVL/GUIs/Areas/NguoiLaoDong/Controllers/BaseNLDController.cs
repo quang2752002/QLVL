@@ -19,7 +19,7 @@ namespace GUIs.Areas.NguoiLaoDong.Controllers
                 string route = DataServices.getRouoter(HttpContext);
                 if (route == "NguoiTuyenDung")
                 {
-                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "NguoiTuyenDung", area = route }));
+                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "Home", area = route }));
                 }
                 if (route == "NguoiLaoDong")
                 {
