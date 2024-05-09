@@ -287,12 +287,12 @@ namespace GUIs.Areas.NguoiTuyenDung.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult getListNguoiLaoDong(int index, int size)
+        public JsonResult getListNguoiLaoDong(int index, int size,int status)
         {
             UngTuyenDAO cv = new UngTuyenDAO();
             int total = 0;
             int id = HttpContext.Session.GetInt32(ID_CONGVIEC)??0 ;
-            var query = cv.getListUngTuyen(out total, id, index, size);
+            var query = cv.getListUngTuyen(out total, id, index, size,status);
             string page = Support.Support.InTrang(total, index, size);
             return Json(new { data = query, page = page });
         }

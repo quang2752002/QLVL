@@ -89,14 +89,33 @@
             <h1 style="text-align:center">Danh sách lao động ứng tuyển</h1>
         </div>
         <div class="row p-2">
-            <div class="col-md-2">
-                <span>Số dòng/trang</span>
-             
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        <span>Số dòng/trang</span>
+
+                    </div>
+                    <div class="col-md-2">
+
+                        @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2">
-                
-                @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+            <div class="col-md-6">
+                <div class="col-md-6">
+                   
+                    <div class="dropdown " style="float:right">
+                        <select class="form-select" aria-label="Default select example" style="border:none;" id="status">
+                            <option selected value="1">Trạng thái </option>
+                            <option value="0">Chờ xét duyệt</option>
+                            <option value="1">Đã duyệt</option>
+                           
+                        </select>
+                    </div>
+                </div>
             </div>
+            
+
         </div>
         <div class="container" id="tbData"></div>
         <table>
@@ -116,7 +135,7 @@
         var nguoituyendung = {
             init: function () {
                 nguoituyendung.search(1);
-                $("#search, #Pagesize").change(function () {
+                $("#search, #Pagesize,#status").change(function () {
                     nguoituyendung.search(1);
                 });
                 $('#xemchitiet').on('show.bs.modal', function (event) {
@@ -131,13 +150,14 @@
                
             },
             search: function (index) {
-                var name = $("#search").val();
+                
                 var size = $("#Pagesize").val();
+                var status = $("#status").val();
                 var form = new FormData();
-                form.append("name", name);
+               
                 form.append("size", size);
                 form.append("index", index);
-
+                form.append("status", status);
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
@@ -181,7 +201,8 @@
                                        
                             if (a.apply == 0) {
                                 html += "<button id='duyeths-" + a.id + "' onclick='nguoituyendung.duyethoso(" + a.id + ")' class='btn btn-primary'>Duyệt hồ sơ</button>";
-                             } else if (a.apply == 1) {
+                               
+                             } else if (a.apply == 1||a.apply == 2||a.apply == 3) {
                                  html += "<a href='/NguoiTuyenDung/Home/Danhgia/" + a.id + "' class='btn btn-primary'>Đánh giá</a>";
                              } else if (a.apply == -1) {
                                  // Do something if apply is -1

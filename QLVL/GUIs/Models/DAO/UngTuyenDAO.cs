@@ -67,13 +67,14 @@ namespace GUIs.Models.DAO
             }
             return query;
         }
-       
-        public List<UngTuyenVIEW> getListUngTuyen(out int total,int idCv, int index = 1, int size = 10,int apply=0)
+
+        public List<UngTuyenVIEW> getListUngTuyen(out int total, int idCv, int index = 1, int size = 10, int apply = 0)
         {
+            // Bắt đầu bằng truy vấn cơ bản
             var query = (from a in context.UngTuyens
                          join b in context.CongViecs on a.Idcongviec equals b.Id
-                         join c in context.NguoiLaoDongs on a.Idnguoilaodong equals c.Id    
-                         where b.Id==idCv
+                         join c in context.NguoiLaoDongs on a.Idnguoilaodong equals c.Id
+                         where b.Id == idCv
                          select new UngTuyenVIEW
                          {
                              Id = a.Id,
@@ -82,27 +83,41 @@ namespace GUIs.Models.DAO
                              Date = a.Date,
                              Salary = a.Salary,
                              Apply = a.Apply,
-                             Tennguoilaodong=c.Name ?? "",
+                             Tennguoilaodong = c.Name ?? "",
                              timeworkS = b.Timework.Value.ToString("dd/MM/yyyy hh:mm"),
-                             sex =c.Sex.Value,
-                             heath=c.Heath??"",
-                             image=c.Image??"",
-                             phone=c.Phone??"",
-                             age=DateTime.Now.Year- c.Birthday.Value.Year,
-                             diachi=c.Address ?? ""
+                             sex = c.Sex.HasValue ? c.Sex.Value : 1,
+                             heath = c.Heath ?? "",
+                             image = c.Image ?? "",
+                             phone = c.Phone ?? "",
+                             age = DateTime.Now.Year - c.Birthday.Value.Year,
+                             diachi = c.Address ?? ""
                          }).ToList();
-            if(apply!=0)
-            {
-                query = query.Where(x=>x.Apply==apply).ToList();
-            }
+
+            // Điều chỉnh điều kiện truy vấn dựa trên giá trị của apply
+           
+                if (apply == 1)
+                {
+                    // Nếu apply = 1, lấy apply = 1, 2, 3
+                    query = query.Where(x => x.Apply == 1 || x.Apply == 2 || x.Apply == 3).ToList();
+                }
+                else
+                {
+                    // Nếu apply không phải 1, lọc theo giá trị apply cụ thể
+                    query = query.Where(x => x.Apply == apply).ToList();
+                }
+            
+
+            // Tính tổng số mục trước khi phân trang
             total = query.Count();
 
+            // Thực hiện phân trang nếu size và index hợp lệ
             if (size > 0 && index > 0)
             {
                 query = query.Skip((index - 1) * size).Take(size).ToList();
             }
             return query;
         }
+
         public void Detele(int id)
         {
             UngTuyen x = getItem(id);

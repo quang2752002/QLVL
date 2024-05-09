@@ -66,7 +66,7 @@ namespace GUIs.Controllers
         {
             return View();
         }
-        public JsonResult Dangky(string name,string phone, string address,string email,string username ,string password,string state)
+        public JsonResult Dangky(string name,string phone, string address,string email,string username ,string password,DateTime ngaysinh,string state)
         {
             NguoiTuyenDungDAO nguoiTuyenDung = new NguoiTuyenDungDAO();
             NguoiLaoDongDAO nguoiLaoDong = new NguoiLaoDongDAO();
@@ -77,21 +77,21 @@ namespace GUIs.Controllers
             {
 
 
-                //if (nguoiLaoDong.CheckDangKy(phone)==true|| nguoiTuyenDung.CheckDangky(phone)==true)
-                //{
-                //    mess = "Số điện thoại đã được sử dụng ";
-                //    _state = false;
-                //}
-                //if (nguoiLaoDong.CheckDangKy(email)==true|| nguoiTuyenDung.CheckDangky(email)==true || userDAO.CheckDangKy(email)==true)
-                //{
-                //    mess += "Email đã được sử dụng ";
-                //    _state = false;
-                //}
-                //if (nguoiLaoDong.CheckDangKy(username)==true || nguoiTuyenDung.CheckDangky(username)==true || userDAO.CheckDangKy(username)==true)
-                //{
-                //    mess += "Username đã được sử dụng ";
-                //    _state = false;
-                //}
+                if (nguoiLaoDong.CheckDangKy(phone) == false || nguoiTuyenDung.CheckDangky(phone) == false)
+                {
+                    mess = "Số điện thoại đã được sử dụng ";
+                    _state = false;
+                }
+                if (nguoiLaoDong.CheckDangKy(email) == false || nguoiTuyenDung.CheckDangky(email) == false || userDAO.CheckDangKy(email) == false)
+                {
+                    mess += "Email đã được sử dụng ";
+                    _state = false;
+                }
+                if (nguoiLaoDong.CheckDangKy(username) == false || nguoiTuyenDung.CheckDangky(username) == false || userDAO.CheckDangKy(username) == false)
+                {
+                    mess += "Username đã được sử dụng ";
+                    _state = false;
+                }
 
                 if (_state)
                 {
@@ -103,7 +103,7 @@ namespace GUIs.Controllers
                     item.Email = email;
                     item.Username = username;
                     item.Password = matkhau;
-                    
+                    item.Birthday = ngaysinh;
                     nguoiLaoDong.InsertOrUpdate(item);
                     mess = "Đăng ký thành công";
                 }           
@@ -111,22 +111,22 @@ namespace GUIs.Controllers
             if(state == "ngtd")
             {
 
+                if (nguoiLaoDong.CheckDangKy(phone) == false || nguoiTuyenDung.CheckDangky(phone) == false)
+                {
+                    mess = "Số điện thoại đã được sử dụng ";
+                    _state = false;
+                }
+                if (nguoiLaoDong.CheckDangKy(email) == false || nguoiTuyenDung.CheckDangky(email) == false || userDAO.CheckDangKy(email) == false)
+                {
+                    mess += "Email đã được sử dụng ";
+                    _state = false;
+                }
+                if (nguoiLaoDong.CheckDangKy(username) == false || nguoiTuyenDung.CheckDangky(username) == false || userDAO.CheckDangKy(username) == false)
+                {
+                    mess += "Username đã được sử dụng ";
+                    _state = false;
+                }
 
-                //if (nguoiLaoDong.CheckDangKy(phone)==true|| nguoiTuyenDung.CheckDangky(phone)==true)
-                //{
-                //    mess = "Số điện thoại đã được sử dụng";
-                //    _state = false;
-                //}
-                //if (nguoiLaoDong.CheckDangKy(email)==true|| nguoiTuyenDung.CheckDangky(email)==true|| userDAO.CheckDangKy(email)==true)
-                //{
-                //    mess += "Email đã được sử dụng";
-                //    _state = false;
-                //}
-                //if (nguoiLaoDong.CheckDangKy(username)==true || nguoiTuyenDung.CheckDangky(username)==true || userDAO.CheckDangKy(username)==true)
-                //{
-                //    mess += "Username đã được sử dụng";
-                //    _state = false;
-                //}
                 if (_state)
                 {
                     string matkhau = Support.Support.HashPassword(password);
@@ -136,7 +136,7 @@ namespace GUIs.Controllers
                     item.Diachi = address;
                     item.Email = email;
                     item.Username = username;
-                    item.Password = matkhau;
+                    item.Password = matkhau;                 
                     nguoiTuyenDung.InsertOrUpdate(item);
                     mess = "Đăng ký thành công";
                 }
@@ -204,8 +204,9 @@ namespace GUIs.Controllers
             var item =nguoiLaoDong.CheckGuid(id);
             if (item != null)
             {
+                string matkhau = Support.Support.HashPassword(password);
                 item.Guid = null;
-                item.Password= password;
+                item.Password= matkhau;
                 nguoiLaoDong.InsertOrUpdate(item);
                 return Json(new { mess = "Đặt mật khẩu thành công" });
             }

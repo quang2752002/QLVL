@@ -27,7 +27,7 @@ namespace GUIs.Areas.NguoiLaoDong.Controllers
                 }
                 if (route == "Admin")
                 {
-                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "Admin", area = route }));
+                    filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = "Index", controller = "Home", area = route }));
                 }
             }
             base.OnActionExecuting(filterContext);

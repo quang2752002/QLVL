@@ -13,7 +13,11 @@
             <input type="text" class="form-control form-control-user" id="name"
                    placeholder="Họ và tên">
     </div>
-
+    <div class="form-group">
+        Ngày tháng năm sinh
+        <input type="datetime-local" class="form-control form-control-user" id="ngaysinh"
+               placeholder="Ngay sinh">
+    </div>
     <div class="form-group">    
             <input type="text" class="form-control form-control-user" id="address"
                    placeholder="Địa chỉ">    
@@ -91,7 +95,7 @@
             },
             dangky: function () {
                 var name = $("#name").val();
-               
+                var ngaysinh = $("#ngaysinh").val();
                 var phone = $("#phone").val();
                 var address = $("#address").val();
                 var email = $("#email").val();
@@ -109,7 +113,7 @@
                 }
                 var confirmpassword = $("#confirmpassword").val();
                 var password = $("#password").val();
-                if (!name || !address || !phone || !email || !username || !password || !confirmpassword) {
+                if (!name || !address || !phone || !email || !username || !password || !confirmpassword||!ngaysinh) {
                     alert("Vui lòng điền đầy đủ thông tin.");
                     return;
                 }
@@ -119,8 +123,8 @@
                     return;
                 }
                 var form = new FormData()
-                form.append("name", name);              
-               
+                form.append("name", name);
+                form.append("ngaysinh", ngaysinh);
                 form.append("phone", phone);
                 form.append("address", address);
                 form.append("email", email);

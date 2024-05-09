@@ -192,7 +192,7 @@ namespace GUIs.Models.DAO
                              Lastlogin = a.Lastlogin,
                              Image = a.Image,
                              Introduce = a.Introduce
-                         }).ToList();
+                         }).FirstOrDefault();
             if (query != null)
                 return false;
             return true;
