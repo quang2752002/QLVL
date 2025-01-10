@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewData["Title"] = "Danhgia";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">ĐÁNH GIÁ CHẤT LƯỢNG CÔNG VIỆC</h1>
+</div>
+<form class="user">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+            <label for="exampleFormControlInput1" class="form-label">Tên công việc </label>
+            </div>
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label" id="name"></label>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Người tuyển dụng </label>
+            </div>
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label" id="tennguoituyendung"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Thời gian</label>
+            </div>
+            <div class="col-md-6">
+              
+                <label for="exampleFormControlInput1" class="form-label" id="timeworkS"></label>
+                <label for="exampleFormControlInput1" class="form-label" > - </label>
+                <label for="exampleFormControlInput1" class="form-label" id="finishS"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Địa chỉ </label>
+            </div>
+            <div class="col-md-6">
+                <label for="exampleFormControlInput1" class="form-label" id="address"></label>
+            </div>
+        </div>
+
+       
+      
+    </div>
+    <hr />
+    <div class="form-group">
+        <label for="exampleFormControlInput1" class="form-label">ĐÁNH GIÁ SAO  </label>
+       <style>
+           .anh{
+               height :20px;
+               width: 20px;
+           }
+       </style>
+        <img src="/img/star.png" class="anh" id="img1" />
+        <img src="/img/star.png" class="anh" id="img2" />
+        <img src="/img/star.png" class="anh" id="img3" />
+        <img src="/img/star.png" class="anh" id="img4" />
+        <img src="/img/star.png" class="anh" id="img5" />
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1" class="form-label">NHẬN XÉT CÔNG VIỆC</label>
+        <textarea class="form-control " id="nhanxet" rows="6"></textarea>
+    </div>
+
+    <input type="button" id="danhgia" class="btn btn-primary btn-user btn-block" value="Đánh giá" />
+</form>
+<hr>
+<div class="text-center">
+    <a class="small" href="~/Home/Index">Quay lại</a>
+</div>
+
+@section scripts {
+    <script>
+        var sosao = 5;
+        var nguoilaodong = {
+            init: function () {
+                nguoilaodong.getCongViecById();
+                $("#danhgia").click(function () {
+                    nguoilaodong.danhgia();
+                });
+                $("#img1").click(function(){
+                    $("#img1").attr("src", "/img/star.png");
+                    $("#img2").attr("src", "/img/star1.png");
+                    $("#img3").attr("src", "/img/star1.png");
+                    $("#img4").attr("src", "/img/star1.png");
+                    $("#img5").attr("src", "/img/star1.png");
+                    sosao = 1;
+                });
+                $("#img2").click(function(){
+                    $("#img1").attr("src", "/img/star.png");
+                    $("#img2").attr("src", "/img/star.png");
+                    $("#img3").attr("src", " /img/star1.png");
+                    $("#img4").attr("src", "/img/star1.png");
+                    $("#img5").attr("src", "/img/star1.png");
+                    sosao = 2;
+                });
+                $("#img3").click(function(){
+                    $("#img1").attr("src", "/img/star.png");
+                    $("#img2").attr("src", "/img/star.png");
+                    $("#img3").attr("src", "/img/star.png");
+                    $("#img4").attr("src", "/img/star1.png");
+                    $("#img5").attr("src", "/img/star1.png");
+                    sosao = 3;
+                });
+                $("#img4").click(function(){
+                    $("#img1").attr("src", "/img/star.png");
+                    $("#img2").attr("src", "/img/star.png");
+                    $("#img3").attr("src", "/img/star.png");
+                    $("#img4").attr("src", "/img/star.png");
+                    $("#img5").attr("src", "/img/star1.png");
+                    sosao = 4;
+                });
+                $("#img5").click(function(){
+                    $("#img1").attr("src", "/img/star.png");
+                    $("#img2").attr("src", "/img/star.png");
+                    $("#img3").attr("src", "/img/star.png");
+                    $("#img4").attr("src", "/img/star.png");
+                    $("#img5").attr("src", "/img/star.png");
+                    sosao = 5;
+                });
+
+            },
+            
+            danhgia: function () {
+               
+                var nhanxet = $("#nhanxet").val();
+                var form = new FormData();
+                form.append("sao", sosao);
+                form.append("nhanxet", nhanxet);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiLaoDong/Home/DanhGiaCongViec/',
+                    success: function (res) {
+                        
+                        alert(res.mess)
+                    },
+                });
+            },
+            getCongViecById: function () {
+                            
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+
+                    url: '/NguoiLaoDong/Home/getCongViecById/',
+                    success: function (res) {
+                       
+                        $("#name").text(res.data.name);
+                        $("#tennguoituyendung").text(res.data.tennguoituyendung);
+                        $("#timeworkS").text(res.data.timeworkS);
+                        $("#finishS").text(res.data.finishS);
+                        $("#address").text(res.data.address);
+                    },
+                });
+            },
+
+
+           
+        };
+
+        nguoilaodong.init();
+
+        function goto(i) {
+            nguoilaodong.search(i);
+        }
+    </script>
+}
+
+

@@ -1,0 +1,263 @@
+﻿
+@{
+    ViewData["Title"] = "ChiTietCongViec";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row gy-5 gx-4">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center mb-5">
+
+                    <div class="text-start ps-4">
+                        <h3 class="mb-3" id="name"></h3>
+                        <span class="text-truncate me-3">
+                            <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                        </span>
+                        <span id="address"></span>
+                        <span class="text-truncate me-3">
+                            <i class="far fa-clock text-primary me-2"></i>
+                            <span id="time"></span>
+                        </span>
+                        <span class="text-truncate me-0">
+                            <i class="far fa-money-bill-alt text-primary me-2"></i> <span id="salary"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="mb-3">Mô tả công việc</h4>
+                    <p id="note">
+                        
+                    </p>
+                    <h4 class="mb-3">Thông tin công việc</h4>
+                    <p>
+                       
+                    </p>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fa fa-angle-right text-primary me-2"></i>Tên người tuyển dụng : 
+                            <span id="tennguoituyendung"></span>
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-right text-primary me-2"></i>Tên công việc :
+                            <span id="nameS"></span>
+                            <input type="hidden" class="form-control" id="id" />
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-right text-primary me-2"></i>Độ tuổi từ :
+                            <span id="age"></span>
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-right text-primary me-2"></i>Thời gian bắt đầu :
+                            <span id="timework"></span>
+
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-right text-primary me-2"></i>Thời gian kết thúc :
+                            <span id="finish"></span>
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-right text-primary me-2"></i>Địa chỉ :
+                            <span id="addressS"></span>
+                        </li>
+                        <li>
+                            <i class="fa fa-angle-right text-primary me-2"></i>Lương : 
+                            <span id="salaryS"></span>
+                        </li>
+                    </ul>
+                    
+                    
+                   
+                </div>
+
+                <div class="">
+                    <h4 class="mb-4">Mức lương mong muốn</h4>
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-12 col-sm-6">
+                                <input type="number"
+                                       class="form-control" id="luong"
+                                       placeholder="Nhập số tiền" min=0 />
+                            </div>
+                           
+                           
+                            
+                            
+                            <div class="col-12">
+                                <input type="button" class="btn btn-primary" id="apply" value=" Ứng tuyển " />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="bg-light rounded p-5 mb-4 wow slideInUp"
+                     data-wow-delay="0.1s" hidden>
+                    <h4 class="mb-4">Job Summery</h4>
+                    <p>
+                        <i class="fa fa-angle-right text-primary me-2"></i>Published
+                        On: 01 Jan, 2045
+                    </p>
+                    <p>
+                        <i class="fa fa-angle-right text-primary me-2"></i>Vacancy:
+                        123 Position
+                    </p>
+                    <p>
+                        <i class="fa fa-angle-right text-primary me-2"></i>Job Nature:
+                        Full Time
+                    </p>
+                    <p>
+                        <i class="fa fa-angle-right text-primary me-2"></i>Salary:
+                        $123 - $456
+                    </p>
+                    <p id="address">
+                        <i class="fa fa-angle-right text-primary me-2"></i>Location:
+                        New York, USA
+                    </p>
+                    <p class="m-0">
+                        <i class="fa fa-angle-right text-primary me-2"></i>Date Line:
+                        01 Jan, 2045
+                    </p>
+                </div>
+                <div class="bg-light rounded p-5 wow slideInUp"
+                     data-wow-delay="0.1s">
+                    <h4 class="mb-4">Mô tả chi tiết công việc</h4>
+                    <p class="m-0" id="motaS">
+                        Ipsum dolor ipsum accusam stet et et diam dolores, sed rebum
+                        sadipscing elitr vero dolores. Lorem dolore elitr justo et no
+                        gubergren sadipscing, ipsum et takimata aliquyam et rebum est
+                        ipsum lorem diam. Et lorem magna eirmod est et et sanctus et,
+                        kasd clita labore.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Notification Box -->
+<div id="notificationBox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancelHidden">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="boxHidden">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script>
+        var nguoilaodong = {
+            init: function () {
+                nguoilaodong.getCongViec();
+                $("#apply").click(function () {
+                    nguoilaodong.apply();
+                });
+                $("#boxHidden,#cancelHidden").click(function () {
+                    $("#notificationBox").modal('hide');
+                });
+            },
+
+            getCongViec: function () {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/Home/getCongViec/',
+                    success: function (res) {
+                        var time = res.data.timeworkS + " Đến " + res.data.finishS;
+                        var age = res.data.mintuoi + " - " + res.data.maxtuoi;
+                        $("#id").val(res.data.id);
+                        $("#name").text(res.data.name);
+                        $("#tennguoituyendung").text(res.data.tennguoituyendung);
+                        $("#min_tuoi").val(res.data.mintuoi);
+                        $("#max_tuoi").val(res.data.maxtuoi);
+                        $("#timework").text(res.data.timeworkS);
+                        $("#finish").text(res.data.finishS);
+                        $("#address").text(res.data.address);
+                        $("#addressS").text(res.data.address);
+                        $("#motaS").text(res.data.note);
+                        $("#salary").text(res.data.salary + " VND");
+
+                        $("#salaryS").text(res.data.salary+" VND");
+                        $("#note").text(res.data.note);
+                        $("#time").text(time);
+                        $("#age").text(age);
+                        $("#nameS").text(res.data.name);
+
+                    }
+                });
+            },
+            apply: function() {
+                var id = $("#id").val();
+                var luong = $("#luong").val();
+                var timework = $("#timework").text();
+                if(luong==null||luong=="")
+                {
+                    nguoilaodong.showNotification("Vui lòng nhập mức lương mong muốn");
+                   
+                    return;
+                };
+                // Chuyển đổi giá trị từ datetime-local thành đối tượng Date
+                var timeworkDate = new Date(timework);
+
+                // Kiểm tra nếu thời gian hiện tại lớn hơn thời gian làm việc
+                
+                
+                var form = new FormData();
+                form.append("id", id);
+                form.append("luong",luong);
+                
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Home/Apply/',
+                    success: function (res) {
+                        if (res.status == 1) {
+                           
+                            nguoilaodong.showNotification(res.mess); 
+                        }
+                        else {
+                            if (res.status == 0) {
+                                nguoilaodong.showNotification(res.mess);
+                            }
+                            else {
+
+                                window.location.href = "/Login/Index";
+                            }
+                        }
+                    }
+                });
+            },
+            // Show the notification modal
+            showNotification: function (message) {
+                $("#notificationMessage").text(message); // Set the message inside the modal
+                $("#notificationBox").modal('show');    // Show the modal
+            }
+        };
+
+        nguoilaodong.init();
+
+        function goto(i) {
+            nguoilaodong.search(i);
+        }
+    </script>
+}

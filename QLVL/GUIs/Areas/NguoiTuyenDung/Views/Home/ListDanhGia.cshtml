@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "ThongTinCaNhan";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Xem tất cả đánh giá</h1>
+</div>
+<div style="float:left">
+    <a class="btn btn-primary" href="/NguoituyenDung/Home/Index">Trở về</a>
+</div>
+<br />
+<br />
+
+    
+<form class="user" id="tbData">
+    
+</form>
+<table>
+    <tfoot>
+        <tr>
+            <th colspan="100" id="pages"></th>
+        </tr>
+    </tfoot>
+</table>
+
+@section scripts {
+    <script>
+        var nguoilaodong = {
+            init: function () {
+                nguoilaodong.danhgia(1);
+               
+
+            },
+
+            danhgia: function (id) {
+               
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiTuyenDung/Home/DanhSachDanhGia/' + id,
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                            html += "<div class='form-group'>";
+                            html += "<label for='exampleFormControlInput1' class='form-label'>Tên công việc: " + a.tencongviec + "</label>";
+                            html += "</div>";
+                            html += "<div class='form-group'>";
+                            html += "<label for='exampleFormControlInput1' class='form-label'>Người tuyển dụng: " + a.nguoituyendung + "</label>";
+                            html += "</div>"; 
+                            html += "<div class='form-group'>";
+                            html += "<label for='exampleFormControlInput1' class='form-label'>Nhận xét</label>";
+                            html += "<textarea class='form-control' rows='6'>" + (a.nhanxetlaodong ?? "") + "</textarea>";
+                            html += "</div>";
+                            html += "<hr />";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error); // Xử lý lỗi nếu cần
+                    }
+                });
+            }
+        };
+
+        nguoilaodong.init();
+
+        function goto(i) {
+            nguoilaodong.danhgia(i);
+        }
+    </script>
+}

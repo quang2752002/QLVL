@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-1" >
+
+    </div>
+    <div class="col-md-10">
+
+
+        <!-- Carousel Start -->
+        <div class="container-fluid p-0" >
+            <div class="owl-carousel header-carousel position-relative">
+                <div class="owl-carousel-item position-relative">
+                    <img class="img-fluid" style=" object-fit: contain;" src="~/img/banner.jpg" alt="">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-10 col-lg-8">
+                                    <h1 class="display-3 text-white animated slideInDown mb-4">Tuyển Dụng Lao Động Phổ Thông</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Cơ hội tìm việc làm cho người lao động</p>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-carousel-item position-relative">
+                    <img class="img-fluid" src="~/img/banner.jpg" alt="">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-10 col-lg-8">
+                                    <h1 class="display-3 text-white animated slideInDown mb-4">Tuyển Dụng Lao Động Phổ Thông</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Cơ hội tìm việc làm cho người lao động</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel End -->
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" class="form-control p-4 m-4" id="search" placeholder="Tìm kiếm công việc" />
+            </div>
+        </div>
+
+
+        <div class="container-xxl py-5">
+            <div class="container">
+                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                    Danh mục công việc
+                </h1>
+                <hr />
+                <div class="row g-4" id="data">
+
+                </div>
+            </div>
+        </div>
+        <!-- Category End -->
+
+
+        <div class="container-fluid">
+
+
+
+
+            <div class="row p-2">
+                <div class="row">
+                    <h1 style="text-align:center">Danh sách các công việc</h1>
+                    <hr />
+                </div>
+            </div>
+
+            <div class="row">
+               
+               
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-4 ">
+                          
+                        </div>
+                        <div class="col-md-4 ">
+                            <span>Tháng</span>
+                        </div>
+                        <div class="col-md-4">
+                           @Html.DropDownList("Month", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                   
+                   
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-4 ">
+                        </div>
+                        <div class="col-md-4 ">
+                            <span>Năm</span>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownList("Year", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                </div>
+
+             
+
+            </div>
+
+           
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+@*                         Danh sách công việc
+ *@                    </h1>
+                    <hr />
+                    <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show p-0 active" id="tbData">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-9">
+                    <table class="table">
+                        <tfoot>
+                            <tr>
+                                <th colspan="100" id="pages"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="col-sm-3 mt-5">
+                    @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control " })
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>
+<!-- Modal Notification Box -->
+<div id="notificationBox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancelHidden">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="boxHidden">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var nguoilaodong = {
+            init: function () {
+
+                nguoilaodong.search(1);
+                nguoilaodong.ListNhomCongViec();
+                $("#search").change(function () {
+                    nguoilaodong.search(1);
+                });
+                $("#Pagesize").change(function () {
+                    nguoilaodong.search(1);
+                });
+
+                $("#Month").change(function () {
+                    nguoilaodong.search(1);
+                    nguoilaodong.ListNhomCongViec();
+                });
+                $("#Year").change(function () {
+                    nguoilaodong.search(1);
+                    nguoilaodong.ListNhomCongViec();
+                });
+            },
+
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var thang = $("#Month").val();
+                var nam = $("#Year").val();
+                var arr = "";
+                $('.namecate:checked').each(function () {
+                    arr +="-" + $(this).val();
+                });
+                
+                var form = new FormData();
+                form.append("name", name);
+                form.append("size", size);
+                form.append("index", index);
+                form.append("thang", thang);
+                form.append("nam", nam);
+                form.append("arr", arr);
+              
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Home/ShowList/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                           
+                            html += "<div class='job-item p-4 mb-4' style=' background-color:white '>";
+                            html += "<div class='row g-4'>";
+                            html += "<div class='col-sm-12 col-md-8 d-flex align-items-center'>";
+                           
+                            html += "<div class='text-start'>";
+                            html += "<h5 class='mb-3'>" + a.name + "</h5>";
+                            html += "<small class='text-truncate me-3'>";
+                            html += "<i class='fa fa-map-marker-alt text-primary me-2'></i>" + a.address + "";
+                            html += "</small>";
+                            html += "<small class='text-truncate me-3'>";
+                            html += "<i class='far fa-money-bill-alt text-primary me-2'></i>Lương: " + a.salary.toLocaleString() + " VND";
+                            html += "</small>";
+                            html += "<small class='text-truncate me-3'>";
+                            html += "<i class='far fa-clock text-primary me-2'></i>Bắt đầu: " + a.timeworkS + "";
+                            html += "</small>"; 
+                            html += "<small class='text-truncate'>";
+                            html += "<i class='far fa-calendar-alt text-primary me-2'></i>Kết thúc:" + a.finishS + "";
+                            html += "</small>";
+                             
+                           
+                            html += "</div>";
+                            html += "</div>";
+                            html += "<div class='col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center'>";
+                            html += "<div class='d-flex mb-3'>";
+                            html += "<a class='btn btn-light btn-square me-3' href=''>";
+                            html += "<i class='far fa-heart text-primary'></i>";
+                            html += "</a>";
+                            html += "<a class='btn btn-primary' href='/Home/ChiTietCongViec/" + a.id + "'>Xem chi tiết công việc</a>";
+                            html += "</div>";
+                           
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                       
+                    },
+                });
+            },
+            ListNhomCongViec: function () {
+                var thang = $("#Month").val();
+                var nam = $("#Year").val();
+                var form = new FormData();
+                form.append("thang", thang);
+                form.append("nam", nam);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Home/ListNhomCongViec/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                            
+                            html += "<div class='col-lg-3 col-sm-6 wow fadeInUp' data-wow-delay='0.1s'>";
+                            html += "<div class='cat-item rounded p-4' href=''>";
+                            html += "<div class='row'> <div class='col-10'>";
+
+                            html += "<h6 class='mb-3'>"+a.name+"</h6>";
+                            html += "<p class='mb-0'>"+a.soluong+" Công việc</p>";
+                            html += "</div>";
+                            html += "<div class='col-2'>";
+                            html += "<input type='checkbox' value='" + a.id + "' class='namecate m-2' onchange='nguoilaodong.search(1)' style='width: 20px; height: 20px'/>";
+                            html += " </div>";
+                            
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += " </div>";
+
+                         
+
+
+                        });
+                        $("#data").html(html);
+                    },
+                });
+            },
+
+        };
+
+        nguoilaodong.init();
+
+        function goto(i) {
+            nguoilaodong.search(i);
+        }
+    </script>
+}

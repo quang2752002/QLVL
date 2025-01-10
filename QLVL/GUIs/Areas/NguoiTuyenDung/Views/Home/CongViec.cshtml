@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewData["Title"] = "CongViec";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container-fluid">
+
+
+    <div class="row p-2">
+        <div class="col-md-2">
+            <span>Số dòng/trang</span>
+        </div>
+        <div class="col-md-2">
+
+            @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <span>Tháng</span>
+        </div>
+        <div class="col-md-2">
+            @Html.DropDownList("Month", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-2">
+            <span>Năm</span>
+        </div>
+        <div class="col-md-2">
+            @Html.DropDownList("Year", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
+        </div>
+      </div>
+        <div class="row" id="tbData"></div>
+
+        <table>
+            <tfoot>
+                <tr>
+                    <th colspan="100" id="pages"></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+                nguoituyendung.search(1);
+                $("#search, #Pagesize").change(function () {
+                    nguoituyendung.search(1);
+                });
+            },
+
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var form = new FormData();
+                form.append("name", name);
+                form.append("size", size);
+                form.append("index", index);
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiTuyenDung/Home/getListCongViec/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                            html += "<div class='col-sm-4'>";
+                            html += "<div class='card'>";
+                            html += "<div class='card-body'>";
+                            html += "<h5 class='card-title'>" + a.name + "</h5>";
+                            html += "<div class='row'><div class='col-md-6'>";
+                            html += "<p >Tuổi từ: " + a.mintuoi + " Đến :" +a.maxtuoi + "</p>";
+                            html += "<p >Thời gian : " + a.timework + "</p>";
+                            html += "<p > Địa chỉ :" + a.address + "</p>";
+                            html += "</div>";
+                            html += "<div class='col-md-6'>";
+                            html += "<p '>Lương :" + a.salary + "</p>";
+                            html += "<p >Mô tả :" + a.note + "</p>";
+                            html += "</div>"
+                            html+="</div>"
+                           
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                        $("#loading").hide();
+                    },
+                });
+            },
+        };
+
+        nguoituyendung.init();
+
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}
+

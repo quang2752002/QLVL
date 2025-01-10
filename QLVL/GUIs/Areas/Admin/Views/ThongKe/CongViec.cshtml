@@ -1,0 +1,247 @@
+﻿
+@{
+    ViewData["Title"] = "CongViec";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal fade" id="xemchitiet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>THÔNG TIN NGƯỜI LAO ĐỘNG</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Ảnh đại diện
+                                    </th>
+                                    <th>
+                                        Họ tên
+                                    </th>
+                                   
+                                    <th>
+                                        SDT
+                                    </th>
+                                   
+                                    <th>
+                                        Địa chỉ
+                                    </th>
+                                    <th>
+                                       Lương 
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody id="Data"></tbody>
+                            
+                        </table>
+                       
+                      
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>THÔNG TIN CÔNG VIỆC</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-1">
+                @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                <span>Tháng</span>
+            </div>
+            <div class="col-md-1">
+                @Html.DropDownList("thang", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                <span>Năm</span>
+            </div>
+            <div class="col-md-1">
+                @Html.DropDownList("nam", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+
+                <select class="form-select form-control" aria-label="Default select example" style="border:none;" id="status">
+                        <option selected value="2">Trạng thái công việc</option>
+                        <option value="2">Hoàn thành</option>
+                        <option value="1">Chưa hoàn thành</option>
+                    </select>
+                
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                       Name
+                    </th>
+                    <th>
+                       Thời gian bắt đầu 
+                    </th>
+
+                    <th>
+                       Thời gian kết thúc
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+                    <th>
+                       Lương đề xuất
+                    </th>
+                    <th>
+                       Người tuyển dụng
+                    </th>
+                    <th>
+                       Danh sách lao động
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody id="tbData"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="100" id="pages">
+
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+                nguoituyendung.search(1);
+                $("#search").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#Pagesize").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#thang").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#nam").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#status").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $('#xemchitiet').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget)
+                    var idhd = button.data('whatever')
+                    alert(idhd);
+                    nguoituyendung.getNguoiLaoDong(idhd);
+                   
+
+                });
+            },
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var thang = $("#thang").val();
+                var nam = $("#nam").val();
+                var status = $("#status").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("thang", thang);
+                form.append("nam", nam);
+                form.append("status", status);
+                form.append("index", index);
+                form.append("size", size);
+              
+               
+               
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json', // 'Json' should be 'json'
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/ThongKe/ShowlistCongViec/',
+                    success: function (res) {
+                        var html = "";
+                        // Use $.each correctly
+                        $.each(res.data, function (index, a) {
+                            html += "<tr>";
+                            html += "<td>" + a.id + "</td>";
+                            
+                            html += "<td>" + a.name + "</td>";
+                            html += "<td>" + a.timeworkS + "</td>";
+                            html += "<td>" + a.finishS + "</td>";
+                            html += "<td>" + a.address + "</td>";
+                            html += "<td>" + a.salary + "</td>";
+                            html += "<td>" + a.tennguoituyendung + "</td>";
+                            html += "<td> <a href = 'javascript:void(0)' data-toggle='modal' data-target='#xemchitiet' data-whatever='" + a.id + "'class='btn btn-info'> Xem chi tiết </a></td> ";
+
+                            html += "</tr>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+            getNguoiLaoDong: function (id) {
+
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/Admin/ThongKe/getNguoiLaoDong/' + id,
+                    success: function (res) {
+                        var html = "";
+                        // Use $.each correctly
+                        $.each(res.data, function (index, a) {
+                            html += "<tr>";
+                            html += "<td>" + a.id + "</td>";
+                            html += "<td> <img src='" + a.image + "' style='width:40px;height:40px;' class='img-profile rounded-circle'/></td>";
+                            html += "<td>" + a.tennguoilaodong + "</td>";                          
+                            html += "<td>" + a.phone + "</td>";                          
+                            html += "<td>" + a.diachi + "</td>";
+                            html += "<td>" + a.salary + "</td>";
+
+                            html += "</tr>";
+                        });
+                        $("#Data").html(html);
+                    }
+                });
+            },
+
+
+
+        }
+        nguoituyendung.init();
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}
+
+
+

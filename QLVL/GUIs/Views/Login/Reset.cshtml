@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Reset";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Quên Mật Khẩu</h1>
+</div>
+<form class="user">
+    <div class="form-group">
+        <input type="password" class="form-control form-control-user"
+               id="password"
+               placeholder="Nhập mật khẩu mới">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control form-control-user"
+               id="confirmpassword"
+               placeholder="Nhập lại mật khẩu mới">
+    </div>
+
+    <input type="button" id="login" class="btn btn-primary btn-user btn-block" value="Xác nhận" />
+</form>
+<hr>
+
+<div class="text-center">
+    <a class="small" href="~/Login/Index">Quay về</a>
+</div>
+
+<!-- Notification Modal Box -->
+<div id="notificationBox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancelHidden">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="boxHidden">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+                $("#login").click(function () {
+                    login.reset();
+                });
+                // Close the modal on clicking close button or "Đóng"
+                $("#boxHidden, #cancelHidden").click(function () {
+                    $("#notificationBox").modal('hide');
+                });
+            },
+            reset: function () {
+                var password = $("#password").val();
+                var confirmpassword = $("#confirmpassword").val();
+                if (!password || !confirmpassword) {
+                    login.showNotification("Vui lòng điền đầy đủ thông tin.");
+                    return;
+                }
+
+                if (password != confirmpassword) {
+                    login.showNotification("Mật khẩu không trùng khớp.");
+                    return;
+                }
+                if (password.length < 6) {
+                    login.showNotification("Mật khẩu phải có ít nhất 6 ký tự.");
+                    return;
+                }
+
+
+                var form = new FormData();
+                form.append("password", password);
+                $("#loading").show();
+
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Login/ResetPassword/',
+                    success: function (res) {
+                        login.showNotification("Đổi mật khẩu mới thành công");
+                        setTimeout(function () {
+                            window.location.href = "/Login/Index"; // Redirect after delay
+                        }, 3000); // 3 seconds delay
+                        $("#loading").hide();
+                    },
+                    error: function () {
+                        login.showNotification("Có lỗi xảy ra. Vui lòng thử lại.");
+                        $("#loading").hide();
+                    }
+                });
+            },
+            // Show the notification modal
+            showNotification: function (message) {
+                $("#notificationMessage").text(message); // Set the message inside the modal
+                $("#notificationBox").modal('show');    // Show the modal
+            }
+        }
+
+        login.init(); // Initialize the login logic
+    </script>
+}

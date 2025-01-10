@@ -1,0 +1,238 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="modal fade" id="new" tabindex="-1" aria-labelledby="examplemodallabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="examplemodallabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 id="textEdit">THÊM NHÓM CÔNG VIỆC</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                           
+                               
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                   Tên nhóm công việc
+                                                </span>
+                                            </div>
+                                            <input id="id" type="hidden"/>
+                                            <input type="text" class="form-control" id="name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-1">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    Mô tả
+                                                </span>
+                                            </div>
+                                            <textarea type="text" rows="5" class="form-control" id="mota" ></textarea>
+                                        </div>
+                                    </div>                                                                 
+                              
+                                                    
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="button" id="create" class="btn btn-primary">Thêm mới</button>
+                        <button type="button" id="close" class="btn btn-danger" data-dismiss="modal">Quay lại</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+
+
+    <div class="row">
+
+        <h1 style="text-align:center">Danh sách nhóm công việc</h1>
+    </div>
+   
+    <div class="row p-2">
+        <div class="col-md-2">
+            <button class="btn btn-primary" id="btnew" data-toggle="modal" data-target="#new">
+                Thêm mới
+            </button>
+        </div>
+        <div class="col-md-2">
+            <span>Số dòng/trang</span>
+        </div>
+        <div class="col-md-2">
+
+            @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+        </div>
+
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Tên nhóm công việc
+                </th>
+                <th>
+                    Mô tả
+                </th>
+                <th>Sửa</th>
+            </tr>
+        </thead>
+
+        <tbody id="tbData"></tbody>
+        <tfoot>
+            <tr>
+                <th colspan="100" id="pages">
+
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+@section scripts {
+    <script>
+        var nhomcongviec = {
+            init: function () {
+                nhomcongviec.search(1);
+                $("#search, #Pagesize").change(function () {
+                    nhomcongviec.search(1);
+                });
+                $("#btnew").click(function () {
+                    $("#create").val("Thêm mới");
+                    $("#id").val(0);
+                });
+                $("#close").click(function () {
+                    $('#new').modal('hide');
+                });
+                $("#create").click(function () {
+                    nhomcongviec.create();
+                });
+                var myModal = document.getElementById('new')
+                
+                myModal.addEventListener('shown.bs.modal', function () {
+                    var id = $("#id").val();
+                    if (id != 0) {
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            url: '/Admin/NhomCongViec/getNhomCongViec/' + id,
+                            success: function (res) {
+                                $("#name").val(res.data.name);
+                                $("#mota").val(res.data.note);
+                                $("#textEdit").text("CHỈNH SỬA NHÓM CÔNG VIỆC");
+                                $("#create").text("Cập nhật");
+                            }
+                        });
+                    }
+                    else {
+                        $("#btnnew").val("Thêm mới");
+                        $("#name").val("");
+                        $("#mota").val("");
+                    }
+                });
+            },
+            edit: function (id) {
+                $("#id").val(id);
+                $('#new').modal('show');
+            },
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var form = new FormData();
+                form.append("name", name);
+                form.append("size", size);
+                form.append("index", index);
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/NhomCongViec/getListNhomCongViec/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {                          
+                            html += "<tr>";
+                            html += "<td>" + a.id + "</td>";
+                            html += "<td>" + a.name + "</td>";
+                            html += "<td>" + a.note + "</td>";
+                            html += "<td>" +
+                                "<a href='javascript:void(0)' onclick='nhomcongviec.edit("+a.id+")'><i class='fa fa-edit'></i></a>" + "</td>";
+                            html += "</tr>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                        $("#loading").hide();
+                    },
+                });
+            },
+            create: function () {
+                var name = $("#name").val();
+                var id = $("#id").val();
+                var mota = $("#mota").val();
+                var form = new FormData();
+                form.append("name", name);
+                form.append("id", id);
+                form.append("mota", mota);
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/NhomCongViec/CreateOrUpdate/',
+                    success: function (res) {
+                        _layout.showtoast(res.mess);
+                        nhomcongviec.search(1);
+                        $('#new').modal('hide');
+                        $("#loading").hide();
+                        $("#name").val("");
+                        $("#mota").val("");
+                    },
+                });            
+            },
+            getNhomcongviec: function (id) {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/Admin/Nhomcongviec/getNhomcongviec/' + id,
+                    success: function (res) {
+                        $("#id").val(res.data.id);
+                        $("#name").val(res.data.name);
+                        $("#mota").val(res.data.note);  
+                    }
+                });
+            }
+
+        };
+
+        nhomcongviec.init();
+
+        function goto(i) {
+            nhomcongviec.search(i);
+        }
+    </script>
+}
+
+

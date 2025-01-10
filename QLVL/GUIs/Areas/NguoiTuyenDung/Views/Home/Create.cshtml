@@ -1,0 +1,199 @@
+﻿@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Đăng tuyển công việc</h1>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form class="user">
+                <div class="form-group">
+                    <span> Tên công việc</span>
+                    <input type="text" class="form-control form-control-user" id="name"
+                           placeholder="Nhập tên công việc">
+                </div>
+
+                <div class="form-group row">
+                    <span>Công việc yêu cầu độ tuổi</span>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        
+                        <input type="number" class="form-control form-control-user" placeholder="Từ"
+                               id="mintuoi">
+
+                    </div>
+                    <div class="col-sm-6">
+                      
+                        <input type="number" class="form-control form-control-user" placeholder="Đến"
+                               id="maxtuoi">
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span id="male-label">Thời gian bắt đầu công việc</span>
+                    <input type="datetime-local" class="form-control form-control-user" id="timework">
+                </div>
+                <div class="form-group">
+                    <span id="male-label">Thời gian kết thúc công việc</span>
+                    <input type="datetime-local" class="form-control form-control-user" id="finish">
+                </div>
+                <div class="form-group">
+                    <span>Địa chỉ</span>
+                    <input type="text" class="form-control form-control-user" id="address"
+                           placeholder="Địa chỉ">
+                </div>
+
+                <div class="form-group">
+                    <span>Lương đề xuất</span>
+                    <input type="number" class="form-control form-control-user" id="salary"
+                           placeholder="Lương đề xuất">
+                </div>
+                <div class="form-group">
+                    <span>Mô tả</span>
+                    <textarea type="text" class="form-control form-control-user" id="note"
+                              placeholder="Nhập mô tả"></textarea>
+                </div>
+                <div class="form-group">
+                    <span>Chọn nhóm công việc</span>
+                    @Html.DropDownList("nhomcongviec", new SelectList(ViewBag.nhom, "Id", "Name"), new { @class = "form-control", @multiple = "multiple" })
+                </div>
+
+                <input type="button" class="btn btn-primary btn-user btn-block" id="create" value=" Đăng tuyển" />
+
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="text-center">
+    <a class="small" href="~/NguoiTuyenDung/Home/Index">Quay lại</a>
+</div>
+<!-- Modal Notification Box -->
+<div id="notificationBox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancelHidden">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="boxHidden">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+
+                $("#create").click(function () {
+                    nguoituyendung.create();
+                });
+                $("#boxHidden,#cancelHidden").click(function () {
+                    $("#notificationBox").modal('hide');
+                });
+            },
+            create: function () {
+                var name = $("#name").val();
+                var mintuoi = $("#mintuoi").val();
+                var maxtuoi = $("#maxtuoi").val();
+                var timeworkString = $("#timework").val();
+                var finishString = $('#finish').val();
+                var address = $("#address").val();
+                var salary = $("#salary").val();
+                var note = $("#note").val();
+                var nhomcongviec = $("#nhomcongviec").val();
+
+                // Validate inputs
+                if (!name || name.trim() === "") {
+                    nguoituyendung.showNotification("Tên công việc không được để trống");
+                   
+                    return;
+                }
+                if (!mintuoi || !maxtuoi || parseInt(mintuoi) <= 0 || parseInt(maxtuoi) <= 0 || parseInt(mintuoi) > parseInt(maxtuoi)) {
+                    nguoituyendung.showNotification("Độ tuổi không hợp lệ");
+                   
+                    return;
+                }
+                if (!timeworkString || !finishString) {
+                    nguoituyendung.showNotification("Thời gian bắt đầu và kết thúc không được để trống");
+                    return;
+                }
+                if (new Date(timeworkString) >= new Date(finishString)) {
+
+                    nguoituyendung.showNotification("Thời gian bắt đầu phải trước thời gian kết thúc.");
+                    return;
+                }
+                if (!address || address.trim() === "") {
+
+                    nguoituyendung.showNotification("Địa chỉ không được để trống");
+                    return;
+                }
+                if (!salary || parseInt(salary) <= 0) {
+
+                    nguoituyendung.showNotification("Lương đề xuất phải là số dương");
+                    return;
+                }
+
+                if (!nhomcongviec || nhomcongviec.length === 0) {
+
+                    nguoituyendung.showNotification("Vui lòng chọn ít nhất một nhóm công việc");
+                    return;
+                }
+
+                // Create FormData and append data
+                var form = new FormData();
+                form.append("name", name);
+                form.append("mintuoi", mintuoi);
+                form.append("maxtuoi", maxtuoi);
+                form.append("timework", new Date(timeworkString).toISOString());
+                form.append("finish", new Date(finishString).toISOString());
+                form.append("address", address);
+                form.append("salary", salary);
+                form.append("note", note);
+                form.append("nhomcongviec", nhomcongviec);
+
+                // Send AJAX request
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiTuyenDung/Home/Themmoi/',
+                    success: function (res) {
+                        nguoituyendung.showNotification("Đăng tuyển thành công");
+                       
+                        _layout.showtoast(res.mess);
+                    },
+                    error: function () {
+                        nguoituyendung.showNotification("Có lỗi xảy ra. Vui lòng thử lại sau");
+                      
+                    }
+                });
+            },
+            // Show the notification modal
+            showNotification: function (message) {
+                $("#notificationMessage").text(message); // Set the message inside the modal
+                $("#notificationBox").modal('show');    // Show the modal
+            },
+        }
+        nguoituyendung.init();
+
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}

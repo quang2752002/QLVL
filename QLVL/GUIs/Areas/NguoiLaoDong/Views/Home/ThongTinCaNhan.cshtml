@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewData["Title"] = "ThongTinCaNhan";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Cập nhật thông tin cá nhân</h1>
+</div>
+<form class="user">
+
+    <div class="form-group" style="text-align:center">
+
+        <img src="" alt="Hình ảnh " class="img-fluid" id="img" />
+    </div>
+
+    <div class="form-group">
+        <span>Họ và tên</span>
+        <input type="text" class="form-control form-control-user" id="name"
+               placeholder="Họ và tên">
+    </div>
+    
+    <div class="form-group row">
+        <span>Giới tính</span>
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="radio" class="" name="gioitinh"
+                   id="nam">
+            <span id="male-label">Nam</span>
+        </div>
+        <div class="col-sm-6">
+            <input type="radio" class="" name="gioitinh"
+                   id="nu" >
+            <span id="male-label">Nữ</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <span id="male-label">Ngày tháng năm sinh</span>
+        <input type="date" class="form-control form-control-user" id="birthday">
+    </div>
+
+   
+
+    <div class="form-group">
+        <span>Địa chỉ</span>
+        <input type="text" class="form-control form-control-user" id="address"
+               placeholder="Địa chỉ">
+    </div>
+   
+            <div class="form-group">
+                <span id="">Sức khỏe</span>
+                <input type="text" class="form-control form-control-user" id="heath"
+                       placeholder="Sức khỏe">
+            </div>
+           
+          
+                <div class="form-group">
+                    <span>Số điện thoại</span>
+                    <input type="text" class="form-control form-control-user" id="phone"
+                           placeholder="Số điện thoại">
+                </div>
+           
+     
+    <div class="form-group">
+        <span>Gmail</span>
+        <input type="email" class="form-control form-control-user" id="email"
+               placeholder="Email Address" readonly>
+    </div>
+    <div class="form-group">
+        <label>Ảnh đại diện</label>
+        <input type="text" class="form-control form-control-user" id="image"
+               placeholder="Ảnh đại diện">
+    </div>
+   
+
+    
+
+
+  
+    <input type="button" class="btn btn-primary btn-user btn-block" id="login" value=" Cập nhật" />
+
+
+
+
+</form>
+<hr>
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-6">
+            <a class="small" href="/NguoiLaoDong/Home/ChangePassWord">Bạn muốn đổi mật khẩu?</a>
+        </div>
+        <div class="col-md-6">
+            <a class="small" href="~/Home/Index">Quay lại</a>
+        </div>
+        </div>
+        
+</div>
+
+
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+                login.getThongtincanhan();
+                $("#login").click(function () {
+                    login.dangky();
+                });
+            },
+            getThongtincanhan: function () {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiLaoDong/Home/getThongTinCaNhan/',
+                    success: function (res) {
+                        $("#name").val(res.data.name);
+                        var birthdayDate = new Date(res.data.birthday);
+                        var formattedBirthday = birthdayDate.toISOString().split('T')[0];
+                        $("#birthday").val(formattedBirthday);
+                        $("#heath").val(res.data.heath);
+                        $("#address").val(res.data.address);
+                        $("#phone").val(res.data.phone);
+                        $("#email").val(res.data.email);
+                        $("#image").val(res.data.image);
+                        $("#img").attr("src", res.data.image);
+                        if (res.data.sex == 1 ){
+                            $("#nam").prop("checked", true);
+                        } 
+                        else if (res.data.sex == 0) {
+                            $("#nu").prop("checked", true);
+                        }
+                    },
+                    error: function () {
+                        // Handle error if needed
+                    }
+                });
+            },
+            dangky: function () {
+                var name = $("#name").val();
+                var birthday = $("#birthday").val();
+                var heath = $("#heath").val();
+                var address = $("#address").val();
+                var phone = $("#phone").val();
+
+                // Kiểm tra rỗng
+                if (!name || !birthday || !heath || !address || !phone) {
+                    alert("Vui lòng điền đầy đủ thông tin.");
+                    return;
+                }
+
+                // Kiểm tra định dạng ngày tháng
+                var birthdayDate = new Date(birthday);
+                if (isNaN(birthdayDate.getTime())) {
+                    alert("Ngày tháng không hợp lệ.");
+                    return;
+                }
+
+                // Kiểm tra định dạng số điện thoại
+                if (!/^\d{10,11}$/.test(phone)) {
+                    alert("Số điện thoại không hợp lệ.");
+                    return;
+                }
+
+                var form = new FormData();
+                form.append("name", name);
+                form.append("birthday", birthday);
+                form.append("phone", phone);
+                form.append("address", address);
+                form.append("heath", heath);
+
+                var state = ($("#nu").is(":checked")) ? "nu" : "nam";
+
+                form.append("state", state);
+
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiLaoDong/Home/saveThongTinCaNhan/',
+                    success: function (res) {
+                        alert(res.mess);
+                        $("#loading").hide();
+                    },
+                    error: function () {
+                        // Handle error if needed
+                    }
+                });
+            }
+        };
+
+        login.init();
+    </script>
+}
+

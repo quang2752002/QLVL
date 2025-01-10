@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "GopY";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Góp ý</h1>
+</div>
+
+<form class="user">
+    <div class="form-group">
+        <label for="exampleFormControlInput1" class="form-label">Email</label>
+        <input type="text" class="form-control form-control-user" id="email">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1" class="form-label">Nội dung</label>
+        <textarea class="form-control " id="noidung" rows="6"></textarea>
+    </div>
+
+    <input type="button" id="danhgia" class="btn btn-primary btn-user btn-block" value="Sumbit" />
+</form>
+<hr>
+<div class="text-center">
+    <a class="small" href="~/Home/Index">Quay lại</a>
+</div>
+
+@section scripts {
+    <script>
+        var nguoilaodong = {
+            init: function () {
+
+                $("#danhgia").click(function () {
+                    nguoilaodong.danhgia();
+                });
+
+            },
+
+            danhgia: function () {
+                var email = $("#email").val();
+                var noidung = $("#noidung").val();
+                var form = new FormData();
+                form.append("email", email);
+                form.append("noidung", noidung);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Home/Nhanxet/',
+                    success: function (res) {
+
+                        alert(res.mess)
+                    },
+                });
+            },
+
+        };
+
+        nguoilaodong.init();
+
+        function goto(i) {
+            nguoilaodong.search(i);
+        }
+    </script>
+}
+

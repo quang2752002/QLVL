@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Đăng Nhập</h1>
+</div>
+
+<form class="user">
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="username" placeholder="UserName">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control form-control-user" value="123456" id="password" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <div class="custom-control custom-checkbox small">
+            <input type="checkbox" class="custom-control-input" id="customCheck">
+            <label class="custom-control-label" for="customCheck">Remember Me</label>
+        </div>
+    </div>
+    <input type="button" id="login" class="btn btn-primary btn-user btn-block" value="Login" />
+</form>
+
+<hr>
+
+<div class="text-center">
+    <a class="small" href="~/Login/Forget">Quên Mật Khẩu</a>
+</div>
+
+<div class="text-center">
+    <a class="small" href="~/Login/Register">Bạn Chưa Có Tài Khoản</a>
+</div>
+
+<!-- Modal Notification Box -->
+<div id="notificationBox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancelHidden">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="boxHidden">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+                $("#login").click(function () {
+                    login.dangnhap();
+                });
+                $("#boxHidden,#cancelHidden").click(function () {
+                    $("#notificationBox").modal('hide');
+                });
+
+            },
+            dangnhap: function () {
+                var username = $("#username").val().trim();
+                var password = $("#password").val().trim();
+
+                // Check if both username and password are entered
+                if (!username || !password) {
+                    login.showNotification("Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.");
+                    return;
+                }
+
+                // Prepare form data for AJAX request
+                var form = new FormData();
+                form.append("username", username);
+                form.append("password", password);
+
+                // AJAX POST request
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Login/Dangnhap/',
+                    success: function (res) {
+                        if (res.status === true) {
+                            // Redirect based on response router value
+                            if (res.router === "NguoiLaoDong") {
+                                window.location.href = "/";
+                            } else {
+                                window.location.href = "/" + res.router;
+                            }
+                        } else {
+                            login.showNotification(res.mess); // Show notification if login fails
+                        }
+                    }
+                });
+            },
+            // Show the notification modal
+            showNotification: function (message) {
+                $("#notificationMessage").text(message); // Set the message inside the modal
+                $("#notificationBox").modal('show');    // Show the modal
+            }
+        }
+
+        login.init(); // Initialize the login logic
+    </script>
+}

@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="text-center mt-2">
+                <h1 class="h4 text-gray-900 mb-4">Cập nhật thông tin cá nhân</h1>
+            </div>
+            <form class="user">
+                <div class="form-group">
+                    <img src="" alt="Hình ảnh " class="img-fluid" id="img" />
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label>Họ và tên</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-user" id="name" placeholder="Họ và tên">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label>Địa chỉ</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-user" id="address" placeholder="Địa chỉ">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label>Số điện thoại</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-user" id="sdt" placeholder="Số điện thoại">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label>Fanpage (Nếu có)</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-user" id="fanpage" placeholder="Fanpage (Nếu có)">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="email" class="form-control form-control-user" id="email" placeholder="Email Address" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label>Ảnh đại diện</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control form-control-user" id="image" placeholder="Ảnh đại diện">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea type="text" class="form-control form-control-user" id="introduce" placeholder="Mô tả"></textarea>
+                </div>
+                <div class="text-center">
+                     <input type="button" class="btn btn-primary " id="login" value="Cập nhật" />
+                </div>
+               
+            </form>
+            <hr>
+            <div class="text-center">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="small" href="/NguoiTuyenDung/Home/ChangePassWord">Bạn muốn đổi mật khẩu?</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/NguoiTuyenDung/Home/Index" class="small">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+                login.getNguoiTuyenDung();
+                $("#login").click(function () {
+                    login.dangky();
+                });
+            },
+            dangky: function () {
+                var name = $("#name").val();
+                var sdt = $("#sdt").val();
+                var fanpage = $("#fanpage").val();
+                var address = $("#address").val();
+                var image = $("#image").val();
+                var introduce = $("#introduce").val();
+
+                if (!name || !sdt || !address || !image || !introduce) {
+                    alert("Vui lòng điền đầy đủ thông tin.");
+                    return;
+                }
+
+                var form = new FormData();
+                form.append("name", name);
+                form.append("sdt", sdt);
+                form.append("fanpage", fanpage);
+                form.append("address", address);
+                form.append("image", image);
+                form.append("introduce", introduce);
+
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiTuyenDung/Home/Update/',
+                    success: function (res) {
+                        alert(res.mess);
+                        $("#loading").hide();
+                    },
+                    error: function () {
+                        $("#loading").hide();
+                    }
+                });
+            },
+            getNguoiTuyenDung: function () {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiTuyenDung/Home/getNguoiTuyenDung/',
+                    success: function (res) {
+                        $("#name").val(res.data.name);
+                        $("#address").val(res.data.diachi);
+                        $("#sdt").val(res.data.sdt);
+                        $("#fanpage").val(res.data.fanpage);
+                        $("#email").val(res.data.email);
+                        $("#image").val(res.data.image);
+                        $("#introduce").val(res.data.introduce);
+                        $("#img").attr("src", res.data.image);
+                    },
+                    error: function () {
+                        alert("Error fetching data.");
+                    }
+                });
+            }
+        }
+        login.init();
+    </script>
+}

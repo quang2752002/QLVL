@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/NguoiTuyenDung/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="text-align:center">
+                    <input type="text" class="form-control p-4 m-4" id="search" placeholder="Tìm kiếm công việc" />
+                </div>
+                <h1 style="text-align:center">Danh sách công việc đã đăng tuyển</h1>
+            </div>
+
+
+
+            <div class="row p-2">
+                <div class="col-md-2">
+                    <a href='/NguoiTuyenDung/Home/Create/' class="btn btn-primary">Thêm công việc mới</a>
+                </div>
+                <div class="col-md-2">
+                    <span>Số dòng/trang</span>
+                </div>
+                <div class="col-md-2">
+
+                    @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+                </div>
+
+            </div>
+
+            <div class="row" id="tbData"></div>
+
+            <table>
+                <tfoot>
+                    <tr>
+                        <th colspan="100" id="pages"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-1">
+
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+                nguoituyendung.search(1);
+                $("#search, #Pagesize").change(function () {
+                    nguoituyendung.search(1);
+                });
+            },
+          
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var form = new FormData();
+                form.append("name", name);
+                form.append("size", size);
+                form.append("index", index);
+                $("#loading").show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiTuyenDung/Home/ShowList/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                            
+                            html += "<div class='col-md-4 text-center p-3'>";
+                            html += "<div class='box p-3'>";                          
+                            html += "<div class='box_content'>";
+                            html += "<h2 style=' text-align: center;'>" + a.name + "</h2>";
+                            html += "<div class='row'>";
+                            html += "<div class='col-md-6'>";
+                            html += "<p style='font-size: 18px;'>Thời gian bắt đầu: " + a.timeworkS + "</p>";
+                            html += "<p style='font-size: 18px;'>Thời gian kết thúc: " + a.finishS + "</p>";
+                            html += "</div>";
+                            html += "<div class='col-md-6'>";
+                            html += "<p style='font-size: 18px;'>Độ Tuổi: " + a.mintuoi + " - " + a.maxtuoi + "</p>";
+                            html += "<p style='font-size: 18px;'>Địa chỉ: " + a.address + "</p>";
+                            html += "<p style='font-size: 18px;'>Lương đề xuất: " + a.salary.toLocaleString() + " VND</p>";
+                            
+                            html += "</div>";
+                            html += "</div>";
+                            html += "<div class='mx-auto pb-4'>"
+                            html += "<ul class='icons' >";
+                            html += "<li><a href='/NguoiTuyenDung/Home/NguoiLaoDong/" + a.id + "' class='btn btn-primary'> DS Lao Động</a></li>";
+                            if (a.state == 1) {
+                                html += "<li><button id='hoanthanh-" + a.id + "' onclick='nguoituyendung.hoanthanh(" + a.id + "); ' class='btn btn-success'>Xác nhận hoàn thành</button></li>";
+                            }
+                            html += "</ul>";
+                            html += "</div>"
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                        $("#loading").hide();
+                    },
+                });
+            },
+            hoanthanh: function (id) {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiTuyenDung/Home/HoanThanhCongviec/' + id,
+                    success: function (res) {
+
+                        alert(res.mess);
+                        nguoituyendung.search();
+                    },
+                });
+            },
+        };
+
+        nguoituyendung.init();
+
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}

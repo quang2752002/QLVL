@@ -1,0 +1,226 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+
+<div class="text-center">
+    <h1 class="h4 text-gray-900 mb-4">Đăng Ký Tài Khoản</h1>
+</div>
+<form class="user">
+    <div class="form-group">
+      
+            <input type="text" class="form-control form-control-user" id="name"
+                   placeholder="Họ và tên">
+    </div>
+    <div class="form-group">
+        Ngày tháng năm sinh
+        <input type="datetime-local" class="form-control form-control-user" id="ngaysinh"
+               placeholder="Ngay sinh">
+    </div>
+    <div class="form-group">    
+            <input type="text" class="form-control form-control-user" id="address"
+                   placeholder="Địa chỉ">    
+    </div>
+
+    <div class="form-group">      
+            <input type="text" class="form-control form-control-user" id="phone"
+                   placeholder="Số điện thoại">
+    </div>
+
+    <div class="form-group">
+        <input type="email" class="form-control form-control-user" id="email"
+               placeholder="Email ">
+    </div>
+
+    <div class="form-group">
+        
+            <input type="text" class="form-control form-control-user" id="username"
+                   placeholder="Tên tài khoản">
+        
+       
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="password" class="form-control form-control-user"
+                   id="password" placeholder="Mật khẩu">
+        </div>
+        <div class="col-sm-6">
+            <input type="password" class="form-control form-control-user"
+                   id="confirmpassword" placeholder="Nhập lại mật khẩu">
+        </div>
+
+    </div>
+    <div>
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+        <label>
+            <input type="radio" name="gender" value="male" id="nguoilaodong">
+            <span id="male-label">Người Lao Động</span>
+        </label>
+        </div>
+            <div class="col-sm-6 mb-3 mb-sm-0">
+        <label>
+            <input type="radio" name="gender" value="female" id="nguoituyendung">
+            <span id="female-label">Người Tuyển Dụng</span>
+        </label>
+        </div>
+        </div>
+    </div>
+    <input type="button" class="btn btn-primary btn-user btn-block" id="login"value=" Đăng Ký" />
+      
+  
+   
+    
+</form>
+<hr>
+<div class="text-center">
+    <a class="small" href="~/Login/Forget">Quên Mật Khẩu?</a>
+</div>
+<div class="text-center">
+    <a class="small" href="~/Login/Index">Bạn đã có tài khoản!</a>
+</div>
+
+<!-- Modal Notification Box -->
+<div id="notificationBox" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancelHidden">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="boxHidden">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        var login = {
+            init: function () {
+
+                $("#login").click(function () {
+
+                    login.dangky();
+                });
+                $("#boxHidden,#cancelHidden").click(function () {
+                    $("#notificationBox").modal('hide');
+                });
+            },
+            dangky: function () {
+                var name = $("#name").val();
+                var ngaysinh = $("#ngaysinh").val();
+                var phone = $("#phone").val();
+                var address = $("#address").val();
+                var email = $("#email").val();
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var ngld = $("#nguoilaodong").is(":checked");
+                var ngtd = $("#nguoituyendung").is(":checked");
+                var state = "ngld";
+               
+                var confirmpassword = $("#confirmpassword").val();
+                var password = $("#password").val();
+              
+                if (!name) {
+                   
+                    login.showNotification("Vui lòng nhập đầy đủ thông tin họ tên");
+                    return;
+                }
+                if (!ngaysinh) {
+
+                    login.showNotification("Vui lòng nhập đầy đủ thông ngày tháng năm sinh");
+                    return;
+                }
+                if ( !address ) {
+
+                    login.showNotification("Vui lòng nhập đầy đủ thông tin địa chỉ");
+                    return;
+                }
+                if ( !phone ) {
+
+                    login.showNotification("Vui lòng nhập đầy đủ thông tin số điện thoại");
+                    return;
+                }
+                if ( !email ) {
+
+                    login.showNotification("Vui lòng nhập đầy đủ thông tin email");
+                    return;
+                }
+
+                if (!username) {
+
+                    login.showNotification("Vui lòng nhập đầy đủ thông tin tài khoản đăng nhập");
+                    return;
+                }
+                if (!confirmpassword || !password) {
+
+                    login.showNotification("Vui lòng nhập đầy đủ thông tin mật khẩu");
+                    return;
+                }
+                
+                if (password != confirmpassword) {
+                    login.showNotification("Mật khẩu không trùng khớp.Vui lòng nhập lại mật khẩu");
+
+                    return;
+                }
+                if (ngld == false && ngtd == false) {
+
+                    login.showNotification("Vui lòng chọn đối tượng đăng ký");
+                    return;
+                }
+                if (ngtd) {
+                    state = "ngtd";
+                }
+                var form = new FormData()
+                form.append("name", name);
+                form.append("ngaysinh", ngaysinh);
+                form.append("phone", phone);
+                form.append("address", address);
+                form.append("email", email);
+                form.append("username", username);
+                form.append("password", password);
+                form.append("state", state);
+              
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'Json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Login/Dangky/',
+                    success: function (res) {
+                        if (res.trangthai) {
+                            login.showNotification("Đăng ký thành công");
+                            setTimeout(function () {
+                                window.location.href = "/Login/Index/";
+                            }, 3000); // Chuyển hướng sau 3 giây
+                        }
+                        else {
+                            login.showNotification(res.mess);
+                        }
+                       
+                    },
+                    error: function () { 
+                    
+                    }
+
+                });
+            },
+
+            // Show the notification modal
+            showNotification: function (message) {
+                $("#notificationMessage").text(message); // Set the message inside the modal
+                $("#notificationBox").modal('show');    // Show the modal
+            },
+        }
+        login.init();
+    </script>
+}

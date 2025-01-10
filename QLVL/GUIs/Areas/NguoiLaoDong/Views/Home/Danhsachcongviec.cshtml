@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewData["Title"] = "Danhsachcongviec";
+    Layout = "~/Areas/NguoiLaoDong/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="text-align:center">
+                    <input type="text" class="form-control p-4 m-4" id="search" placeholder="Tìm kiếm công việc" />
+                </div>
+
+               
+            </div>
+            <div class="row"> <h1 style="text-align:center">Danh sách các công việc</h1></div>
+
+            <div class="row ">
+
+                <div class="col-md-3">
+                    <span>Số dòng/trang</span>
+                    @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+                </div>
+                @* <div class="col-md-1">
+                    <span>Tháng</span>
+                </div> *@
+                <div class="col-md-3">
+                    <span>Tháng</span>
+                    @Html.DropDownList("Month", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
+                </div>
+
+                @* <div class="col-md-1">
+                    <span>Năm</span>
+                </div> *@
+                <div class="col-md-3">
+                    <span>Năm</span>
+                    @Html.DropDownList("Year", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <span>Trạng thái</span>
+                    <div class="dropdown form-control" style="float:right">
+                        <select class="form-select" aria-label="Default select example" style="border:none;" id="apply">
+                            <option selected value="1">Đã ứng tuyển thành công</option>
+                            <option value="0">Đang ứng tuyển</option>
+                            <option value="3">Đã hoàn thành</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="tbData"></div>
+
+            <table>
+                <tfoot>
+                    <tr>
+                        <th colspan="100" id="pages"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-1">
+
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var nguoilaodong = {
+            init: function () {
+                nguoilaodong.search(1);
+                $("#search").change(function () {
+                    nguoilaodong.search(1);
+                });
+                $("#Pagesize").change(function () {
+                    nguoilaodong.search(1);
+                });
+                $("#Month").change(function () {
+                    nguoilaodong.search(1);
+                });
+                $("#Year").change(function () {
+                    nguoilaodong.search(1);
+                });
+                $("#apply").change(function () {
+                    nguoilaodong.search(1);
+                });
+            },
+
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var thang = $("#Month").val();
+                var nam = $("#Year").val();
+                var apply = $("#apply").val();
+                var form = new FormData();
+                form.append("name", name);
+                form.append("size", size);
+                form.append("apply", apply);
+                form.append("index", index);
+                form.append("thang", thang);
+                form.append("nam", nam);
+
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/NguoiLaoDong/Home/ListCongViec/',
+                    success: function (res) {
+                        var html = "";
+                        $.each(res.data, function (index, a) {
+                            
+                            html += "<div class='col-md-4 text-center p-3'>";
+                            html += "<div class='box p-3'>";
+                           
+                            html += "<div class='box_content'>";
+                            html += "<h2 style=' text-align: center;'>" + a.name + "</h2>";
+                            html += "<div class='row'>";
+                            html += "<div class='col-md-6'>";
+
+                            html += "<p style='font-size: 18px;'>Thời gian bắt đầu: " + a.timeworkS + "</p>";
+                            html += "<p style='font-size: 18px;'>Thời gian bắt đầu: " + a.finishS + "</p>";
+                          
+                            if (a.apply == 1) {
+                                html += "<p style='font-size: 18px;'>SDT nguời tuyển dụng: " + a.sdt + "</p>";
+                            }
+                           
+                            html += "</div>";
+                            html += "<div class='col-md-6'>";
+                            html += "<p style='font-size: 18px;'>Địa chỉ: " + a.address + "</p>";
+                            html += "<p style='font-size: 18px;'>Lương đề xuất: " + a.salary + "</p>";
+                            html += "</div>";
+                            html += "</div>";
+                            html += "<div class='mx-auto pb-4'>"
+                            html += "<ul class='icons' >";
+                           
+                            html += "<li>  ";
+                            if (a.apply == 0) {
+                                html += "<button class='btn btn-primary'>Đang chờ ứng tuyển</button>";
+                            } else if (a.apply == 1) {
+                                html += "<button id='hoanthanh-" + a.id + "' onclick='nguoilaodong.hoanthanh(" + a.id + "); ' class='btn btn-success'>Xác nhận hoàn thành</button>";
+                            } else if (a.apply == -1) {
+                                // Do something if apply is -1
+                            }
+                            else if (a.apply == 2 || a.apply == 3) {
+                                html += "<a href='/NguoiLaoDong/Home/Danhgia/" + a.id + "' class='btn btn-info'>Đánh giá công việc</a>";
+                            }
+                            html+="</li>";
+                            html += "</ul>";
+                            html += "</div>"
+                            html += "</div>";
+                            html += "</div>";
+                            html += "</div>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+
+                    },
+                });
+            },
+            hoanthanh: function (id) {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    url: '/NguoiLaoDong/Home/HoanThanhCongviec/' + id,
+                    success: function (res) {
+                       
+                        alert(res.mess);
+                        nguoilaodong.search();
+                    },
+                });
+            }
+        };
+
+        nguoilaodong.init();
+
+        function goto(i) {
+            nguoilaodong.search(i);
+        }
+    </script>
+}

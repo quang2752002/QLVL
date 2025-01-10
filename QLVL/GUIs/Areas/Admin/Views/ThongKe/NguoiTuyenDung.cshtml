@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>THÔNG TIN NGƯỜI TUYỂN DỤNG</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("Pagesize", new SelectList(ViewBag.Pagesize, "ID", "ID"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("thang", new SelectList(ViewBag.Month, "month", "month"), new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                <span>Số dòng/trang</span>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("nam", new SelectList(ViewBag.Year, "year", "year"), new { @class = "form-control" })
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Ảnh đại diện
+                    </th>
+                    <th>
+                        Họ và tên
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        SDT
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+                    <th>Số công việc đăng tuyển </th>
+
+                </tr>
+            </thead>
+
+            <tbody id="tbData"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="100" id="pages">
+
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var nguoituyendung = {
+            init: function () {
+                nguoituyendung.search(1);
+                $("#search").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#Pagesize").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#thang").change(function () {
+                    nguoituyendung.search(1);
+                });
+                $("#nam").change(function () {
+                    nguoituyendung.search(1);
+                });
+            },
+            search: function (index) {
+                var name = $("#search").val();
+                var size = $("#Pagesize").val();
+                var thang = $("#thang").val();
+                var nam = $("#nam").val();
+                var form = new FormData()
+                form.append("name", name);
+                form.append("size", size);
+                form.append("index", index);
+                form.append("thang", thang);
+                form.append("nam", nam);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json', // 'Json' should be 'json'
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Admin/ThongKe/ShowlistNguoiTuyenDung/',
+                    success: function (res) {
+                        var html = "";
+                        // Use $.each correctly
+                        $.each(res.data, function (index, a) {
+                            html += "<tr>";
+                            html += "<td>" + a.id + "</td>";
+                            html += "<td> <img src='" + a.image + "' style='width:40px;height:40px;' class='img-profile rounded-circle'/></td>";
+                            html += "<td>" + a.name + "</td>";
+                            html += "<td>" + a.email + "</td>";
+                            html += "<td>" + a.sdt + "</td>";
+                            html += "<td>" + a.diachi + "</td>";
+                            html += "<td>" + a.congviecdang + "</td>";
+
+                            html += "</tr>";
+                        });
+                        $("#tbData").html(html);
+                        $("#pages").html(res.page);
+                    },
+                });
+            },
+
+
+
+
+        }
+        nguoituyendung.init();
+        function goto(i) {
+            nguoituyendung.search(i);
+        }
+    </script>
+}
+
+
+
+

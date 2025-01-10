@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewData["Title"] = "ChiTietCongViec";
+    Layout = "~/Areas/NguoiLaoDong/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h4>THÔNG TIN CHI TIẾT CÔNG VIỆC</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Tên công việc
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="name" readonly/>
+                            <input type="hidden" class="form-control" id="id" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Tên người tuyển dụng
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" id="tennguoituyendung" readonly />
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Tuổi từ
+                                </span>
+                            </div>
+                            <input type="number" class="form-control" id="min_tuoi" readonly />
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Tuổi đến
+                                </span>
+                            </div>
+                            <input type="number" class="form-control bg-white" id="max_tuoi" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Thời gian bắt đầu
+                                </span>
+                            </div>
+                            <input type="datetime" class="form-control bg-white" id="timework" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Địa chỉ
+                                </span>
+                            </div>
+                            <input type="text" class="form-control bg-white" id="address" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Địa chỉ cụ thể
+                                </span>
+                            </div>
+                            <input type="text" class="form-control bg-white" id="location" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Lương 
+                                </span>
+                            </div>
+                            <input type="number" class="form-control bg-white" id="salary" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Note
+                                </span>
+                            </div>
+                            <input type="text" class="form-control bg-white" id="note" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    Mức lương mong muốn
+                                </span>
+                            </div>
+                            <input type="number" class="form-control bg-white" id="luong" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="button" id="apply" class="btn btn-primary" >Ứng tuyển</button>
+					
+                    <a  class="btn btn-secondary" href="~/NguoiLaoDong/Home/Index" >Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script>
+        var nguoilaodong = {
+            init: function () {
+                nguoilaodong.getCongViec();
+                $("#apply").click(function () {
+                    nguoilaodong.apply();
+                });
+            },
+
+            getCongViec: function () {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'JSON',
+                    url: '/NguoiLaoDong/Home/getCongViec/',
+                    success: function (res) {
+                        $("#id").val(res.data.id);
+                        $("#name").val(res.data.name);
+                        $("#tennguoituyendung").val(res.data.tennguoituyendung);
+                        $("#min_tuoi").val(res.data.mintuoi);
+                        $("#max_tuoi").val(res.data.maxtuoi);
+                        $("#timework").val(res.data.timework);
+                        $("#address").val(res.data.address);
+                        $("#location").val(res.data.location);
+                        $("#salary").val(res.data.salary);
+                        $("#note").val(res.data.note);
+                    }
+                });
+            },
+            apply: function() {
+                var id = $("#id").val();
+                var luong = $("#luong").val();
+                var form = new FormData();
+                form.append("id", id);
+                form.append("luong",luong);
+                alert(id);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    url: '/Home/Apply/',
+                    success: function (res) {  
+                        alert(res.status)
+                        if (res.status == 1) 
+                        {
+                            alert(res.mess+"++++")
+                        }
+                        else 
+                        {
+                            if (res.status == 0) 
+                            {
+                                alert(res.mess+"-----")
+                                }
+                            else
+                            {
+                                
+                                window.location.href = "/Login/Index";
+                            }
+                        }
+                        
+
+                    }
+                });
+            },
+        };
+
+        nguoilaodong.init();
+
+        function goto(i) {
+            nguoilaodong.search(i);
+        }
+    </script>
+}
